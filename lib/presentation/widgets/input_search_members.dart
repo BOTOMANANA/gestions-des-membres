@@ -12,14 +12,14 @@ class InputSearchMembers extends StatefulWidget {
 }
 
 class _InputSearchMembersState extends State<InputSearchMembers> {
-  final _inputController = TextEditingController();
+  final _userInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MemberProviders>(
       builder: (context, provider, child) {
         return TextField(
-          controller: _inputController,
+          controller: _userInputController,
           keyboardType: TextInputType.name,
           decoration: InputDecoration(
             filled: true,
@@ -50,13 +50,18 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
               borderSide: BorderSide(color: LightThemeColors.colorPrimary),
             ),
           ),
+          onChanged: (value) {
+            _searchMember(providers: provider);
+          },
         );
       },
     );
   }
 
   void _searchMember({required MemberProviders providers}) {
-    final fullName = _inputController.text.trim();
-    providers.searchSingleMember(fullName: fullName);
+    final fullName = _userInputController.text.trim();
+    if (fullName.isNotEmpty) {
+      providers.searchSingleMember(fullName: fullName);
+    }
   }
 }

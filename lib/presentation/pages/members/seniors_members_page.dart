@@ -1,5 +1,7 @@
-import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/input_search_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,38 +16,51 @@ class SeniorsMembersPage extends StatelessWidget {
       body: Consumer<MemberProviders>(
         builder: (context, provider, child) {
           if (provider.state == MemberState.loading) {
-            return _loadingMembers();
+            return widetCircularToLoadMembers();
           }
 
           if (provider.state == MemberState.error) {
-            return _errorWidget(provider: provider);
+            return widgetErrorToLoadMembers(provider: provider);
+          }
+
+          final memberToShow =
+              provider.membreSearch.isNotEmpty
+                  ? provider.membreSearch
+                  : provider.members;
+
+          if (memberToShow.isEmpty) {
+            return Column(
+              children: [
+                const InputSearchMembers(),
+                Center(child: Text('Aucun membres trouver')),
+              ],
+            );
           }
 
           if (provider.state == MemberState.succes) {
-            return _listAllSeniorMembers(provider: provider);
+            return _listAllSeniorMembers(members: memberToShow);
           }
-          return Center();
+          return Center(child: Text('aucun condition est vrai'));
         },
       ),
     );
   }
 
-  Widget _loadingMembers() {
-    return Center(
-      child: CircularProgressIndicator(color: LightThemeColors.colorPrimary),
-    );
-  }
-
-  Widget _errorWidget({required MemberProviders provider}) {
-    return Center(child: Text(provider.errorMessage));
-  }
-
-  Widget _listAllSeniorMembers({required MemberProviders provider}) {
-    return ListView.builder(
-      itemCount: provider.members.length,
-      itemBuilder: (context, index) {
-        return MemberItemWidget(memberEntity: provider.members[index]);
-      },
+  Widget _listAllSeniorMembers({required List members}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const InputSearchMembers(),
+        SizedBox(height: 12),
+        Expanded(
+          child: ListView.builder(
+            itemCount: members.length,
+            itemBuilder: (context, index) {
+              return MemberItemWidget(memberEntity: members[index]);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
