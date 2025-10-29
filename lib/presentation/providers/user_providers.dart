@@ -43,18 +43,15 @@ class UserProviders with ChangeNotifier {
     _setLoading();
 
     var user = await loginUsecase(email: email, password: password);
-    print('[loginProvider ] est bien appele');
     user.fold(
       (failure) {
         status = UserStatus.error;
         errorMessage = failure.errorMessage;
-        print("Erreur ===============>>>>>>>>>: $errorMessage");
         notifyListeners();
       },
       (isUser) {
         status = UserStatus.success;
         userEntity = isUser;
-        print('[loginProvider ] est bien appele');
         notifyListeners();
       },
     );

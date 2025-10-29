@@ -24,9 +24,9 @@ class UserLocalDatasourcesImpl extends UserLocalDatasources {
     final userConunt = await database?.rawQuery(
       'SELECT COUNT(*) as total FROM ${_helper.tableUser}',
     );
-    int count = Sqflite.firstIntValue(userConunt!) ?? 0;
+    int countUser = Sqflite.firstIntValue(userConunt!) ?? 0;
 
-    if (count >= 100) {
+    if (countUser >= 100) {
       throw Exception(
         " ========== >>>>>>> Nombre maximum d'utilisateurs atteint (3).",
       );

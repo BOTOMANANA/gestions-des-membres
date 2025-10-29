@@ -6,7 +6,9 @@ import 'package:dartz/dartz.dart';
 class SearchMemberUsecase {
   MemberRepository repository;
   SearchMemberUsecase({required this.repository});
-  Future<Either<Failure, List<MemberEntity>>> call(String fullName) async {
+  Future<Either<Failure, List<MemberEntity>>> call({
+    required String fullName,
+  }) async {
     return repository.searchMemberRepository(fullName: fullName);
   }
 }

@@ -13,6 +13,7 @@ class HomePageOne extends StatefulWidget {
 class _MyHomePageState extends State<HomePageOne> {
   final PageController controller = PageController();
   int _currentIndex = 0;
+  bool isSelected = true;
 
   final List<Widget> _pages = [
     Center(child: Column(children: [MembersRoundedStatusWidget()])),
@@ -58,6 +59,7 @@ class _MyHomePageState extends State<HomePageOne> {
         onSelect: (index) {
           setState(() {
             _currentIndex = index;
+            isSelected = !isSelected;
           });
           // implement your select function here
         },

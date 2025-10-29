@@ -5,6 +5,7 @@ import 'package:association_appli/domain/usecases/member_usecases/create_member_
 import 'package:association_appli/domain/usecases/member_usecases/delete_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/get_all_members_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/get_member_by_status_usecase.dart';
+import 'package:association_appli/domain/usecases/member_usecases/search_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/update_member_usecase.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class MemberProviders with ChangeNotifier {
   final GetMemberByStatusUsecase getMemberByStatusUsecase;
   final DeleteMemberUsecase deleteMemberUsecase;
   final UpdateMemberUsecase updateMemberUsecase;
+  final SearchMemberUsecase searchMemberUsecase;
 
   MemberProviders({
     required this.createMemberUsecase,
@@ -23,6 +25,7 @@ class MemberProviders with ChangeNotifier {
     required this.getMemberByStatusUsecase,
     required this.deleteMemberUsecase,
     required this.updateMemberUsecase,
+    required this.searchMemberUsecase,
   }) {
     _initializeDefaultMembers();
   }
@@ -30,6 +33,7 @@ class MemberProviders with ChangeNotifier {
   MemberState state = MemberState.initial;
   String errorMessage = '';
   List<MemberEntity> members = [];
+  List<MemberEntity> membreSearch = [];
   MemberEntity? memberEntity;
 
   void _setLoading() {
@@ -91,9 +95,9 @@ class MemberProviders with ChangeNotifier {
 
   void deleteMember({required int id}) async {
     _setLoading();
-    var result = await deleteMemberUsecase(id: id);
+    var user = await deleteMemberUsecase(id: id);
 
-    result.fold(
+    user.fold(
       (failure) {
         state = MemberState.error;
         errorMessage = failure.errorMessage;
@@ -101,6 +105,23 @@ class MemberProviders with ChangeNotifier {
       },
       (deleteSucces) {
         state = MemberState.succes;
+      },
+    );
+  }
+
+  void searchSingleMember({required String fullName}) async {
+    _setLoading();
+    var members = await searchMemberUsecase(fullName: fullName);
+    members.fold(
+      (failure) {
+        state = MemberState.error;
+        errorMessage = failure.errorMessage;
+        membreSearch = [];
+        notifyListeners();
+      },
+      (membersList) {
+        membreSearch = membersList;
+        notifyListeners();
       },
     );
   }

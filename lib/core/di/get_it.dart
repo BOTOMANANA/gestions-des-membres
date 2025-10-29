@@ -75,6 +75,7 @@ Future registerProvider() async {
       getMemberByStatusUsecase: getIt(),
       deleteMemberUsecase: getIt(),
       updateMemberUsecase: getIt(),
+      searchMemberUsecase: getIt(),
     ),
   );
   getIt.registerLazySingleton(

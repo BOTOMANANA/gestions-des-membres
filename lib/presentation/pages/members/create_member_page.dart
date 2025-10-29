@@ -1,4 +1,3 @@
-import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:flutter/material.dart';

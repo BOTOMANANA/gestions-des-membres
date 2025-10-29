@@ -10,7 +10,6 @@ class LoginUsecase {
     required String email,
     required String password,
   }) {
-    print(" =====>>>> loginUsecase is calling ");
     return repository.loginUser(email: email, password: password);
   }
 }
