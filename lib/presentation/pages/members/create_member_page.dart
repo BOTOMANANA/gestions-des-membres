@@ -1,9 +1,9 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/button/custom_button.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';
-import 'package:association_appli/presentation/widgets/text_field/text_field_desgin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -105,13 +105,13 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                     CustomTextField(
                       controller: _fullNameController,
                       keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/basketball.png',
+                      preffIconPath: 'assets/icons/phonemada.png',
                       hintText: 'Nom et prenom',
                     ),
                     CustomTextField(
                       controller: _fullNameController,
                       keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/basketball.png',
+                      preffIconPath: 'assets/icons/drapeauuu.png',
                       hintText: 'Nom et prenom',
                     ),
                     _dropdownWidget(),
@@ -119,6 +119,12 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                   ],
                 ),
                 radioWidget(),
+                customButton(
+                  color: LightThemeColors.colorPrimary,
+                  title: 'Enregistre',
+                  textColor: Colors.white,
+                  onSubmit: () => appendMemberToDatabase(provider: provider),
+                ),
               ],
             ),
           );
