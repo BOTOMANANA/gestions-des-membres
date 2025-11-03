@@ -33,18 +33,6 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
   final _genreController = TextEditingController();
 
   String? _selected;
-  final List<Map> responsabilityOption = [
-    {
-      'id': '1',
-      'imagePath': 'assets/icons/basketball.png',
-      'name': 'Basketball',
-    },
-    {'id': '2', 'imagePath': 'assets/icons/football.png', 'name': 'Foot-ball'},
-    {'id': '3', 'imagePath': 'assets/icons/quiz.png', 'name': 'Quiz'},
-    {'id': '4', 'imagePath': 'assets/icons/materials.png', 'name': 'Materiels'},
-    {'id': '5', 'imagePath': 'assets/icons/danse.png', 'name': 'Danse'},
-  ];
-
   String currentGenre = genre[0];
 
   void clearTextFieldController() {
@@ -94,61 +82,8 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
             child: Column(
               children: [
                 SizedBox(height: 20.0),
-                _createTextFieldSection(),
-                GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 12.0,
-                  childAspectRatio: 2.8,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(16.0),
-                  children: [
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/phonemada.png',
-                      hintText: 'Nom et prenom',
-                    ),
-
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/drapeauuu.png',
-                      hintText: 'Nom et prenom',
-                    ),
-
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/phonemada.png',
-                      hintText: 'Nom et prenom',
-                    ),
-
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/drapeauuu.png',
-                      hintText: 'Nom et prenom',
-                    ),
-
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/phonemada.png',
-                      hintText: 'Nom et prenom',
-                    ),
-
-                    CustomTextField(
-                      controller: _fullNameController,
-                      keyboardType: TextInputType.name,
-                      preffIconPath: 'assets/icons/drapeauuu.png',
-                      hintText: 'Nom et prenom',
-                    ),
-                    _dropdownWidget(),
-                    _dropdownWidget(),
-                  ],
-                ),
+                _headerTextFieldSection(),
+                _gridViewForm(),
                 SizedBox(height: 8.0),
                 radioWidget(),
                 SizedBox(height: 40.0),
@@ -166,9 +101,9 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     );
   }
 
-  Widget _createTextFieldSection() {
+  Widget _headerTextFieldSection() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
       child: Column(
         children: [
           CustomTextField(
@@ -187,17 +122,66 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
             hintText: 'district',
           ),
 
-          const SizedBox(height: 20.0),
-
-          CustomTextField(
-            controller: _cinController,
-            keyboardType: TextInputType.name,
-            preffIconPath: 'assets/icons/danse.png',
-            hintText: 'cin',
-          ),
           SizedBox(height: 4.0),
         ],
       ),
+    );
+  }
+
+  Widget _gridViewForm() {
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 8.0,
+      mainAxisSpacing: 12.0,
+      childAspectRatio: 2.8,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/phonemada.png',
+          hintText: 'Nom et prenom',
+        ),
+
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/drapeauuu.png',
+          hintText: 'Nom et prenom',
+        ),
+
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/phonemada.png',
+          hintText: 'Nom et prenom',
+        ),
+
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/drapeauuu.png',
+          hintText: 'Nom et prenom',
+        ),
+
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/phonemada.png',
+          hintText: 'Nom et prenom',
+        ),
+
+        CustomTextField(
+          controller: _fullNameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/drapeauuu.png',
+          hintText: 'Nom et prenom',
+        ),
+        _dropdownWidget(),
+        _dropdownWidget(),
+      ],
     );
   }
 
@@ -215,19 +199,22 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
       child: DropdownButtonHideUnderline(
         child: ButtonTheme(
           alignedDropdown: true,
-          child: DropdownButton<String>(
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(12.0),
-            dropdownColor: Colors.white,
-            icon: Icon(Icons.arrow_drop_down_circle_outlined),
-            value: _selected,
-            hint: const Text('Responsabilite'),
-            onChanged: (responsability) {
-              setState(() {
-                _selected = responsability!;
-              });
-            },
-            items: dropdownItemsResponsability(),
+          child: SizedBox(
+            height: 40.0,
+            child: DropdownButton<String>(
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(12.0),
+              dropdownColor: Colors.white,
+              icon: Icon(Icons.arrow_drop_down_circle_outlined),
+              value: _selected,
+              hint: const Text('Responsabilite'),
+              onChanged: (responsability) {
+                setState(() {
+                  _selected = responsability!;
+                });
+              },
+              items: dropdownItemsResponsability(selected: _selected),
+            ),
           ),
         ),
       ),

@@ -13,11 +13,14 @@ final List<Map> responsabilityOptions = [
   {'id': '5', 'imagePath': 'assets/icons/danse.png', 'name': 'Danse'},
 ];
 
-List<DropdownMenuItem<String>> dropdownItemsResponsability() {
+List<DropdownMenuItem<String>> dropdownItemsResponsability({
+  required String? selected,
+}) {
   return responsabilityOptions.asMap().entries.map((entry) {
     int index = entry.key;
     var item = entry.value;
     bool isLast = index == responsabilityOptions.length - 1;
+    bool canSelected = item['name'] == selected;
 
     return DropdownMenuItem<String>(
       value: item['name'],
@@ -31,12 +34,28 @@ List<DropdownMenuItem<String>> dropdownItemsResponsability() {
               children: [
                 Image.asset(item['imagePath'], width: 24),
                 const SizedBox(width: 10),
-                Text(item['name']),
+                Expanded(
+                  child: Text(
+                    item['name'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 10.0),
             if (!isLast)
-              Divider(height: 1, color: LightThemeColors.textFieldBorderColors),
+              SizedBox(
+                width: 120.0,
+                child: Divider(
+                  height: 1,
+                  thickness: 1.0,
+                  color:
+                      canSelected
+                          ? Colors.transparent
+                          : LightThemeColors.textFieldBorderColors,
+                ),
+              ),
           ],
         ),
       ),
