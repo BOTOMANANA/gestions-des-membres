@@ -205,7 +205,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
               isExpanded: true,
               borderRadius: BorderRadius.circular(12.0),
               dropdownColor: Colors.white,
-              icon: Icon(Icons.arrow_drop_down_circle_outlined),
+              icon: Image.asset('assets/icons/angledown.png'),
               value: _selected,
               hint: const Text('Responsabilite'),
               onChanged: (responsability) {

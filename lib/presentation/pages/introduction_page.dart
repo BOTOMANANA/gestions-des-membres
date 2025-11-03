@@ -97,7 +97,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
               onPressed:
                   _currentIndex == _pages.length - 1 ? _onFinish : _onNext,
               icon: Image.asset(
-                'assets/icons/arrowleft.png',
+                'assets/icons/arrorright.png',
                 width: 32,
                 height: 32,
               ),
