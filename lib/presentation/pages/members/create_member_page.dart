@@ -1,6 +1,5 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/button/custom_button.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';
@@ -94,8 +93,31 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
               children: [
                 SizedBox(height: 20.0),
                 _createTextFieldSection(),
-                _dropdownWidget(),
-                SizedBox(height: 10.0),
+                GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 12.0,
+                  childAspectRatio: 2.8,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16.0),
+                  children: [
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/basketball.png',
+                      hintText: 'Nom et prenom',
+                    ),
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/basketball.png',
+                      hintText: 'Nom et prenom',
+                    ),
+                    _dropdownWidget(),
+                    _dropdownWidget(),
+                  ],
+                ),
                 radioWidget(),
               ],
             ),
@@ -134,25 +156,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
             preffIconPath: 'assets/icons/danse.png',
             hintText: 'cin',
           ),
-
-          const SizedBox(height: 20.0),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 2.8,
-              padding: const EdgeInsets.all(16),
-              children: [
-                TextFieldDesgin(
-                  controller: _phoneNumberController,
-                  prefIcon: 'assets/icons/quiz.png',
-                  hintText: 'Téléphone',
-                  preffHintText: 'Tel',
-                ),
-              ],
-            ),
-          ),
+          SizedBox(height: 4.0),
         ],
       ),
     );
@@ -160,10 +164,10 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
 
   Widget _dropdownWidget() {
     return Container(
-      width: 200,
+      width: 200.0,
       decoration: BoxDecoration(
         border: Border.all(
-          width: 1,
+          width: 1.0,
           color: LightThemeColors.textFieldBorderColors,
         ),
         borderRadius: BorderRadius.circular(12.0),
@@ -174,7 +178,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
           alignedDropdown: true,
           child: DropdownButton<String>(
             isExpanded: true,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.0),
             dropdownColor: Colors.white,
             icon: Icon(Icons.arrow_drop_down_circle_outlined),
             value: _selected,
@@ -214,7 +218,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         height: 50.0,
-        width: 140,
+        width: 140.0,
         decoration: BoxDecoration(
           color:
               isSelected ? LightThemeColors.colorPrimary : Colors.transparent,

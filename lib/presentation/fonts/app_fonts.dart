@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppFonts {
   static TextStyle robotoCondensedFont({
-    required size,
+    required double size,
     required Color color,
     FontWeight? weight,
   }) {

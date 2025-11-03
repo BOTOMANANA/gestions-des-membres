@@ -32,6 +32,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.controller,
+      cursorColor: LightThemeColors.colorPrimary,
+      cursorRadius: Radius.circular(4.0),
+      cursorOpacityAnimates: true,
       obscureText: widget.isPassword ? _obscureText : false,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
@@ -40,9 +43,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         hintStyle: GoogleFonts.robotoCondensed(
           color: LightThemeColors.textFieldBorderColors,
-          fontSize: 14,
+          fontSize: 14.0,
         ),
 
+        hoverColor: Colors.blue,
         prefixIcon: _customIcon(iconPath: widget.preffIconPath),
         suffixIcon:
             widget.isPassword
@@ -57,12 +61,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     : null),
 
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 16,
+          vertical: 14.0,
+          horizontal: 16.0,
         ),
 
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(color: LightThemeColors.textFieldBorderColors),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide(color: LightThemeColors.textFieldBorderColors),
         ),
       ),
@@ -73,14 +81,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
 Widget _customIcon({required String iconPath}) {
   return Padding(
     padding: const EdgeInsets.all(12.0),
-    child: Image.asset(iconPath, width: 16, height: 16),
+    child: Image.asset(iconPath, width: 16.0, height: 16.0),
   );
 }
 
 Widget _suffixIcon({required bool isVisible}) {
   return Image.asset(
     isVisible ? 'assets/icons/eyeslash.png' : 'assets/icons/eye.png',
-    width: 16,
-    height: 16,
+    width: 16.0,
+    height: 16.0,
   );
 }

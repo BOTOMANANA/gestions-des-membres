@@ -24,6 +24,8 @@ class _TextFieldDesginState extends State<TextFieldDesgin> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 20.0,
+      width: 200.0,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
@@ -31,16 +33,19 @@ class _TextFieldDesginState extends State<TextFieldDesgin> {
       ),
       child: Row(
         children: [
-          Image.asset(widget.prefIcon, width: 24, height: 24),
+          Image.asset(widget.prefIcon, width: 24.0, height: 24.0),
           SizedBox(width: 1.0),
           Text(widget.preffHintText ?? ''),
-          SizedBox(width: 1.0),
-          VerticalDivider(
-            width: 1.0,
-            color: LightThemeColors.textFieldBorderColors,
-          ),
           SizedBox(width: 2.0),
-          _textFieldSection(),
+          SizedBox(
+            height: 30.0,
+            child: VerticalDivider(
+              width: 1.0,
+              thickness: 1.0,
+              color: LightThemeColors.textFieldBorderColors,
+            ),
+          ),
+          Expanded(child: _textFieldSection()),
         ],
       ),
     );
@@ -55,12 +60,21 @@ class _TextFieldDesginState extends State<TextFieldDesgin> {
         fillColor: Colors.white,
         hintText: widget.hintText,
         hintStyle: AppFonts.robotoCondensedFont(
-          size: 14,
+          size: 14.0,
           color: LightThemeColors.textFieldBorderColors,
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 16,
+          vertical: 14.0,
+          horizontal: 16.0,
         ),
       ),
     );
