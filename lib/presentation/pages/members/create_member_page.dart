@@ -97,7 +97,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                 _createTextFieldSection(),
                 GridView.count(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
+                  crossAxisSpacing: 8.0,
                   mainAxisSpacing: 12.0,
                   childAspectRatio: 2.8,
                   shrinkWrap: true,
@@ -110,6 +110,35 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                       preffIconPath: 'assets/icons/phonemada.png',
                       hintText: 'Nom et prenom',
                     ),
+
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/drapeauuu.png',
+                      hintText: 'Nom et prenom',
+                    ),
+
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/phonemada.png',
+                      hintText: 'Nom et prenom',
+                    ),
+
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/drapeauuu.png',
+                      hintText: 'Nom et prenom',
+                    ),
+
+                    CustomTextField(
+                      controller: _fullNameController,
+                      keyboardType: TextInputType.name,
+                      preffIconPath: 'assets/icons/phonemada.png',
+                      hintText: 'Nom et prenom',
+                    ),
+
                     CustomTextField(
                       controller: _fullNameController,
                       keyboardType: TextInputType.name,
@@ -120,7 +149,9 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                     _dropdownWidget(),
                   ],
                 ),
+                SizedBox(height: 8.0),
                 radioWidget(),
+                SizedBox(height: 40.0),
                 customButton(
                   color: LightThemeColors.colorPrimary,
                   title: 'Enregistre',
@@ -230,19 +261,22 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
         decoration: BoxDecoration(
           color:
               isSelected ? LightThemeColors.colorPrimary : Colors.transparent,
-          borderRadius: BorderRadius.circular(14.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
         child: Row(
           children: [
-            Radio<String>(
-              value: genreOption,
-              groupValue: currentGenre,
-              activeColor: LightThemeColors.colorPrimary,
-              onChanged: (value) {
-                setState(() {
-                  currentGenre = value!;
-                });
-              },
+            Transform.scale(
+              scale: isSelected ? 1.2 : 1.0,
+              child: Radio<String>(
+                value: genreOption,
+                groupValue: currentGenre,
+                activeColor: Colors.white,
+                onChanged: (value) {
+                  setState(() {
+                    currentGenre = value!;
+                  });
+                },
+              ),
             ),
             genreChoiceText(option: genreOption, canSelected: isSelected),
           ],
