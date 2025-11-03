@@ -72,9 +72,10 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
       "$fullName%",
     ]; // je recherche par tout dans le nom et prenom de quelqun
     String orderBy = "${_helper.columnFullName} ASC";
-    List<String> columns = [
+    List<String> columnsOfTable = [
       _helper.columnMemberId,
       _helper.columnFullName,
+      _helper.columnGenre,
       _helper.columnCountry,
       _helper.columnCinNumber,
       _helper.columnPhoneNumber,
@@ -89,7 +90,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
       _helper.createTableMember,
       where: selection,
       whereArgs: selectionArgs,
-      columns: columns,
+      columns: columnsOfTable,
       orderBy: orderBy,
     );
     return result.map((value) => MemberModel.fromJson(value)).toList();

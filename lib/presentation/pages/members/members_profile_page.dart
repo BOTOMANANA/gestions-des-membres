@@ -40,7 +40,7 @@ class MembersProfilePage extends StatelessWidget {
                     Text(provider.memberEntity!.faculty),
                     Text('${provider.memberEntity!.status}'),
                     Text(provider.memberEntity!.memberResponsability),
-                    Text(provider.memberEntity!.district),
+                    Text(provider.memberEntity!.quarter),
                   ],
                 ),
               );

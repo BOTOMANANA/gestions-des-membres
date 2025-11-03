@@ -1,5 +1,7 @@
 import 'package:association_appli/core/di/get_it.dart';
 import 'package:association_appli/presentation/pages/introduction_page.dart';
+import 'package:association_appli/presentation/pages/login_signup/create_account_page.dart';
+import 'package:association_appli/presentation/pages/members/create_member_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
@@ -35,9 +37,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: PageRoutes.introductionPage,
+      initialRoute: PageRoutes.createMember,
       routes: PageRoutes.routes,
-      home: const IntroductionPage(),
+      home: const CreateMemberPage(),
     );
   }
 }

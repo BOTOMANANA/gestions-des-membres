@@ -65,14 +65,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: LightThemeColors.textFieldBorderColors),
         ),
-
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: LightThemeColors.colorPrimary,
-            width: 2,
-          ),
-        ),
       ),
     );
   }
@@ -81,14 +73,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
 Widget _customIcon({required String iconPath}) {
   return Padding(
     padding: const EdgeInsets.all(12.0),
-    child: Image.asset(iconPath, width: 24, height: 24),
+    child: Image.asset(iconPath, width: 16, height: 16),
   );
 }
 
 Widget _suffixIcon({required bool isVisible}) {
   return Image.asset(
     isVisible ? 'assets/icons/eyeslash.png' : 'assets/icons/eye.png',
-    width: 24,
-    height: 24,
+    width: 16,
+    height: 16,
   );
 }

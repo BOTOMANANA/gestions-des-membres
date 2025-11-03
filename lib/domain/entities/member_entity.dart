@@ -6,25 +6,27 @@ enum MemberStatus { NOVICE, ANCIEN, DOYEN }
 class MemberEntity {
   final int? id;
   final String fullName;
+  final String genre;
   final String country;
   final int cinNumber;
   final String phoneNumber;
-  final String district; // quartier nao eto fianarantsoa
+  final String quarter;
   final String faculty;
   final String studentCardNumber;
   final MemberStatus status;
   final String memberResponsability;
-  final double memberShipFee; // adhesion ou cotisation
+  final double memberShipFee;
   final List<ProductEntity> products;
 
   MemberEntity({
     required this.id,
     required this.fullName,
+    required this.genre,
     required this.country,
     required this.cinNumber,
     required this.phoneNumber,
     required this.faculty,
-    required this.district,
+    required this.quarter,
     required this.studentCardNumber,
     required this.status,
     required this.memberResponsability,

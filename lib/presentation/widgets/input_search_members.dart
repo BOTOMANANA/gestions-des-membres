@@ -31,22 +31,22 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
             ),
             suffixIcon: IconButton(
               onPressed: () {},
-              icon: Image.asset('assets/icons/', width: 16, height: 16),
+              icon: Image.asset('assets/icons/', width: 16.0, height: 16.0),
             ),
             contentPadding: const EdgeInsets.symmetric(
-              vertical: 14,
-              horizontal: 16,
+              vertical: 14.0,
+              horizontal: 16.0,
             ),
 
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.0),
               borderSide: BorderSide(
                 color: LightThemeColors.textFieldBorderColors,
               ),
             ),
 
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.0),
               borderSide: BorderSide(color: LightThemeColors.colorPrimary),
             ),
           ),

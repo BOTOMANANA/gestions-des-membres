@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? version = 4;
+  final int? version = 5;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -59,6 +59,7 @@ $userPassword TEXT
   final String tableMember = 'members';
   final String columnId = 'id';
   final String columnFullName = 'full_name';
+  final String columnGenre = 'genre';
   final String columnCountry = 'country';
   final String columnCinNumber = 'cin_number';
   final String columnPhoneNumber = 'phone_number';
@@ -74,6 +75,7 @@ $userPassword TEXT
  CREATE TABLE $tableMember (
  $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
  $columnFullName TEXT NOT NULL, 
+ $columnGenre TEXT NOT NULL, 
  $columnCountry TEXT NOT NULL,
  $columnCinNumber INTEGER, 
  $columnPhoneNumber INTEGER NOT NULL,
@@ -88,7 +90,7 @@ $userPassword TEXT
 ''';
 
   final String tableActivity = 'activity';
-  final String columnActivityId = 'id';
+  final String columnActivityId = 'activity_id';
   final String columnStartDate = 'start_date';
   final String columnEndDate = 'end_date';
 
@@ -102,7 +104,7 @@ $columnEndDate DATETIME
 ''';
 
   final String tableProducts = 'products';
-  final String columnProductId = 'id';
+  final String columnProductId = 'product_id';
   final String columnMemberId = 'member_id'; // cle etranger
   final String columnProductName = 'name';
   final String columnProductPrice = 'price';

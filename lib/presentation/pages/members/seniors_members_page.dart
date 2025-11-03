@@ -3,6 +3,7 @@ import 'package:association_appli/presentation/widgets/input_search_members.dart
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,7 @@ class SeniorsMembersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: widgetAppBar(title: 'title'),
       body: Consumer<MemberProviders>(
         builder: (context, provider, child) {
           if (provider.state == MemberState.loading) {
@@ -51,7 +52,7 @@ class SeniorsMembersPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const InputSearchMembers(),
-        SizedBox(height: 12),
+        SizedBox(height: 12.0),
         Expanded(
           child: ListView.builder(
             itemCount: members.length,
