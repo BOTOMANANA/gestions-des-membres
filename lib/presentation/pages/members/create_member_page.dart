@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button.dart';
@@ -242,7 +244,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
                 });
               },
             ),
-            textGenreOption(option: genreOption, canSelected: isSelected),
+            genreChoiceText(option: genreOption, canSelected: isSelected),
           ],
         ),
       ),
