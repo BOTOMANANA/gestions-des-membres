@@ -23,9 +23,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => getIt<UserProviders>()),
         ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
-        ChangeNotifierProvider(
-          create: (_) => getIt<MemberProviders>()..getMembers(),
-        ),
+        ChangeNotifierProvider(create: (_) => getIt<MemberProviders>()),
       ],
       child: const MyApp(),
     ),
