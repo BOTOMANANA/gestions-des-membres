@@ -2,16 +2,13 @@
 
 import 'package:association_appli/data/datasources/app_database_helper.dart';
 import 'package:association_appli/data/models/member_model.dart';
-import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class MemberLocalDatasources {
   Future<List<MemberModel>> getAllMembers();
   Future<MemberModel> getMemberById({required int id});
   Future<int> getMemberCount();
-  Future<List<MemberModel>> getMemberByStatus({
-    required MemberStatus memberStatus,
-  });
+  Future<List<MemberModel>> getMemberByStatus({required String memberCategory});
   Future<void> createMember({required MemberModel memberModel});
   Future<void> updateMember({required MemberModel memberModel});
   Future<void> deleteMember({required int id});
@@ -26,7 +23,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
   @override
   Future<void> createMember({required MemberModel memberModel}) async {
     final database = await _database;
-    await database?.insert(_helper.createTableMember, memberModel.toJson());
+    await database?.insert(_helper.tableMember, memberModel.toJson());
   }
 
   @override
@@ -104,10 +101,10 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
 
   @override
   Future<List<MemberModel>> getMemberByStatus({
-    required MemberStatus memberStatus,
+    required String memberCategory,
   }) async {
     final database = await _database;
-    String convertEnumStatus = memberStatus.toString().split('.').last;
+    String convertEnumStatus = memberCategory.toString();
     String request =
         'SELECT * FROM ${_helper.tableMember} WHERE ${_helper.columnStatus} = ?';
     var result = await database!.rawQuery(request, [convertEnumStatus]);

@@ -10,6 +10,7 @@ class CustomTextField extends StatefulWidget {
   final String? suffIconPath;
   final String hintText;
   final bool isPassword;
+  final int? maxLenght;
 
   const CustomTextField({
     super.key,
@@ -19,6 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.suffIconPath,
     required this.hintText,
     this.isPassword = false,
+    this.maxLenght,
   });
 
   @override
@@ -37,6 +39,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorOpacityAnimates: true,
       obscureText: widget.isPassword ? _obscureText : false,
       keyboardType: widget.keyboardType,
+      maxLength: widget.maxLenght,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,

@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? version = 5;
+  final int? version = 7;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -68,7 +68,7 @@ $userPassword TEXT
   final String columnDistrict = 'district';
   final String columnStatus = 'status';
   final String columnMemberResponsability = 'responsability';
-  final String columnMemberShipFree = 'member_shipFree';
+  final String columnMemberShipFree = 'member_ship_free';
   final String columnMemberProducts = 'products';
 
   late final String createTableMember = '''
@@ -80,6 +80,7 @@ $userPassword TEXT
  $columnCinNumber INTEGER, 
  $columnPhoneNumber INTEGER NOT NULL,
  $columnFaculty TEXT,
+ $columnStudentCardNumber TEXT,
  $columnDistrict TEXT NOT NULL,
  $columnStatus TEXT NOT NULL,
  $columnMemberResponsability TEXT,

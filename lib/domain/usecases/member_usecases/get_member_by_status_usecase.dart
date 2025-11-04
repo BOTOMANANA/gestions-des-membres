@@ -8,8 +8,10 @@ class GetMemberByStatusUsecase {
   GetMemberByStatusUsecase({required this.repository});
 
   Future<Either<Failure, List<MemberEntity>>> call({
-    required MemberStatus status,
+    required String memberCategory,
   }) async {
-    return await repository.getMembersByStatusRepository(status: status);
+    return await repository.getMembersByStatusRepository(
+      memberCategory: memberCategory,
+    );
   }
 }

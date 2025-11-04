@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:association_appli/data/models/product_model.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
+import 'package:association_appli/domain/entities/product_entity.dart';
 
 class MemberModel extends MemberEntity {
   MemberModel({
@@ -11,7 +15,7 @@ class MemberModel extends MemberEntity {
     required super.faculty,
     required super.quarter,
     required super.studentCardNumber,
-    required super.status,
+    required super.category,
     required super.memberResponsability,
     required super.memberShipFee,
     required super.products,
@@ -21,37 +25,44 @@ class MemberModel extends MemberEntity {
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
       id: json['id'],
-      fullName: json['fullName'],
+      fullName: json['full_name'],
       genre: json['genre'],
       country: json['country'],
-      cinNumber: json['cinNumber'],
-      phoneNumber: json['phoneNumber'],
+      cinNumber: json['cin_number'],
+      phoneNumber: json['phone_number'],
       faculty: json['faculty'],
       quarter: json['district'],
-      studentCardNumber: json['studentCardNumber'],
-      status: json['status'],
-      memberResponsability: json['memberResponsability'],
-      memberShipFee: json['memberShipFee'],
-      products: json['products'],
+      studentCardNumber: json['student_card_number'],
+      category: json['status'],
+      memberResponsability: json['responsability'],
+      memberShipFee: json['member_ship_free'],
+      products:
+          (json['products'] != null)
+              ? List<ProductEntity>.from(
+                jsonDecode(
+                  json['products'],
+                ).map((product) => ProductModel.fromJson(product)),
+              )
+              : [],
     );
   }
 
-  //j'utilise ca pour les donne inserer dans la base de donne soit comme cle-valeur json ou map
+  //I need this for insert request sql
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'fullName': fullName,
+      'full_name': fullName,
       'genre': genre,
       'country': country,
-      'cinNumber': cinNumber,
-      'phoneNumber': phoneNumber,
+      'cin_number': cinNumber,
+      'phone_number': phoneNumber,
       'faculty': faculty,
       'district': quarter,
-      'studentCardNumber': studentCardNumber,
-      'status': status,
-      'memberResponsability': memberResponsability,
-      'memberShipFree': memberShipFee,
-      'products': products,
+      'student_card_number': studentCardNumber,
+      'status': category,
+      'responsability': memberResponsability,
+      'member_ship_free': memberShipFee,
+      'products': jsonEncode(products ?? []),
     };
   }
 
@@ -67,7 +78,7 @@ class MemberModel extends MemberEntity {
       faculty: memberEntity.faculty,
       quarter: memberEntity.quarter,
       studentCardNumber: memberEntity.studentCardNumber,
-      status: memberEntity.status,
+      category: memberEntity.category,
       memberResponsability: memberEntity.memberResponsability,
       memberShipFee: memberEntity.memberShipFee,
       products: [],

@@ -1,11 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
+import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';
+import 'package:association_appli/presentation/widgets/dropdown_and_ratio/member_category_item.dart';
+import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,16 +30,62 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
   final _quarterController = TextEditingController();
   final _facultyController = TextEditingController();
   final _studentCardNumberController = TextEditingController();
-  final _statusController = TextEditingController();
-  final _responsabilityController = TextEditingController();
   final _freeShipController = TextEditingController();
 
-  final _genreController = TextEditingController();
-
-  String? _selected;
+  String? _selectedResponsability;
+  String? _selectedCategory;
   String currentGenre = genre[0];
 
+  void appendMemberToDatabase({required MemberProviders provider}) {
+    final fullName = _fullNameController.text.toString();
+    final country = _countryController.text.trim();
+    final cin = _cinController.text.toString();
+    final phoneNumber = _phoneNumberController.text.toString();
+    final quarter = _quarterController.text.toString();
+    final faculty = _facultyController.text.toString();
+    final studentCardNumber = _studentCardNumberController.text.toString();
+    final freeShip = _freeShipController.text.toDouble();
+
+    MemberEntity member = MemberEntity(
+      fullName: fullName,
+      genre: currentGenre,
+      country: country,
+      cinNumber: cin.toInt(),
+      phoneNumber: phoneNumber.toInt(),
+      faculty: faculty,
+      quarter: quarter,
+      studentCardNumber: studentCardNumber,
+      category: _selectedCategory,
+      memberResponsability: _selectedResponsability,
+      memberShipFee: freeShip.toInt(),
+    );
+
+    provider.createMember(memberEntity: member);
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => NovicesMembersPage()));
+
+    clearTextFieldController();
+  }
+
   void clearTextFieldController() {
+    _fullNameController.clear();
+    _countryController.clear();
+    _cinController.clear();
+    _phoneNumberController.clear();
+    _quarterController.clear();
+    _facultyController.clear();
+    _studentCardNumberController.clear();
+    _freeShipController.clear();
+  }
+
+  @override
+  void dispose() {
+    disposeTextFieldController();
+    super.dispose();
+  }
+
+  void disposeTextFieldController() {
     _fullNameController.dispose();
     _countryController.dispose();
     _cinController.dispose();
@@ -43,28 +93,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     _quarterController.dispose();
     _facultyController.dispose();
     _studentCardNumberController.dispose();
-    _statusController.dispose();
-    _responsabilityController.dispose();
     _freeShipController.dispose();
-
-    _genreController.dispose();
-  }
-
-  void appendMemberToDatabase({required MemberProviders provider}) {
-    // final fullName = _fullNameController.text.toString();
-    // final country = _countryController.text.trim();
-    // final cin = _cinController.text.toString();
-    // final phoneNumber = _phoneNumberController.text.toString();
-    // final quarter = _quarterController.text.toString();
-    // final faculty = _facultyController.text.toString();
-    // final studentCardNumber = _studentCardNumberController.text.toString();
-    // final memberStatus = _statusController.text.toString();
-  }
-
-  @override
-  void dispose() {
-    clearTextFieldController();
-    super.dispose();
   }
 
   @override
@@ -109,7 +138,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
           CustomTextField(
             controller: _fullNameController,
             keyboardType: TextInputType.name,
-            preffIconPath: 'assets/icons/basketball.png',
+            preffIconPath: 'assets/icons/profilegrey.png',
             hintText: 'Nom et prenom',
           ),
 
@@ -118,7 +147,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
           CustomTextField(
             controller: _countryController,
             keyboardType: TextInputType.name,
-            preffIconPath: 'assets/icons/football.png',
+            preffIconPath: 'assets/icons/city.png',
             hintText: 'district',
           ),
 
@@ -132,60 +161,61 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     return GridView.count(
       crossAxisCount: 2,
       crossAxisSpacing: 8.0,
-      mainAxisSpacing: 12.0,
+      mainAxisSpacing: 14.0,
       childAspectRatio: 2.8,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16.0),
       children: [
         CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
-          preffIconPath: 'assets/icons/phonemada.png',
-          hintText: 'Nom et prenom',
-        ),
-
-        CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
+          controller: _cinController,
+          keyboardType: TextInputType.number,
           preffIconPath: 'assets/icons/drapeauuu.png',
-          hintText: 'Nom et prenom',
+          hintText: 'CNI',
         ),
 
         CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
-          preffIconPath: 'assets/icons/phonemada.png',
-          hintText: 'Nom et prenom',
+          controller: _phoneNumberController,
+          keyboardType: TextInputType.number,
+          preffIconPath: 'assets/icons/call.png',
+          hintText: 'Telephone',
         ),
 
         CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
-          preffIconPath: 'assets/icons/drapeauuu.png',
-          hintText: 'Nom et prenom',
+          controller: _facultyController,
+          keyboardType: TextInputType.text,
+          preffIconPath: 'assets/icons/teacher.png',
+          hintText: 'Parcours',
         ),
 
         CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
-          preffIconPath: 'assets/icons/phonemada.png',
-          hintText: 'Nom et prenom',
+          controller: _studentCardNumberController,
+          keyboardType: TextInputType.text,
+          preffIconPath: 'assets/icons/personalcard.png',
+          hintText: 'Numero CE',
         ),
 
         CustomTextField(
-          controller: _fullNameController,
-          keyboardType: TextInputType.name,
-          preffIconPath: 'assets/icons/drapeauuu.png',
-          hintText: 'Nom et prenom',
+          controller: _quarterController,
+          keyboardType: TextInputType.text,
+          preffIconPath: 'assets/icons/city.png',
+          hintText: 'Quartier',
         ),
-        _dropdownWidget(),
-        _dropdownWidget(),
+
+        CustomTextField(
+          controller: _freeShipController,
+          keyboardType: TextInputType.number,
+          preffIconPath: 'assets/icons/wallet.png',
+          hintText: 'Adhesion',
+        ),
+        _dropdownMemberCategoryWidget(),
+
+        _dropdownResponsabilityWidget(),
       ],
     );
   }
 
-  Widget _dropdownWidget() {
+  Widget _dropdownResponsabilityWidget() {
     return Container(
       width: 200.0,
       decoration: BoxDecoration(
@@ -206,14 +236,52 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
               borderRadius: BorderRadius.circular(12.0),
               dropdownColor: Colors.white,
               icon: Image.asset('assets/icons/angledown.png'),
-              value: _selected,
+              value: _selectedResponsability,
               hint: const Text('Responsabilite'),
               onChanged: (responsability) {
                 setState(() {
-                  _selected = responsability!;
+                  _selectedResponsability = responsability!;
                 });
               },
-              items: dropdownItemsResponsability(selected: _selected),
+              items: memberItemsResponsability(
+                selected: _selectedResponsability,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _dropdownMemberCategoryWidget() {
+    return Container(
+      width: 200.0,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1.0,
+          color: LightThemeColors.textFieldBorderColors,
+        ),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+
+      child: DropdownButtonHideUnderline(
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: SizedBox(
+            height: 40.0,
+            child: DropdownButton<String>(
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(12.0),
+              dropdownColor: Colors.white,
+              icon: Image.asset('assets/icons/angledown.png'),
+              value: _selectedCategory,
+              hint: const Text('Categorie'),
+              onChanged: (responsability) {
+                setState(() {
+                  _selectedCategory = responsability!;
+                });
+              },
+              items: memberCategoryItem(selected: _selectedCategory),
             ),
           ),
         ),

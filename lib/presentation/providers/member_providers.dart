@@ -52,6 +52,7 @@ class MemberProviders with ChangeNotifier {
       },
       (createSuccess) {
         state = MemberState.succes;
+        print('=========== MemberCreate with success');
       },
     );
   }
@@ -75,9 +76,9 @@ class MemberProviders with ChangeNotifier {
     );
   }
 
-  void getMembersByStatus({required MemberStatus status}) async {
+  void getMembersByStatus({required String category}) async {
     _setLoading();
-    var result = await getMemberByStatusUsecase(status: status);
+    var result = await getMemberByStatusUsecase(memberCategory: category);
     result.fold(
       (failure) {
         state = MemberState.error;
@@ -134,13 +135,13 @@ class MemberProviders with ChangeNotifier {
         genre: 'Femme',
         country: 'Madagascar',
         cinNumber: 123456789,
-        phoneNumber: '0341234567',
+        phoneNumber: 0341234567,
         faculty: 'Informatique',
         quarter: 'Fianarantsoa',
         studentCardNumber: 'STU001',
-        status: MemberStatus.NOVICE,
+        category: 'Novice',
         memberResponsability: 'Aucun',
-        memberShipFee: 5000.0,
+        memberShipFee: 5000,
       ),
       MemberEntity(
         id: null,
@@ -148,13 +149,13 @@ class MemberProviders with ChangeNotifier {
         genre: 'Home',
         country: 'Madagascar',
         cinNumber: 987654321,
-        phoneNumber: '0349876543',
+        phoneNumber: 0349876543,
         faculty: 'Droit',
         quarter: 'Ambalavao',
         studentCardNumber: 'STU002',
-        status: MemberStatus.ANCIEN,
+        category: 'Ancien',
         memberResponsability: 'Trésorier',
-        memberShipFee: 8000.0,
+        memberShipFee: 8000,
       ),
     ];
 

@@ -1,4 +1,3 @@
-import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
@@ -19,7 +18,7 @@ class NovicesMembersPage extends StatelessWidget {
         builder: (context, provider, _) {
           if (provider.state == MemberState.initial) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              provider.getMembersByStatus(status: MemberStatus.ANCIEN);
+              provider.getMembersByStatus(category: 'Novice');
             });
           }
 

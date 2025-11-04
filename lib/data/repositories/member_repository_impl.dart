@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:association_appli/core/errors/failure.dart';
 import 'package:association_appli/data/datasources/member_local_datasources.dart';
 import 'package:association_appli/data/models/member_model.dart';
@@ -21,8 +23,9 @@ class MemberRepositoryImpl implements MemberRepository {
       return Right(null);
     } catch (e) {
       return Left(
-        DatabaseFailure(errorMessage: 'Sorry failure to create member'),
+        DatabaseFailure(errorMessage: 'Sorry failure to create member $e'),
       );
+      print('=============>>>>>>>> this is error $e');
     }
   }
 
@@ -53,11 +56,13 @@ class MemberRepositoryImpl implements MemberRepository {
 
   @override
   Future<Either<Failure, List<MemberEntity>>> getMembersByStatusRepository({
-    required MemberStatus status,
+    required String memberCategory,
   }) async {
     try {
       return Right(
-        await memberLocalDatasources.getMemberByStatus(memberStatus: status),
+        await memberLocalDatasources.getMemberByStatus(
+          memberCategory: memberCategory,
+        ),
       );
     } catch (e) {
       return Left(
@@ -82,11 +87,10 @@ class MemberRepositoryImpl implements MemberRepository {
     required MemberEntity memberEntity,
   }) async {
     try {
-      return Right(
-        await memberLocalDatasources.updateMember(
-          memberModel: MemberModel.fromEntity(memberEntity: memberEntity),
-        ),
+      await memberLocalDatasources.updateMember(
+        memberModel: MemberModel.fromEntity(memberEntity: memberEntity),
       );
+      return Right(null);
     } catch (e) {
       return Left(DatabaseFailure(errorMessage: 'Failure to update a member'));
     }

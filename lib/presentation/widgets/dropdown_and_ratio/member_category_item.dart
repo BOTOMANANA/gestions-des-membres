@@ -1,25 +1,17 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:flutter/material.dart';
 
-final List<Map> responsabilityOptions = [
-  {
-    'id': '1',
-    'imagePath': 'assets/icons/basketball.png',
-    'name': 'Basket-ball',
-  },
-  {'id': '2', 'imagePath': 'assets/icons/football.png', 'name': 'Foot-ball'},
-  {'id': '3', 'imagePath': 'assets/icons/quiz.png', 'name': 'Quiz'},
-  {'id': '4', 'imagePath': 'assets/icons/materials.png', 'name': 'Materiels'},
-  {'id': '5', 'imagePath': 'assets/icons/danse.png', 'name': 'Danse'},
+List<Map> categoryOptions = [
+  {'id': '1', 'imagePath': 'assets/icons/football.png', 'name': 'Novice'},
+  {'id': '2', 'imagePath': 'assets/icons/quiz.png', 'name': 'Ancien(ne)'},
+  {'id': '3', 'imagePath': 'assets/icons/materials.png', 'name': 'Doyen(ne)'},
 ];
 
-List<DropdownMenuItem<String>> memberItemsResponsability({
-  required String? selected,
-}) {
-  return responsabilityOptions.asMap().entries.map((entry) {
+List<DropdownMenuItem<String>> memberCategoryItem({required String? selected}) {
+  return categoryOptions.asMap().entries.map((entry) {
     int index = entry.key;
     var item = entry.value;
-    bool isLast = index == responsabilityOptions.length - 1;
+    bool isLast = index == categoryOptions.length - 1;
     bool canSelected = item['name'] == selected;
 
     return DropdownMenuItem<String>(

@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dbPath = await getDatabasesPath();
   await deleteDatabase(join(dbPath, 'AssocitionDB.db'));
-  // print("✅ Ancienne base supprimée avec succès");
+  print("✅ Ancienne base supprimée avec succès");
   await setup();
 
   runApp(

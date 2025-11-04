@@ -6,7 +6,7 @@ abstract class MemberRepository {
   Future<Either<Failure, List<MemberEntity>>> getMembersRepository();
   Future<Either<Failure, int>> getMembersCountRepository();
   Future<Either<Failure, List<MemberEntity>>> getMembersByStatusRepository({
-    required MemberStatus status,
+    required String memberCategory,
   });
   Future<Either<Failure, MemberEntity>> getMemberByIdRepository({
     required int id,

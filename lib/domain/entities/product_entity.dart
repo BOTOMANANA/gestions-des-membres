@@ -1,5 +1,6 @@
 class ProductEntity {
   final int id;
+  final int memberId;
   final String name;
   final double price;
   final int ticketNumber;
@@ -9,6 +10,7 @@ class ProductEntity {
 
   ProductEntity({
     required this.id,
+    required this.memberId,
     required this.name,
     required this.price,
     required this.ticketNumber,
