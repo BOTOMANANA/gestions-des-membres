@@ -41,9 +41,12 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
   Future<List<MemberModel>> getAllMembers() async {
     final database = await _database;
     try {
-      var result = await database!.query(_helper.tableMember);
-      print("Result from DB: $result");
-      return result.map((value) => MemberModel.fromJson(value)).toList();
+      var members = await database!.query(
+        _helper.tableMember,
+        orderBy: 'full_name ASC',
+      );
+      print("Result from DB: $members");
+      return members.map((value) => MemberModel.fromJson(value)).toList();
     } catch (e) {
       print("DB Error: $e");
       rethrow;
@@ -112,7 +115,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
     final database = await _database;
 
     String request =
-        'SELECT * FROM ${_helper.tableMember} WHERE ${_helper.columnStatus} = ?';
+        'SELECT * FROM ${_helper.tableMember} WHERE ${_helper.columnStatus} = ? ORDER BY ${_helper.columnFullName} ASC';
     var result = await database!.rawQuery(request, [memberCategory]);
     print(
       " ====>>>🔍 getMemberByStatus('$memberCategory') → ${result.length} membres trouvés",

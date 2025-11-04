@@ -3,6 +3,7 @@ import 'package:association_appli/presentation/pages/introduction_page.dart';
 import 'package:association_appli/presentation/pages/login_signup/create_account_page.dart';
 import 'package:association_appli/presentation/pages/members/create_member_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => getIt<UserProviders>()),
+        ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
         ChangeNotifierProvider(
           create: (_) => getIt<MemberProviders>()..getMembers(),
         ),
