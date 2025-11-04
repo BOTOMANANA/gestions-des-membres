@@ -18,41 +18,51 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
   Widget build(BuildContext context) {
     return Consumer<MemberProviders>(
       builder: (context, provider, child) {
-        return TextField(
-          controller: _userInputController,
-          keyboardType: TextInputType.name,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            hintText: 'Recherche...',
-            hintStyle: AppFonts.robotoCondensedFont(
-              size: 12.0,
-              color: Colors.black,
-            ),
-            suffixIcon: IconButton(
-              onPressed: () {},
-              icon: Image.asset('assets/icons/', width: 16.0, height: 16.0),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 14.0,
-              horizontal: 16.0,
-            ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SizedBox(
+            height: 48.0,
+            child: TextField(
+              controller: _userInputController,
+              keyboardType: TextInputType.name,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Recherche...',
+                hintStyle: AppFonts.robotoCondensedFont(
+                  size: 12.0,
+                  color: Colors.black,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    'assets/icons/search.png',
+                    width: 24.0,
+                    height: 24.0,
+                  ),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 14.0,
+                  horizontal: 16.0,
+                ),
 
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: BorderSide(
-                color: LightThemeColors.textFieldBorderColors,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide(
+                    color: LightThemeColors.textFieldBorderColors,
+                  ),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide(color: LightThemeColors.colorPrimary),
+                ),
               ),
-            ),
-
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-              borderSide: BorderSide(color: LightThemeColors.colorPrimary),
+              onChanged: (value) {
+                _searchMember(providers: provider);
+              },
             ),
           ),
-          onChanged: (value) {
-            _searchMember(providers: provider);
-          },
         );
       },
     );

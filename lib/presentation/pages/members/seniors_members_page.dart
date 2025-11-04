@@ -13,7 +13,7 @@ class SeniorsMembersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widgetAppBar(title: 'title'),
+      appBar: widgetAppBar(title: 'title', background: Colors.white),
       body: Consumer<MemberProviders>(
         builder: (context, provider, child) {
           if (provider.state == MemberState.loading) {
