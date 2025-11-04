@@ -55,7 +55,6 @@ class MemberProviders with ChangeNotifier {
       },
       (createSuccess) {
         state = MemberState.succes;
-        print('=========== MemberCreate with success');
       },
     );
   }
@@ -95,7 +94,6 @@ class MemberProviders with ChangeNotifier {
         notifyListeners();
       },
     );
-    print('========>>> getMemberbyStatus Provider is execute');
   }
 
   void deleteMember({required int id}) async {

@@ -25,7 +25,6 @@ class MemberRepositoryImpl implements MemberRepository {
       return Left(
         DatabaseFailure(errorMessage: 'Sorry failure to create member $e'),
       );
-      print('=============>>>>>>>> this is error $e');
     }
   }
 

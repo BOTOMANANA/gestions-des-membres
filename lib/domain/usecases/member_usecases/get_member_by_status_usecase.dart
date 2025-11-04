@@ -15,6 +15,5 @@ class GetMemberByStatusUsecase {
     return await repository.getMembersByStatusRepository(
       memberCategory: memberCategory,
     );
-    print('======>>>> getmemberByStatusUsecase execute');
   }
 }
