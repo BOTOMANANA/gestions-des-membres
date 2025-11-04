@@ -26,9 +26,7 @@ class MemberProviders with ChangeNotifier {
     required this.deleteMemberUsecase,
     required this.updateMemberUsecase,
     required this.searchMemberUsecase,
-  }) {
-    _initializeDefaultMembers();
-  }
+  });
 
   MemberState state = MemberState.initial;
   String errorMessage = '';
@@ -38,6 +36,11 @@ class MemberProviders with ChangeNotifier {
 
   void _setLoading() {
     state = MemberState.loading;
+    notifyListeners();
+  }
+
+  void reasetState() {
+    state = MemberState.initial;
     notifyListeners();
   }
 
@@ -92,6 +95,7 @@ class MemberProviders with ChangeNotifier {
         notifyListeners();
       },
     );
+    print('========>>> getMemberbyStatus Provider is execute');
   }
 
   void deleteMember({required int id}) async {
@@ -125,41 +129,6 @@ class MemberProviders with ChangeNotifier {
         notifyListeners();
       },
     );
-  }
-
-  void _initializeDefaultMembers() {
-    members = [
-      MemberEntity(
-        id: null,
-        fullName: 'Rabe Andry',
-        genre: 'Femme',
-        country: 'Madagascar',
-        cinNumber: 123456789,
-        phoneNumber: 0341234567,
-        faculty: 'Informatique',
-        quarter: 'Fianarantsoa',
-        studentCardNumber: 'STU001',
-        category: 'Novice',
-        memberResponsability: 'Aucun',
-        memberShipFee: 5000,
-      ),
-      MemberEntity(
-        id: null,
-        fullName: 'Rakoto Jean',
-        genre: 'Home',
-        country: 'Madagascar',
-        cinNumber: 987654321,
-        phoneNumber: 0349876543,
-        faculty: 'Droit',
-        quarter: 'Ambalavao',
-        studentCardNumber: 'STU002',
-        category: 'Ancien',
-        memberResponsability: 'Trésorier',
-        memberShipFee: 8000,
-      ),
-    ];
-
-    notifyListeners(); // ✅ notifie l’UI
   }
 }
 

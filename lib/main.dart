@@ -6,13 +6,15 @@ import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final dbPath = await getDatabasesPath();
-  // await deleteDatabase(join(dbPath, 'AssocitionDB.db'));
-  // print("✅ Ancienne base supprimée avec succès");
+  final dbPath = await getDatabasesPath();
+  await deleteDatabase(join(dbPath, 'AssocitionDB.db'));
+  print("✅ Ancienne base supprimée avec succès");
   await setup();
 
   runApp(

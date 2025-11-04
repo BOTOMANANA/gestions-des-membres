@@ -24,13 +24,14 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
   Future<void> createMember({required MemberModel memberModel}) async {
     final database = await _database;
     await database?.insert(_helper.tableMember, memberModel.toJson());
+    print("======>>>📦 Member enregistré avec status: ${memberModel.category}");
   }
 
   @override
   Future<void> deleteMember({required int id}) async {
     final database = await _database;
     await database?.delete(
-      _helper.createTableMember,
+      _helper.tableMember,
       where: "id = ?",
       whereArgs: [id],
     );
@@ -53,7 +54,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
   Future<MemberModel> getMemberById({required int id}) async {
     final database = await _database;
     var result = await database?.query(
-      _helper.createTableMember,
+      _helper.tableMember,
       where: "id = ?",
       whereArgs: [id],
     );
@@ -84,7 +85,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
       _helper.columnMemberProducts,
     ];
     var result = await database!.query(
-      _helper.createTableMember,
+      _helper.tableMember,
       where: selection,
       whereArgs: selectionArgs,
       columns: columnsOfTable,
@@ -96,7 +97,12 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
   @override
   Future<void> updateMember({required MemberModel memberModel}) async {
     final database = await _database;
-    await database?.update(_helper.createTableMember, memberModel.toJson());
+    await database?.update(
+      _helper.tableMember,
+      memberModel.toJson(),
+      where: 'id = ?',
+      whereArgs: [memberModel.id],
+    );
   }
 
   @override
@@ -104,11 +110,14 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
     required String memberCategory,
   }) async {
     final database = await _database;
-    String convertEnumStatus = memberCategory.toString();
+
     String request =
         'SELECT * FROM ${_helper.tableMember} WHERE ${_helper.columnStatus} = ?';
-    var result = await database!.rawQuery(request, [convertEnumStatus]);
-    return result.map((value) => MemberModel.fromJson(value)).toList();
+    var result = await database!.rawQuery(request, [memberCategory]);
+    print(
+      " ====>>>🔍 getMemberByStatus('$memberCategory') → ${result.length} membres trouvés",
+    );
+    return result.map((members) => MemberModel.fromJson(members)).toList();
   }
 
   @override

@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:association_appli/core/errors/failure.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/domain/repositories/member_repository.dart';
@@ -13,5 +15,6 @@ class GetMemberByStatusUsecase {
     return await repository.getMembersByStatusRepository(
       memberCategory: memberCategory,
     );
+    print('======>>>> getmemberByStatusUsecase execute');
   }
 }

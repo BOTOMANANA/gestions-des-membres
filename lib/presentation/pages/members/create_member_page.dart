@@ -61,6 +61,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     );
 
     provider.createMember(memberEntity: member);
+    context.read<MemberProviders>().reasetState();
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => NovicesMembersPage()));
