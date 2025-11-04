@@ -66,6 +66,14 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     ).push(MaterialPageRoute(builder: (context) => NovicesMembersPage()));
 
     clearTextFieldController();
+    renderDropdownInitial();
+  }
+
+  void renderDropdownInitial() {
+    setState(() {
+      _selectedCategory = null;
+      _selectedResponsability = null;
+    });
   }
 
   void clearTextFieldController() {
