@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/members/members_profile_page.dart';
+import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
@@ -16,13 +19,14 @@ class MemberItemWidget extends StatelessWidget {
     final provider = context.read<MemberProviders>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       child: Slidable(
         key: ValueKey(memberEntity.id),
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           extentRatio: 0.45, // largeur totale du panneau (ajuste à ton goût)
           children: [
+            SizedBox(width: 2.0),
             // 🗑️ Bouton supprimer
             SlidableAction(
               onPressed: (context) async {
@@ -44,7 +48,7 @@ class MemberItemWidget extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
                             ),
                             child: const Text('Supprimer'),
@@ -65,14 +69,13 @@ class MemberItemWidget extends StatelessWidget {
                   );
                 }
               },
-              backgroundColor: Colors.red.shade600,
+              backgroundColor: LightThemeColors.textFieldBorderColors,
               foregroundColor: Colors.white,
-              icon: Icons.delete,
-              label: 'Supprimer',
-              borderRadius: BorderRadius.circular(14),
-              spacing: 4, // petit espace interne entre icône et texte
+              icon: Icons.delete_outlined,
+              borderRadius: BorderRadius.circular(12.0),
+              spacing: 4.0, // petit espace interne entre icône et texte
             ),
-            const SizedBox(width: 6), // 🌟 espace entre les 2 actions
+            const SizedBox(width: 2.0),
             // ✏️ Bouton modifier
             SlidableAction(
               onPressed: (context) {
@@ -83,12 +86,12 @@ class MemberItemWidget extends StatelessWidget {
                   ),
                 );
               },
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.green,
               foregroundColor: Colors.white,
               icon: Icons.edit,
               label: 'Modifier',
-              borderRadius: BorderRadius.circular(14),
-              spacing: 4,
+              borderRadius: BorderRadius.circular(12.0),
+              spacing: 4.0,
             ),
           ],
         ),
@@ -97,14 +100,14 @@ class MemberItemWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.0),
             border: Border.all(
               width: 1.0,
-              color: LightThemeColors.colorPrimary.withOpacity(0.50),
+              color: LightThemeColors.textFieldBorderColors,
             ),
           ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.0),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -116,16 +119,8 @@ class MemberItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.white,
-                    child: Image.asset(
-                      'assets/images/profilegirl.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                  imageMemberProfileRounded(member: memberEntity, size: 50.0),
+                  const SizedBox(width: 8.0),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +128,7 @@ class MemberItemWidget extends StatelessWidget {
                         Text(
                           memberEntity.fullName,
                           style: AppFonts.robotoFont(
-                            size: 14.0,
+                            size: 13.0,
                             color: LightThemeColors.textBlack,
                             weight: FontWeight.w600,
                           ),
@@ -142,7 +137,7 @@ class MemberItemWidget extends StatelessWidget {
                         Text(
                           memberEntity.country,
                           style: AppFonts.robotoCondensedFont(
-                            size: 12.0,
+                            size: 11.0,
                             color: LightThemeColors.textSemiBlack,
                           ),
                         ),
@@ -155,7 +150,7 @@ class MemberItemWidget extends StatelessWidget {
                       "20/01/2026",
                       style: TextStyle(
                         color: Colors.grey.shade400,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ),

@@ -2,7 +2,11 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:flutter/material.dart';
 
-AppBar widgetAppBar({required String title, required Color background}) {
+AppBar widgetAppBar({
+  required String title,
+  required Color background,
+  List<Widget>? actions,
+}) {
   return AppBar(
     title: Text(
       title,
@@ -13,5 +17,6 @@ AppBar widgetAppBar({required String title, required Color background}) {
     ),
     centerTitle: true,
     backgroundColor: background,
+    actions: actions,
   );
 }
