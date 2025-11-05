@@ -64,13 +64,37 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                       weight: FontWeight.w600,
                     ),
                   ),
-                  Text('CIN: ${member.cinNumber}'),
-                  Text('Faculty: ${member.faculty}'),
-                  Text('Category: ${member.category ?? 'N/A'}'),
-                  Text(
-                    'Responsibility: ${member.memberResponsability ?? 'N/A'}',
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _otherInformationPersonal(
+                          iconPath: 'assets/icons/graduationcard.png',
+                          firstData: member.faculty,
+                          lastData: member.studentCardNumber,
+                        ),
+
+                        _otherInformationPersonal(
+                          iconPath: 'assets/icons/creditcard.png',
+                          firstData: member.category ?? 'Aucun',
+                          lastData: '${member.cinNumber}',
+                        ),
+
+                        _otherInformationPersonal(
+                          iconPath: 'assets/icons/rapid.png',
+                          firstData: member.faculty,
+                          lastData: member.studentCardNumber,
+                        ),
+
+                        _otherInformationPersonal(
+                          iconPath: 'assets/icons/navigator.png',
+                          firstData: member.quarter,
+                          lastData: null,
+                        ),
+                      ],
+                    ),
                   ),
-                  Text('Quarter: ${member.quarter}'),
+
                   const SizedBox(height: 20),
                   _listAndAmountCotisation(
                     freeShip: member.memberShipFee.toInt(),
@@ -190,6 +214,33 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           ],
         );
       }),
+    );
+  }
+
+  Widget _otherInformationPersonal({
+    required String iconPath,
+    required String firstData,
+    required String? lastData,
+  }) {
+    return Container(
+      width: 200.0,
+      height: 100.0,
+      decoration: BoxDecoration(
+        color: LightThemeColors.colorPrimary.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Row(
+        children: [
+          Image.asset(iconPath, width: 64.0, height: 64.0),
+          SizedBox(width: 4.0),
+          Column(
+            children: [
+              titleTextFonts(data: firstData),
+              subTitleTextFonts(data: lastData!),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
