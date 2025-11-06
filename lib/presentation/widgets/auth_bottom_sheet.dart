@@ -47,7 +47,7 @@ class _AuthBottomSheetState extends State<AuthBottomSheet> {
           ),
           child: Column(
             children: [
-              _designHeaderBar,
+              designHeaderBar,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -91,7 +91,7 @@ class _AuthBottomSheetState extends State<AuthBottomSheet> {
   }
 }
 
-Widget _designHeaderBar = Padding(
+Widget designHeaderBar = Padding(
   padding: EdgeInsets.only(top: 10, bottom: 20),
   child: Container(
     width: 60,

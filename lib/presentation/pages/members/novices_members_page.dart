@@ -1,5 +1,8 @@
+import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
+import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
@@ -15,9 +18,16 @@ class NovicesMembersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widgetAppBar(
-        icon: 'assets/icons/call.png',
+        icon: 'assets/icons/arrowleftt.png',
         title: 'Novices',
         background: Colors.white,
+        actions: [
+          customIconButton(
+            iconPath: 'assets/icons/filepdf.png',
+            onPressed: () {},
+          ),
+          SizedBox(width: 8.0),
+        ],
       ),
       backgroundColor: Colors.white,
       body: Consumer<MemberProviders>(
@@ -45,31 +55,41 @@ class NovicesMembersPage extends StatelessWidget {
             return const Center(child: Text('aucun novice a trouver'));
           }
           if (provider.state == MemberState.succes) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                  child: InputSearchMembers(),
-                ),
-                SizedBox(height: 12.0),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: membersNovices.length,
-                    itemBuilder: (context, index) {
-                      return MemberItemWidget(
-                        memberEntity: membersNovices[index],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
+            return _getAndDisplayNovices(novices: membersNovices);
           }
           return const Center();
         },
       ),
-      floatingActionButton: customFloatingButton(onPressed: () {}),
+      floatingActionButton: customFloatingButton(
+        onPressed: () {
+          ShowConfirmDeleteDialog.show(
+            context: context,
+            title: 'title',
+            details: 'details',
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _getAndDisplayNovices({required List<MemberEntity> novices}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: InputSearchMembers(),
+        ),
+        SizedBox(height: 12.0),
+        Expanded(
+          child: ListView.builder(
+            itemCount: novices.length,
+            itemBuilder: (context, index) {
+              return MemberItemWidget(memberEntity: novices[index]);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

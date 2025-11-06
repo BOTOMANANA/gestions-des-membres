@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use
+import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
@@ -56,9 +57,12 @@ class ShowConfirmDeleteDialog {
     required String details,
   }) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _dialogTitle(title: title, size: 16, weight: FontWeight.w600),
         const SizedBox(height: 16),
+        Image.asset('assets/images/garbage.png', width: 110.0, height: 110.0),
+        const SizedBox(height: 8.0),
         _dialogBody(body: details),
         const Spacer(),
         Row(
@@ -73,27 +77,12 @@ class ShowConfirmDeleteDialog {
             _customTextButton(
               onPressed: () {
                 Navigator.pop(context, true);
-                final snackbar = SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-
-                  content: SizedBox(
-                    height: 80.0,
-                    child: AwesomeSnackbarContent(
-                      title: title,
-                      message: "$details \n \n",
-                      contentType: ContentType.success,
-                      inMaterialBanner: true,
-                      titleTextStyle: TextStyle(fontSize: 14.0),
-                      messageTextStyle: TextStyle(fontSize: 12.0),
-                    ),
-                  ),
+                showSnackBarWidget(
+                  context: context,
+                  title: title,
+                  details: details,
+                  type: ContentType.success,
                 );
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackbar);
               },
               title: 'Supprimer',
               backgroundColor: LightThemeColors.colorPrimary,
@@ -105,23 +94,27 @@ class ShowConfirmDeleteDialog {
     );
   }
 
-  static TextButton _customTextButton({
+  static Widget _customTextButton({
     required VoidCallback onPressed,
     required String title,
     required Color backgroundColor,
     required Color textColor,
   }) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+    return SizedBox(
+      width: 130.0,
+      height: 48.0,
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
         ),
-      ),
-      child: Text(
-        title,
-        style: AppFonts.robotoCondensedFont(size: 12.0, color: textColor),
+        child: Text(
+          title,
+          style: AppFonts.robotoCondensedFont(size: 12.0, color: textColor),
+        ),
       ),
     );
   }
@@ -135,7 +128,7 @@ class ShowConfirmDeleteDialog {
       title,
       style: AppFonts.robotoFont(
         size: size,
-        color: LightThemeColors.textBlack,
+        color: LightThemeColors.textSemiBlack,
         weight: weight,
       ),
     );
@@ -144,9 +137,13 @@ class ShowConfirmDeleteDialog {
   static Column _dialogBody({required String body}) {
     return Column(
       children: [
-        _dialogTitle(title: 'Voulez-vous vraiment supprimer', size: 12.0),
+        _dialogTitle(
+          title: 'Voulez-vous vraiment supprimer',
+          size: 12.0,
+          weight: FontWeight.w500,
+        ),
         const SizedBox(height: 8),
-        _dialogTitle(title: body, size: 12.0),
+        _dialogTitle(title: body, size: 12.0, weight: FontWeight.w500),
       ],
     );
   }

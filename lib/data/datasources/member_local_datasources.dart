@@ -85,6 +85,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
       _helper.columnStudentCardNumber,
       _helper.columnStatus,
       _helper.columnMemberShipFree,
+      _helper.columnCreatedAt,
       _helper.columnMemberProducts,
     ];
     var result = await database!.query(

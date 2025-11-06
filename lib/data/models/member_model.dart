@@ -18,6 +18,7 @@ class MemberModel extends MemberEntity {
     required super.category,
     required super.memberResponsability,
     required super.memberShipFee,
+    required super.createAt,
     required super.products,
   });
 
@@ -36,6 +37,11 @@ class MemberModel extends MemberEntity {
       category: json['status'],
       memberResponsability: json['responsability'],
       memberShipFee: json['member_ship_free'],
+      createAt:
+          (json['created_at'] != null &&
+                  json['created_at'].toString().isNotEmpty)
+              ? DateTime.parse(json['created_at'])
+              : DateTime.now(),
       products:
           (json['products'] != null)
               ? List<ProductEntity>.from(
@@ -62,6 +68,7 @@ class MemberModel extends MemberEntity {
       'status': category,
       'responsability': memberResponsability,
       'member_ship_free': memberShipFee,
+      'created_at': createAt?.toIso8601String(),
       'products': jsonEncode(products ?? []),
     };
   }
@@ -81,6 +88,7 @@ class MemberModel extends MemberEntity {
       category: memberEntity.category,
       memberResponsability: memberEntity.memberResponsability,
       memberShipFee: memberEntity.memberShipFee,
+      createAt: memberEntity.createAt,
       products: [],
     );
   }

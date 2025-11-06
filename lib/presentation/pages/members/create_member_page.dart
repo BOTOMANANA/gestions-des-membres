@@ -4,11 +4,14 @@ import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/member_category_item.dart';
+import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,9 +61,16 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
       category: _selectedCategory,
       memberResponsability: _selectedResponsability,
       memberShipFee: freeShip.toInt(),
+      createAt: DateTime.now(),
     );
 
     provider.createMember(memberEntity: member);
+    showSnackBarWidget(
+      context: context,
+      title: 'Felicitaions $fullName',
+      details: 'Vous etes membre maintenant',
+      type: ContentType.success,
+    );
     context.read<MemberProviders>().reasetState();
     FocusScope.of(context).unfocus();
     Navigator.of(
@@ -109,10 +119,10 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("ajout membre"),
-        centerTitle: true,
-        backgroundColor: Colors.white,
+      appBar: widgetAppBar(
+        title: 'Ajout de membre',
+        background: Colors.white,
+        icon: 'assets/icons/arrowleftt.png',
       ),
       backgroundColor: Colors.white,
       body: Consumer<MemberProviders>(

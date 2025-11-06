@@ -13,9 +13,12 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final dbPath = await getDatabasesPath();
-  await deleteDatabase(join(dbPath, 'AssocitionDB.db'));
-  print("✅ Ancienne base supprimée avec succès");
+  // final dbPath = await getDatabasesPath();
+  // final fullPath = join(dbPath, 'AssociationDB.db');
+  // await deleteDatabase(fullPath);
+  // print("✅ Ancienne base supprimée avec succès");
+  // print("✅ Base supprimée : $fullPath");
+
   await setup();
 
   runApp(

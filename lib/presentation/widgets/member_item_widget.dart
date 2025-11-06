@@ -44,14 +44,14 @@ class MemberItemWidget extends StatelessWidget {
                 }
               },
               backgroundColor: LightThemeColors.textFieldBorderColors,
-              iconPath: 'assets/icons/call.png',
+              iconPath: 'assets/icons/delete.png',
             ),
 
             const SizedBox(width: 2.0),
             _customSlidable(
               onPressed: null,
               backgroundColor: LightThemeColors.colorPrimary,
-              iconPath: 'assets/icons/qrcode.png',
+              iconPath: 'assets/icons/update.png',
             ),
           ],
         ),
@@ -115,7 +115,7 @@ class MemberItemWidget extends StatelessWidget {
             ),
           ),
           createDateTimeAt(
-            createAt: DateTime.now(),
+            createAt: memberEntity.createAt!,
             color: Colors.grey.shade400,
           ),
         ],

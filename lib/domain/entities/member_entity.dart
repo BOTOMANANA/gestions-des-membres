@@ -14,6 +14,7 @@ class MemberEntity {
   final String? category;
   final String? memberResponsability;
   final int memberShipFee;
+  DateTime? createAt;
   final List<ProductEntity>? products;
 
   MemberEntity({
@@ -29,6 +30,7 @@ class MemberEntity {
     this.category,
     this.memberResponsability,
     required this.memberShipFee,
+    required this.createAt,
     this.products = const [],
   });
 }
