@@ -32,6 +32,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
 
     return Scaffold(
       appBar: widgetAppBar(
+        icon: 'assets/icons/call.png',
         title: 'Profile',
         background: Colors.white,
         actions: [_appBarAction()],
@@ -153,6 +154,8 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
             child: Image.asset(
               'assets/images/backgroundcard.png',
               height: 232.0,
+              color: Colors.white.withOpacity(0.4),
+              colorBlendMode: BlendMode.modulate,
             ),
           ),
         ),

@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: depend_on_referenced_packages
 
-Widget createDateTimeAt({required String createAt, required Color color}) {
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+Widget createDateTimeAt({required DateTime createAt, required Color color}) {
+  final formatedDate = DateFormat('yyyy-MM-dd').format(createAt);
   return Padding(
     padding: const EdgeInsets.only(bottom: 24.0),
-    child: Text(
-      createAt.toString(),
-      style: TextStyle(color: color, fontSize: 10),
-    ),
+    child: Text(formatedDate, style: TextStyle(color: color, fontSize: 10)),
   );
 }

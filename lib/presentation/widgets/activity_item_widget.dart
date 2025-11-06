@@ -35,7 +35,10 @@ class ActivityItemWidget extends StatelessWidget {
           children: [
             const SizedBox(width: 8.0),
             _activityListInformation(),
-            createDateTimeAt(createAt: '', color: Colors.grey.shade400),
+            createDateTimeAt(
+              createAt: DateTime.now(),
+              color: Colors.grey.shade400,
+            ),
           ],
         ),
       ),

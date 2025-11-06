@@ -114,7 +114,10 @@ class MemberItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          createDateTimeAt(createAt: '05-11-2025', color: Colors.grey.shade400),
+          createDateTimeAt(
+            createAt: DateTime.now(),
+            color: Colors.grey.shade400,
+          ),
         ],
       ),
     );
