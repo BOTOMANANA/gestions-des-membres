@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
@@ -70,7 +71,30 @@ class ShowConfirmDeleteDialog {
               textColor: LightThemeColors.colorPrimary,
             ),
             _customTextButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () {
+                Navigator.pop(context, true);
+                final snackbar = SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+
+                  content: SizedBox(
+                    height: 80.0,
+                    child: AwesomeSnackbarContent(
+                      title: title,
+                      message: "$details \n \n",
+                      contentType: ContentType.success,
+                      inMaterialBanner: true,
+                      titleTextStyle: TextStyle(fontSize: 14.0),
+                      messageTextStyle: TextStyle(fontSize: 12.0),
+                    ),
+                  ),
+                );
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackbar);
+              },
               title: 'Supprimer',
               backgroundColor: LightThemeColors.colorPrimary,
               textColor: Colors.white,

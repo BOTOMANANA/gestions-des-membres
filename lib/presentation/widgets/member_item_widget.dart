@@ -26,11 +26,11 @@ class MemberItemWidget extends StatelessWidget {
         key: ValueKey(memberEntity.id),
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
-          extentRatio: 0.45, // largeur totale du panneau (ajuste à ton goût)
+          extentRatio: 0.3, // largeur totale du panneau (ajuste à ton goût)
           children: [
             SizedBox(width: 2.0),
 
-            _deleteSlidableAction(
+            _customSlidable(
               onPressed: (context) async {
                 final confirm = await ShowConfirmDeleteDialog.show(
                   context: context,
@@ -41,19 +41,18 @@ class MemberItemWidget extends StatelessWidget {
                 if (confirm == true) {
                   provider.deleteMember(id: memberEntity.id!);
                   provider.getMembersByStatus(category: memberEntity.category!);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '✅ ${memberEntity.fullName} a été supprimé avec succès',
-                      ),
-                    ),
-                  );
                 }
               },
+              backgroundColor: LightThemeColors.textFieldBorderColors,
+              iconPath: 'assets/icons/call.png',
             ),
 
             const SizedBox(width: 2.0),
-            _updateSlidableAction(onPressed: null),
+            _customSlidable(
+              onPressed: null,
+              backgroundColor: LightThemeColors.colorPrimary,
+              iconPath: 'assets/icons/qrcode.png',
+            ),
           ],
         ),
 
@@ -85,29 +84,16 @@ class MemberItemWidget extends StatelessWidget {
     );
   }
 
-  SlidableAction _deleteSlidableAction({
+  CustomSlidableAction _customSlidable({
     required SlidableActionCallback? onPressed,
+    required Color backgroundColor,
+    required String iconPath,
   }) {
-    return SlidableAction(
+    return CustomSlidableAction(
       onPressed: onPressed,
-      backgroundColor: LightThemeColors.textFieldBorderColors,
-      foregroundColor: Colors.white,
-      icon: Icons.delete_outlined,
+      backgroundColor: backgroundColor,
       borderRadius: BorderRadius.circular(12.0),
-      spacing: 4.0,
-    );
-  }
-
-  SlidableAction _updateSlidableAction({
-    required SlidableActionCallback? onPressed,
-  }) {
-    return SlidableAction(
-      onPressed: onPressed,
-      backgroundColor: Colors.green,
-      foregroundColor: Colors.white,
-      icon: Icons.edit,
-      borderRadius: BorderRadius.circular(12.0),
-      spacing: 4.0,
+      child: Image.asset(iconPath),
     );
   }
 
