@@ -1,4 +1,5 @@
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
@@ -40,7 +41,10 @@ class NovicesMembersPage extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const InputSearchMembers(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                  child: InputSearchMembers(),
+                ),
                 SizedBox(height: 12.0),
                 Expanded(
                   child: ListView.builder(
@@ -58,6 +62,7 @@ class NovicesMembersPage extends StatelessWidget {
           return const Center();
         },
       ),
+      floatingActionButton: customFloatingButton(onPressed: () {}),
     );
   }
 }

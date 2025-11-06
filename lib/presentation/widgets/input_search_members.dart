@@ -30,15 +30,15 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
                 fillColor: Colors.white,
                 hintText: 'Recherche...',
                 hintStyle: AppFonts.robotoCondensedFont(
-                  size: 12.0,
-                  color: Colors.black,
+                  size: 14.0,
+                  color: LightThemeColors.textFieldBorderColors,
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {},
                   icon: Image.asset(
                     'assets/icons/search.png',
-                    width: 24.0,
-                    height: 24.0,
+                    width: 18.0,
+                    height: 18.0,
                   ),
                 ),
                 contentPadding: const EdgeInsets.symmetric(

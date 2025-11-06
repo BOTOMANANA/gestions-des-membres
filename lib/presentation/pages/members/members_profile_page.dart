@@ -50,20 +50,22 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           if (provider.state == SingleMemberState.succes) {
             final member = provider.memberEntity!;
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _cardProfile(provider: provider),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16.0),
                   Text(
-                    'Experiences',
+                    'Informations',
                     style: AppFonts.robotoFont(
                       size: 16.0,
                       color: LightThemeColors.colorPrimary,
                       weight: FontWeight.w600,
                     ),
                   ),
+                  SizedBox(height: 8.0),
+
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -73,34 +75,42 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                           firstData: member.faculty,
                           lastData: member.studentCardNumber,
                         ),
-
-                        _otherInformationPersonal(
-                          iconPath: 'assets/icons/creditcard.png',
-                          firstData: member.category ?? 'Aucun',
-                          lastData: '${member.cinNumber}',
-                        ),
-
+                        SizedBox(width: 4.0),
                         _otherInformationPersonal(
                           iconPath: 'assets/icons/rapid.png',
+                          firstData: member.country,
+                          lastData: '${member.cinNumber}',
+                        ),
+                        SizedBox(width: 4.0),
+
+                        _otherInformationPersonal(
+                          iconPath: 'assets/icons/creditcards.png',
                           firstData: member.faculty,
                           lastData: member.studentCardNumber,
                         ),
+                        SizedBox(width: 4.0),
 
                         _otherInformationPersonal(
                           iconPath: 'assets/icons/navigator.png',
                           firstData: member.quarter,
-                          lastData: null,
+                          lastData: '',
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-                  _listAndAmountCotisation(
-                    freeShip: member.memberShipFee.toInt(),
-                    social: 0, // à adapter si tu as les valeurs
-                    amountActivity: 0, // idem
+                  const SizedBox(height: 16.0),
+                  Text(
+                    'Activites',
+                    style: AppFonts.robotoFont(
+                      size: 16.0,
+                      color: LightThemeColors.colorPrimary,
+                      weight: FontWeight.w600,
+                    ),
                   ),
+                  const SizedBox(height: 8.0),
+                  _cardActivityContainer(),
+                  _cardActivityContainer(),
+                  _cardActivityContainer(),
                 ],
               ),
             );
@@ -116,9 +126,8 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     return Row(
       children: [
         customIconButton(iconPath: 'assets/icons/call.png', onPressed: () {}),
-        SizedBox(width: 4),
         customIconButton(iconPath: 'assets/icons/qrcode.png', onPressed: () {}),
-        SizedBox(width: 8),
+        SizedBox(width: 4.0),
       ],
     );
   }
@@ -161,11 +170,18 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
         SizedBox(height: 12),
         imageMemberProfileRounded(member: member, size: 90.0),
         SizedBox(height: 8.0),
-        titleTextFonts(data: member.fullName),
+        titleTextFonts(
+          data: member.fullName,
+          color: Colors.white,
+          weight: FontWeight.bold,
+        ),
         SizedBox(height: 4.0),
-        subTitleTextFonts(data: member.country),
+        subTitleTextFonts(
+          data: member.category ?? 'Aucun(ne)',
+          color: Colors.white54,
+        ),
         SizedBox(height: 20.0),
-        _listAndAmountCotisation(
+        _getAmountOfCotisation(
           freeShip: member.memberShipFee.toInt(),
           social: 0,
           amountActivity: 0,
@@ -174,29 +190,30 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     );
   }
 
-  Text titleTextFonts({required String data}) {
+  Text titleTextFonts({
+    required String data,
+    required Color color,
+    required FontWeight weight,
+  }) {
     return Text(
       data,
-      style: AppFonts.robotoFont(
-        size: 18.0,
-        color: Colors.white,
-        weight: FontWeight.bold,
-      ),
+      style: AppFonts.robotoFont(size: 16.0, color: color, weight: weight),
+      overflow: TextOverflow.ellipsis,
     );
   }
 
-  Text subTitleTextFonts({required String data}) {
+  Text subTitleTextFonts({required String data, required Color color}) {
     return Text(
       data,
       style: AppFonts.robotoFont(
         size: 12.0,
-        color: Colors.white54,
+        color: color,
         weight: FontWeight.w600,
       ),
     );
   }
 
-  Row _listAndAmountCotisation({
+  Row _getAmountOfCotisation({
     required int freeShip,
     required int social,
     required int amountActivity,
@@ -209,8 +226,15 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
       children: List.generate(titleCotisation.length, (index) {
         return Column(
           children: [
-            titleTextFonts(data: '${amounts[index]}'),
-            subTitleTextFonts(data: titleCotisation[index]),
+            titleTextFonts(
+              data: '${amounts[index]}',
+              color: Colors.white,
+              weight: FontWeight.bold,
+            ),
+            subTitleTextFonts(
+              data: titleCotisation[index],
+              color: Colors.white54,
+            ),
           ],
         );
       }),
@@ -223,24 +247,55 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     required String? lastData,
   }) {
     return Container(
-      width: 200.0,
-      height: 100.0,
+      width: 190.0,
+      height: 70.0,
       decoration: BoxDecoration(
-        color: LightThemeColors.colorPrimary.withOpacity(0.12),
+        color: LightThemeColors.colorPrimary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Row(
         children: [
-          Image.asset(iconPath, width: 64.0, height: 64.0),
-          SizedBox(width: 4.0),
-          Column(
-            children: [
-              titleTextFonts(data: firstData),
-              subTitleTextFonts(data: lastData!),
-            ],
+          SizedBox(width: 8.0),
+          Image.asset(iconPath, width: 44.0, height: 44.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 8.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleTextFonts(
+                  data: firstData,
+                  color: LightThemeColors.colorPrimary,
+                  weight: FontWeight.w500,
+                ),
+                subTitleTextFonts(
+                  data: lastData!,
+                  color: LightThemeColors.colorPrimary.withOpacity(0.5),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+Widget _cardActivityContainer() {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+    child: Container(
+      width: 380.0,
+      height: 80.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.0),
+        border: Border.all(
+          color: LightThemeColors.colorPrimary.withOpacity(0.16),
+          width: 1,
+        ),
+      ),
+    ),
+  );
 }
