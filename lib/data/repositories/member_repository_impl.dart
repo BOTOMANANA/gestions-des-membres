@@ -105,7 +105,7 @@ class MemberRepositoryImpl implements MemberRepository {
       );
     } catch (e) {
       return Left(
-        DatabaseFailure(errorMessage: 'Member is not in the data base'),
+        DatabaseFailure(errorMessage: 'Member is not in the data base $e'),
       );
     }
   }

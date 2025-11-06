@@ -33,6 +33,7 @@ class MemberProviders with ChangeNotifier {
   List<MemberEntity> members = [];
   List<MemberEntity> membreSearch = [];
   MemberEntity? memberEntity;
+  bool isSearching = false;
 
   void _setLoading() {
     state = MemberState.loading;
@@ -80,8 +81,10 @@ class MemberProviders with ChangeNotifier {
 
   void getMembersByStatus({required String category}) async {
     _setLoading();
-    var result = await getMemberByStatusUsecase(memberCategory: category);
-    result.fold(
+    var membersCategory = await getMemberByStatusUsecase(
+      memberCategory: category,
+    );
+    membersCategory.fold(
       (failure) {
         state = MemberState.error;
         errorMessage = failure.errorMessage;
@@ -113,7 +116,8 @@ class MemberProviders with ChangeNotifier {
   }
 
   void searchSingleMember({required String fullName}) async {
-    _setLoading();
+    isSearching = true;
+    notifyListeners();
     var members = await searchMemberUsecase(fullName: fullName);
     members.fold(
       (failure) {
@@ -128,6 +132,9 @@ class MemberProviders with ChangeNotifier {
       },
     );
   }
-}
 
-// j'utilise le fold pour bien gerer le succes et echec sans faire de if et else si il est echec retourner a gauche sinon a droite
+  void clearSearchResult() {
+    membreSearch = [];
+    notifyListeners();
+  }
+}

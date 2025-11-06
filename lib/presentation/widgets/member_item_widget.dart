@@ -32,14 +32,10 @@ class MemberItemWidget extends StatelessWidget {
 
             _deleteSlidableAction(
               onPressed: (context) async {
-                final confirm = await showDialog<bool>(
-                  barrierDismissible: false,
+                final confirm = await ShowConfirmDeleteDialog.show(
                   context: context,
-                  builder:
-                      (context) => ShowConfirmDeleteDialog(
-                        title: 'Suppression de membre',
-                        details: memberEntity.fullName,
-                      ),
+                  title: 'Suppression de membre',
+                  details: memberEntity.fullName,
                 );
 
                 if (confirm == true) {
@@ -57,7 +53,6 @@ class MemberItemWidget extends StatelessWidget {
             ),
 
             const SizedBox(width: 2.0),
-            // ✏️ Bouton modifier
             _updateSlidableAction(onPressed: null),
           ],
         ),
@@ -74,6 +69,9 @@ class MemberItemWidget extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(14.0),
             onTap: () {
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) => FocusScope.of(context).unfocus(),
+              );
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => MembersProfilePage(id: memberEntity.id!),
@@ -108,7 +106,6 @@ class MemberItemWidget extends StatelessWidget {
       backgroundColor: Colors.green,
       foregroundColor: Colors.white,
       icon: Icons.edit,
-      label: 'Modifier',
       borderRadius: BorderRadius.circular(12.0),
       spacing: 4.0,
     );

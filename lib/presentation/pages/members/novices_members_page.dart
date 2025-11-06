@@ -32,7 +32,10 @@ class NovicesMembersPage extends StatelessWidget {
             return widgetErrorToLoadMembers(provider: provider);
           }
 
-          final membersNovices = provider.members;
+          final membersNovices =
+              provider.membreSearch.isNotEmpty
+                  ? provider.membreSearch
+                  : provider.members;
 
           if (membersNovices.isEmpty) {
             return const Center(child: Text('aucun novice a trouver'));

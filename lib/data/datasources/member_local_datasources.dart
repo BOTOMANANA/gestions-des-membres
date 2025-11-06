@@ -74,7 +74,7 @@ class MemberLocalDatasourcesImpl extends MemberLocalDatasources {
     ]; // je recherche par tout dans le nom et prenom de quelqun
     String orderBy = "${_helper.columnFullName} ASC";
     List<String> columnsOfTable = [
-      _helper.columnMemberId,
+      _helper.columnId,
       _helper.columnFullName,
       _helper.columnGenre,
       _helper.columnCountry,
