@@ -28,31 +28,10 @@ class ShowConfirmDeleteDialog {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(
-                children: [
-                  _dialogTitle(title: title, size: 16, weight: FontWeight.w600),
-                  const SizedBox(height: 16),
-                  _dialogBody(body: details),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _customTextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        title: 'Annuler',
-                        backgroundColor: LightThemeColors.colorPrimary
-                            .withOpacity(0.12),
-                        textColor: LightThemeColors.colorPrimary,
-                      ),
-                      _customTextButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        title: 'Supprimer',
-                        backgroundColor: LightThemeColors.colorPrimary,
-                        textColor: Colors.white,
-                      ),
-                    ],
-                  ),
-                ],
+              child: _contentDialog(
+                context: context,
+                title: title,
+                details: details,
               ),
             ),
           ),
@@ -67,6 +46,38 @@ class ShowConfirmDeleteDialog {
           child: child,
         );
       },
+    );
+  }
+
+  static Widget _contentDialog({
+    required BuildContext context,
+    required String title,
+    required String details,
+  }) {
+    return Column(
+      children: [
+        _dialogTitle(title: title, size: 16, weight: FontWeight.w600),
+        const SizedBox(height: 16),
+        _dialogBody(body: details),
+        const Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _customTextButton(
+              onPressed: () => Navigator.pop(context, false),
+              title: 'Annuler',
+              backgroundColor: LightThemeColors.colorPrimary.withOpacity(0.12),
+              textColor: LightThemeColors.colorPrimary,
+            ),
+            _customTextButton(
+              onPressed: () => Navigator.pop(context, true),
+              title: 'Supprimer',
+              backgroundColor: LightThemeColors.colorPrimary,
+              textColor: Colors.white,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
