@@ -9,6 +9,7 @@ import 'package:association_appli/presentation/widgets/button/custom_icon_button
 import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/local_image_file.dart';
 import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,9 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                   _cardActivityContainer(),
                   _cardActivityContainer(),
                   _cardActivityContainer(),
+                  LocalImageFile(
+                    imagePath: '/storage/emulated/0/Picture/office.png',
+                  ),
                 ],
               ),
             );
