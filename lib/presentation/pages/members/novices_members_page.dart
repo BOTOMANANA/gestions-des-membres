@@ -18,6 +18,7 @@ class NovicesMembersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widgetAppBar(
+        context: context,
         icon: 'assets/icons/arrowleftt.png',
         title: 'Novices',
         background: Colors.white,

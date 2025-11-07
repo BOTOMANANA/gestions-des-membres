@@ -4,6 +4,7 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/members/members_profile_page.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/bottom_sheet/update_member_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/create_date_time_at.dart';
 import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,8 @@ class MemberItemWidget extends StatelessWidget {
 
             const SizedBox(width: 2.0),
             _customSlidable(
-              onPressed: null,
+              onPressed:
+                  (context) => _showUpdateMemberBottomSheet(context: context),
               backgroundColor: LightThemeColors.colorPrimary,
               iconPath: 'assets/icons/update.png',
             ),
@@ -141,6 +143,15 @@ class MemberItemWidget extends StatelessWidget {
         size: 11.0,
         color: LightThemeColors.textSemiBlack,
       ),
+    );
+  }
+
+  Future _showUpdateMemberBottomSheet({required BuildContext context}) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => UpdateMemberBottomSheet(memberEntity: memberEntity),
     );
   }
 }

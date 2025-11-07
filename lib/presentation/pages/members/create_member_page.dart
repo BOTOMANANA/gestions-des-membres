@@ -101,11 +101,6 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
 
   @override
   void dispose() {
-    disposeTextFieldController();
-    super.dispose();
-  }
-
-  void disposeTextFieldController() {
     _fullNameController.dispose();
     _countryController.dispose();
     _cinController.dispose();
@@ -114,12 +109,14 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     _facultyController.dispose();
     _studentCardNumberController.dispose();
     _freeShipController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widgetAppBar(
+        context: context,
         title: 'Ajout de membre',
         background: Colors.white,
         icon: 'assets/icons/arrowleftt.png',

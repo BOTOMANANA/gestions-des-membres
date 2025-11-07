@@ -1,8 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
@@ -32,7 +34,8 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
 
     return Scaffold(
       appBar: widgetAppBar(
-        icon: 'assets/icons/call.png',
+        context: context,
+        icon: 'assets/icons/arrowleftt.png',
         title: 'Profile',
         background: Colors.white,
         actions: [_appBarAction()],
@@ -55,7 +58,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _cardProfile(provider: provider),
+                  _headerCardProfile(provider: provider),
                   const SizedBox(height: 16.0),
                   Text(
                     'Informations',
@@ -65,48 +68,29 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                       weight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 8.0),
-
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _otherInformationPersonal(
-                          iconPath: 'assets/icons/graduationcard.png',
-                          firstData: member.faculty,
-                          lastData: member.studentCardNumber,
-                        ),
-                        SizedBox(width: 4.0),
-                        _otherInformationPersonal(
-                          iconPath: 'assets/icons/rapid.png',
-                          firstData: member.country,
-                          lastData: '${member.cinNumber}',
-                        ),
-                        SizedBox(width: 4.0),
-
-                        _otherInformationPersonal(
-                          iconPath: 'assets/icons/creditcards.png',
-                          firstData: member.faculty,
-                          lastData: member.studentCardNumber,
-                        ),
-                        SizedBox(width: 4.0),
-
-                        _otherInformationPersonal(
-                          iconPath: 'assets/icons/navigator.png',
-                          firstData: member.quarter,
-                          lastData: '',
-                        ),
-                      ],
-                    ),
-                  ),
+                  _bodyOfPersonalInformation(member: member),
                   const SizedBox(height: 16.0),
-                  Text(
-                    'Activites',
-                    style: AppFonts.robotoFont(
-                      size: 16.0,
-                      color: LightThemeColors.colorPrimary,
-                      weight: FontWeight.w600,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'Activites',
+                        style: AppFonts.robotoFont(
+                          size: 16.0,
+                          color: LightThemeColors.colorPrimary,
+                          weight: FontWeight.w600,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => ShowConfirmDeleteDialog(),
+                        style: TextButton.styleFrom(
+                          textStyle: AppFonts.robotoCondensedFont(
+                            size: 12.0,
+                            color: LightThemeColors.textFieldBorderColors,
+                          ),
+                        ),
+                        child: Text('Voir tout'),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8.0),
                   _cardActivityContainer(),
@@ -133,7 +117,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     );
   }
 
-  Stack _cardProfile({required SingleMemberProvider provider}) {
+  Stack _headerCardProfile({required SingleMemberProvider provider}) {
     return Stack(
       children: [
         Container(
@@ -160,13 +144,13 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           ),
         ),
         Positioned.fill(
-          child: Center(child: _personalInformation(provider: provider)),
+          child: Center(child: _displayPersonalInformation(provider: provider)),
         ),
       ],
     );
   }
 
-  Widget _personalInformation({required SingleMemberProvider provider}) {
+  Widget _displayPersonalInformation({required SingleMemberProvider provider}) {
     final member = provider.memberEntity!;
     return Column(
       children: [
@@ -189,6 +173,48 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           social: 0,
           amountActivity: 0,
         ),
+      ],
+    );
+  }
+
+  Widget _bodyOfPersonalInformation({required MemberEntity member}) {
+    return Column(
+      children: [
+        SizedBox(height: 8.0),
+
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _otherInformationPersonal(
+                iconPath: 'assets/icons/graduationcard.png',
+                firstData: member.faculty,
+                lastData: member.studentCardNumber,
+              ),
+              SizedBox(width: 4.0),
+              _otherInformationPersonal(
+                iconPath: 'assets/icons/rapid.png',
+                firstData: member.country,
+                lastData: '${member.cinNumber}',
+              ),
+              SizedBox(width: 4.0),
+
+              _otherInformationPersonal(
+                iconPath: 'assets/icons/creditcards.png',
+                firstData: member.faculty,
+                lastData: member.studentCardNumber,
+              ),
+              SizedBox(width: 4.0),
+
+              _otherInformationPersonal(
+                iconPath: 'assets/icons/navigator.png',
+                firstData: member.quarter,
+                lastData: '',
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16.0),
       ],
     );
   }

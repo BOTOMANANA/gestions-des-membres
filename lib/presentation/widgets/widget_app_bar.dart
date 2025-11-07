@@ -3,13 +3,17 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:flutter/material.dart';
 
 AppBar widgetAppBar({
+  required BuildContext context,
   String? icon,
   required String title,
   required Color background,
   List<Widget>? actions,
 }) {
   return AppBar(
-    leading: Image.asset(icon!),
+    leading: GestureDetector(
+      onTap: () => Navigator.pop(context),
+      child: Image.asset(icon!),
+    ),
     title: Text(
       title,
       style: AppFonts.robotoCondensedFont(

@@ -101,9 +101,9 @@ class MemberProviders with ChangeNotifier {
 
   void deleteMember({required int id}) async {
     _setLoading();
-    var user = await deleteMemberUsecase(id: id);
+    var memberToDelete = await deleteMemberUsecase(id: id);
 
-    user.fold(
+    memberToDelete.fold(
       (failure) {
         state = MemberState.error;
         errorMessage = failure.errorMessage;
@@ -111,6 +111,21 @@ class MemberProviders with ChangeNotifier {
       },
       (deleteSucces) {
         state = MemberState.succes;
+      },
+    );
+  }
+
+  void updateMember({required MemberEntity memberEntity}) async {
+    var memberToUpdate = await updateMemberUsecase(memberEntity: memberEntity);
+    memberToUpdate.fold(
+      (failure) {
+        state = MemberState.error;
+        errorMessage = failure.errorMessage;
+        notifyListeners();
+      },
+      (_) {
+        getMembers();
+        notifyListeners();
       },
     );
   }
