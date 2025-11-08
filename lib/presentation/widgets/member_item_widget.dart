@@ -104,7 +104,12 @@ class MemberItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          imageMemberProfileRounded(member: memberEntity, size: 50.0),
+          imageMemberProfileFile(
+            member: memberEntity,
+            size: 50.0,
+            folderPath: 'Picture',
+          ),
+          // imageMemberProfileRounded(member: memberEntity, size: 50.0),
           const SizedBox(width: 8.0),
           Expanded(
             child: Column(

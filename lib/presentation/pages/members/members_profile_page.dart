@@ -45,7 +45,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
       body: Consumer<SingleMemberProvider>(
         builder: (context, provider, _) {
           if (provider.state == SingleMemberState.loading) {
-            return widetCircularToLoadMembers();
+            return widgetCircularToLoadMembers();
           }
 
           if (provider.state == SingleMemberState.error) {

@@ -1,0 +1,1 @@
+C:\Users\anton\.vscode\devFlutter\association_appli\android\app\src\main\kotlin\com\example\association_appli\MainActivity.kt

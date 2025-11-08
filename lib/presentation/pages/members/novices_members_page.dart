@@ -40,7 +40,7 @@ class NovicesMembersPage extends StatelessWidget {
           }
 
           if (provider.state == MemberState.loading) {
-            return widetCircularToLoadMembers();
+            return widgetCircularToLoadMembers();
           }
 
           if (provider.state == MemberState.error) {

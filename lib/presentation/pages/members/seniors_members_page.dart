@@ -21,7 +21,7 @@ class SeniorsMembersPage extends StatelessWidget {
       body: Consumer<MemberProviders>(
         builder: (context, provider, child) {
           if (provider.state == MemberState.loading) {
-            return widetCircularToLoadMembers();
+            return widgetCircularToLoadMembers();
           }
 
           if (provider.state == MemberState.error) {
