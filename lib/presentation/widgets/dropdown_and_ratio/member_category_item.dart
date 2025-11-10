@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 List<Map> categoryOptions = [
   {'id': '1', 'imagePath': 'assets/icons/football.png', 'name': 'Novice'},
-  {'id': '2', 'imagePath': 'assets/icons/quiz.png', 'name': 'Ancien(ne)'},
-  {'id': '3', 'imagePath': 'assets/icons/materials.png', 'name': 'Doyen(ne)'},
+  {'id': '2', 'imagePath': 'assets/icons/quiz.png', 'name': 'Ancien'},
+  {'id': '3', 'imagePath': 'assets/icons/materials.png', 'name': 'Doyen'},
 ];
 
 List<DropdownMenuItem<String>> memberCategoryItem({required String? selected}) {

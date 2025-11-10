@@ -31,7 +31,7 @@ class MemberProviders with ChangeNotifier {
   MemberState state = MemberState.initial;
   String errorMessage = '';
   List<MemberEntity> members = [];
-  List<MemberEntity> membreSearch = [];
+  List<MemberEntity> searchedMembers = [];
   MemberEntity? memberEntity;
   bool isSearching = false;
 
@@ -138,18 +138,18 @@ class MemberProviders with ChangeNotifier {
       (failure) {
         state = MemberState.error;
         errorMessage = failure.errorMessage;
-        membreSearch = [];
+        searchedMembers = [];
         notifyListeners();
       },
       (membersList) {
-        membreSearch = membersList;
+        searchedMembers = membersList;
         notifyListeners();
       },
     );
   }
 
   void clearSearchResult() {
-    membreSearch = [];
+    searchedMembers = [];
     notifyListeners();
   }
 }

@@ -1,6 +1,15 @@
+import 'package:association_appli/domain/entities/member_entity.dart';
+import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/input_search_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/member_item_widget.dart';
 import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OlderMembersPage extends StatefulWidget {
   const OlderMembersPage({super.key});
@@ -27,6 +36,67 @@ class _OlderMembersPageState extends State<OlderMembersPage> {
           SizedBox(width: 8.0),
         ],
       ),
+      backgroundColor: Colors.white,
+      body: Consumer<MemberProviders>(
+        builder: (context, provider, _) {
+          if (provider.state == MemberState.initial) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              provider.getMembersByStatus(category: 'Doyen');
+            });
+          }
+
+          if (provider.state == MemberState.loading) {
+            return widgetCircularToLoadMembers();
+          }
+
+          if (provider.state == MemberState.error) {
+            return widgetErrorToLoadMembers(provider: provider);
+          }
+
+          final elderMembers =
+              provider.searchedMembers.isNotEmpty
+                  ? provider.searchedMembers
+                  : provider.members;
+
+          if (elderMembers.isEmpty) {
+            return const Center(child: Text('aucun doyens a trouver'));
+          }
+          if (provider.state == MemberState.succes) {
+            return _getAndDisplayElderMembers(elderList: elderMembers);
+          }
+          return const Center();
+        },
+      ),
+      floatingActionButton: customFloatingButton(
+        onPressed: () {
+          ShowConfirmDeleteDialog.show(
+            context: context,
+            title: 'title',
+            details: 'details',
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _getAndDisplayElderMembers({required List<MemberEntity> elderList}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+          child: InputSearchMembers(),
+        ),
+        SizedBox(height: 12.0),
+        Expanded(
+          child: ListView.builder(
+            itemCount: elderList.length,
+            itemBuilder: (context, index) {
+              return MemberItemWidget(memberEntity: elderList[index]);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

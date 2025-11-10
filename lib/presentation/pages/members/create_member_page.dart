@@ -71,6 +71,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
       details: 'Vous etes membre maintenant',
       type: ContentType.success,
     );
+    print('=>>>>>>>>>>>>>>$_selectedCategory =<<<<<<<<<<=============');
     context.read<MemberProviders>().reasetState();
     FocusScope.of(context).unfocus();
     Navigator.of(

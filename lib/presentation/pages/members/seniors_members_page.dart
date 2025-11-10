@@ -29,8 +29,8 @@ class SeniorsMembersPage extends StatelessWidget {
           }
 
           final memberToShow =
-              provider.membreSearch.isNotEmpty
-                  ? provider.membreSearch
+              provider.searchedMembers.isNotEmpty
+                  ? provider.searchedMembers
                   : provider.members;
 
           if (memberToShow.isEmpty) {

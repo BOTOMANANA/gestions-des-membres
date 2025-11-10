@@ -49,8 +49,8 @@ class NovicesMembersPage extends StatelessWidget {
           }
 
           final membersNovices =
-              provider.membreSearch.isNotEmpty
-                  ? provider.membreSearch
+              provider.searchedMembers.isNotEmpty
+                  ? provider.searchedMembers
                   : provider.members;
 
           if (membersNovices.isEmpty) {
