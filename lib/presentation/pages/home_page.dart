@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
           return Column(
             children: [
               CarousselWidget(),
+              // CarouselImageWidget(),
               _buildLabelCategory(),
               buildHierarchyList(context: context),
               _buildLabelOfficeList(),

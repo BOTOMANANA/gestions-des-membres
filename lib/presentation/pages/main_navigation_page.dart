@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/home_page.dart';
@@ -52,23 +54,38 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomBarLabelSlide(
-        selectedIndex: _currentIndex,
-        color: LightThemeColors.colorPrimary,
-        backgroundColor: Colors.white,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
 
-        items: List.generate(iconsPaths.length, (index) {
-          return _buildBottomNavBarItem(
-            label: labels[index],
-            icon: iconsPaths[index],
-            focusIcon: iconsFocusPaths[index],
-            isSelected: _currentIndex == index,
-          );
-        }),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, -2),
+              blurRadius: 24.0,
+              spreadRadius: 1,
+            ),
+          ],
+        ),
 
-        onSelect: (index) {
-          setState(() => _currentIndex = index);
-        },
+        child: BottomBarLabelSlide(
+          selectedIndex: _currentIndex,
+          color: LightThemeColors.colorPrimary,
+          backgroundColor: Colors.white,
+
+          items: List.generate(iconsPaths.length, (index) {
+            return _buildBottomNavBarItem(
+              label: labels[index],
+              icon: iconsPaths[index],
+              focusIcon: iconsFocusPaths[index],
+              isSelected: _currentIndex == index,
+            );
+          }),
+
+          onSelect: (index) {
+            setState(() => _currentIndex = index);
+          },
+        ),
       ),
     );
   }
