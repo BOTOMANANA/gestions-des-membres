@@ -6,10 +6,9 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
-import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
+import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/local_image_file.dart';
 import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -97,9 +96,6 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                   _cardActivityContainer(),
                   _cardActivityContainer(),
                   _cardActivityContainer(),
-                  LocalImageFile(
-                    imagePath: '/storage/emulated/0/Picture/office.png',
-                  ),
                 ],
               ),
             );
@@ -114,8 +110,16 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
   Row _appBarAction() {
     return Row(
       children: [
-        customIconButton(iconPath: 'assets/icons/call.png', onPressed: () {}),
-        customIconButton(iconPath: 'assets/icons/qrcode.png', onPressed: () {}),
+        customIconButton(
+          iconPath: 'assets/icons/call.png',
+          size: 16.0,
+          onPressed: () {},
+        ),
+        customIconButton(
+          iconPath: 'assets/icons/qrcode.png',
+          size: 16.0,
+          onPressed: () {},
+        ),
         SizedBox(width: 4.0),
       ],
     );
@@ -159,7 +163,22 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     return Column(
       children: [
         SizedBox(height: 12),
-        imageMemberProfileRounded(member: member, size: 90.0),
+        Container(
+          width: 90.0,
+          height: 90.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(80.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: getImageProfileMemberInStorageFile(
+              member: member,
+              size: 70.0,
+              folderPath: '/storage/emulated/0/Picture',
+            ),
+          ),
+        ),
         SizedBox(height: 8.0),
         titleTextFonts(
           data: member.fullName,

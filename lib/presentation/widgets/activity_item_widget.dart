@@ -1,6 +1,6 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/widgets/create_date_time_at.dart';
+import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class ActivityItemWidget extends StatelessWidget {
@@ -32,12 +32,14 @@ class ActivityItemWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(width: 8.0),
             _activityListInformation(),
-            createDateTimeAt(
-              createAt: DateTime.now(),
-              color: Colors.grey.shade400,
+            customIconButton(
+              iconPath: 'assets/icons/call.png',
+              size: 16.0,
+              onPressed: () {},
             ),
           ],
         ),

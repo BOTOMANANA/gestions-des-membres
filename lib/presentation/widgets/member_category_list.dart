@@ -1,39 +1,39 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
+import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
 
 List hierarchyTitles = ['Novice', 'Anciens', 'Doyens', 'Voir tout'];
 List iconPaths = [
-  'assets/icons/call.png',
-  'assets/icons/call.png',
-  'assets/icons/call.png',
-  'assets/icons/call.png',
+  'assets/icons/novices.png',
+  'assets/icons/people.png',
+  'assets/icons/old-people.png',
+  'assets/icons/seeall.png',
 ];
 List pageRoutes = [
   PageRoutes.novice,
   PageRoutes.senior,
-  PageRoutes.createMember,
+  PageRoutes.older,
   PageRoutes.createMember,
 ];
 
 Widget buildHierarchyList({required BuildContext context}) {
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: List.generate(hierarchyTitles.length, (index) {
-        return Column(
-          children: [
-            buildHierarchyCard(
-              context: context,
-              icon: iconPaths[index],
-              route: pageRoutes[index],
-            ),
-          ],
-        );
-      }),
-    ),
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: List.generate(hierarchyTitles.length, (index) {
+      return Column(
+        children: [
+          buildHierarchyCard(
+            context: context,
+            icon: iconPaths[index],
+            route: pageRoutes[index],
+          ),
+          _onLabel(title: hierarchyTitles[index]),
+        ],
+      );
+    }),
   );
 }
 
@@ -45,13 +45,24 @@ Widget buildHierarchyCard({
   return InkWell(
     onTap: () => Navigator.pushNamed(context, route),
     child: Container(
-      width: 100.0,
-      height: 100.0,
+      width: 60.0,
+      height: 60.0,
       decoration: BoxDecoration(
         color: LightThemeColors.colorPrimary.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(100.0),
+        borderRadius: BorderRadius.circular(60.0),
       ),
       child: Image.asset(icon),
+    ),
+  );
+}
+
+Widget _onLabel({required String title}) {
+  return Text(
+    title,
+    style: AppFonts.robotoFont(
+      size: 14.0,
+      color: LightThemeColors.textBlack,
+      weight: FontWeight.w600,
     ),
   );
 }

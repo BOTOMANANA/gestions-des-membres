@@ -3,22 +3,17 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:flutter/material.dart';
 
-class WidgetNothingToShow extends StatefulWidget {
+class EmptyStateWidget extends StatelessWidget {
   final String title;
   final String message;
   final String imageEmpty;
-  const WidgetNothingToShow({
+  const EmptyStateWidget({
     super.key,
     required this.title,
     required this.message,
     required this.imageEmpty,
   });
 
-  @override
-  State<WidgetNothingToShow> createState() => _WidgetNothingToShowState();
-}
-
-class _WidgetNothingToShowState extends State<WidgetNothingToShow> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,11 +41,7 @@ class _WidgetNothingToShowState extends State<WidgetNothingToShow> {
           ),
         ],
       ),
-      child: _body(
-        title: widget.title,
-        message: widget.message,
-        image: widget.imageEmpty,
-      ),
+      child: _body(title: title, message: message, image: imageEmpty),
     );
   }
 

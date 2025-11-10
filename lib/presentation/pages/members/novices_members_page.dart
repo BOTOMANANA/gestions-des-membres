@@ -25,6 +25,7 @@ class NovicesMembersPage extends StatelessWidget {
         actions: [
           customIconButton(
             iconPath: 'assets/icons/filepdf.png',
+            size: 16.0,
             onPressed: () {},
           ),
           SizedBox(width: 8.0),

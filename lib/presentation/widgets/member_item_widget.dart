@@ -6,7 +6,7 @@ import 'package:association_appli/presentation/pages/members/members_profile_pag
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/bottom_sheet/update_member_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/create_date_time_at.dart';
-import 'package:association_appli/presentation/widgets/load_members/image_member_profile.dart';
+import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
@@ -104,12 +104,11 @@ class MemberItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         children: [
-          imageMemberProfileFile(
+          getImageProfileMemberInStorageFile(
             member: memberEntity,
             size: 50.0,
-            folderPath: 'Picture',
+            folderPath: '/storage/emulated/0/Picture',
           ),
-          // imageMemberProfileRounded(member: memberEntity, size: 50.0),
           const SizedBox(width: 8.0),
           Expanded(
             child: Column(
