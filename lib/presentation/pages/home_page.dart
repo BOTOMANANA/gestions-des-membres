@@ -5,7 +5,7 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/caroussel_widget.dart';
-import 'package:association_appli/presentation/widgets/member_category_list.dart';
+import 'package:association_appli/presentation/widgets/create_category_navigation_row.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
               CarousselWidget(),
               // CarouselImageWidget(),
               _buildLabelCategory(),
-              buildHierarchyList(context: context),
+              createCategoryNavigationRow(context: context),
               _buildLabelOfficeList(),
             ],
           );

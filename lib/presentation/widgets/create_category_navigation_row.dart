@@ -5,7 +5,7 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
 
-List hierarchyTitles = ['Novice', 'Anciens', 'Doyens', 'Voir tout'];
+List categoriesTitles = ['Novice', 'Anciens', 'Doyens', 'Voir tout'];
 List iconPaths = [
   'assets/icons/novices.png',
   'assets/icons/people.png',
@@ -19,25 +19,25 @@ List _pageRoutes = [
   PageRoutes.createMember,
 ];
 
-Widget buildHierarchyList({required BuildContext context}) {
+Widget createCategoryNavigationRow({required BuildContext context}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: List.generate(hierarchyTitles.length, (index) {
+    children: List.generate(categoriesTitles.length, (index) {
       return Column(
         children: [
-          buildHierarchyCard(
+          _createCategoryCard(
             context: context,
             icon: iconPaths[index],
             route: _pageRoutes[index],
           ),
-          _onLabel(title: hierarchyTitles[index]),
+          _createCategoryLabel(title: categoriesTitles[index]),
         ],
       );
     }),
   );
 }
 
-Widget buildHierarchyCard({
+Widget _createCategoryCard({
   required BuildContext context,
   required String icon,
   required String route,
@@ -56,7 +56,7 @@ Widget buildHierarchyCard({
   );
 }
 
-Widget _onLabel({required String title}) {
+Widget _createCategoryLabel({required String title}) {
   return Text(
     title,
     style: AppFonts.robotoFont(
