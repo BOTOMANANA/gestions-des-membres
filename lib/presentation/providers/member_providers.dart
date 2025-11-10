@@ -37,6 +37,9 @@ class MemberProviders with ChangeNotifier {
 
   void _setLoading() {
     state = MemberState.loading;
+    members = []; // Correction: On vide explicitement la liste des membres
+    searchedMembers = [];
+    isSearching = false;
     notifyListeners();
   }
 
@@ -81,6 +84,7 @@ class MemberProviders with ChangeNotifier {
 
   void getMembersByStatus({required String category}) async {
     _setLoading();
+    members = [];
     var membersCategory = await getMemberByStatusUsecase(
       memberCategory: category,
     );

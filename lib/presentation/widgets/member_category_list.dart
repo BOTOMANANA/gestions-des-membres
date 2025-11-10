@@ -12,7 +12,7 @@ List iconPaths = [
   'assets/icons/old-people.png',
   'assets/icons/seeall.png',
 ];
-List pageRoutes = [
+List _pageRoutes = [
   PageRoutes.novice,
   PageRoutes.senior,
   PageRoutes.older,
@@ -28,7 +28,7 @@ Widget buildHierarchyList({required BuildContext context}) {
           buildHierarchyCard(
             context: context,
             icon: iconPaths[index],
-            route: pageRoutes[index],
+            route: _pageRoutes[index],
           ),
           _onLabel(title: hierarchyTitles[index]),
         ],

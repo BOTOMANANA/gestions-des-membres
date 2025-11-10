@@ -11,14 +11,25 @@ import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OlderMembersPage extends StatefulWidget {
-  const OlderMembersPage({super.key});
+class ElderMembersPage extends StatefulWidget {
+  const ElderMembersPage({super.key});
 
   @override
-  State<OlderMembersPage> createState() => _OlderMembersPageState();
+  State<ElderMembersPage> createState() => _OlderMembersPageState();
 }
 
-class _OlderMembersPageState extends State<OlderMembersPage> {
+class _OlderMembersPageState extends State<ElderMembersPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MemberProviders>(
+        context,
+        listen: false,
+      ).getMembersByStatus(category: 'Doyen');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +50,6 @@ class _OlderMembersPageState extends State<OlderMembersPage> {
       backgroundColor: Colors.white,
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
-          if (provider.state == MemberState.initial) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              provider.getMembersByStatus(category: 'Doyen');
-            });
-          }
-
           if (provider.state == MemberState.loading) {
             return widgetCircularToLoadMembers();
           }

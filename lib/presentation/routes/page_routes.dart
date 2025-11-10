@@ -2,8 +2,8 @@ import 'package:association_appli/presentation/pages/home_page.dart';
 import 'package:association_appli/presentation/pages/introduction_page.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
 import 'package:association_appli/presentation/pages/members/create_member_page.dart';
+import 'package:association_appli/presentation/pages/members/elder_members_page.dart';
 import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
-import 'package:association_appli/presentation/pages/members/older_members_page.dart';
 import 'package:association_appli/presentation/pages/members/seniors_members_page.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class PageRoutes {
     home: (context) => HomePage(),
     novice: (context) => NovicesMembersPage(),
     senior: (context) => SeniorsMembersPage(),
-    older: (context) => OlderMembersPage(),
+    older: (context) => ElderMembersPage(),
     createMember: (context) => CreateMemberPage(),
   };
 }

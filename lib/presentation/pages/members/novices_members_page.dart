@@ -11,8 +11,29 @@ import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NovicesMembersPage extends StatelessWidget {
+class NovicesMembersPage extends StatefulWidget {
   const NovicesMembersPage({super.key});
+
+  @override
+  State<NovicesMembersPage> createState() => _NovicesMembersPageState();
+}
+
+class _NovicesMembersPageState extends State<NovicesMembersPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // 💡 MODIFICATION: L'appel au provider est déplacé dans initState.
+    // Cela garantit qu'il est appelé à chaque fois que la page est ouverte,
+    // résolvant le problème d'état persistant et assurant le rafraîchissement.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // On utilise 'listen: false' car nous sommes dans initState
+      Provider.of<MemberProviders>(
+        context,
+        listen: false,
+      ).getMembersByStatus(category: 'Novice');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +55,11 @@ class NovicesMembersPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
-          if (provider.state == MemberState.initial) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              provider.getMembersByStatus(category: 'Novice');
-            });
-          }
+          // if (provider.state == MemberState.initial) {
+          //   WidgetsBinding.instance.addPostFrameCallback((_) {
+          //     provider.getMembersByStatus(category: 'Novice');
+          //   });
+          // }
 
           if (provider.state == MemberState.loading) {
             return widgetCircularToLoadMembers();
@@ -57,7 +78,7 @@ class NovicesMembersPage extends StatelessWidget {
             return const Center(child: Text('aucun novice a trouver'));
           }
           if (provider.state == MemberState.succes) {
-            return _getAndDisplayNovices(novices: membersNovices);
+            return _getAndDisplayNoviceMembers(noviceList: membersNovices);
           }
           return const Center();
         },
@@ -74,7 +95,7 @@ class NovicesMembersPage extends StatelessWidget {
     );
   }
 
-  Widget _getAndDisplayNovices({required List<MemberEntity> novices}) {
+  Widget _getAndDisplayNoviceMembers({required List<MemberEntity> noviceList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -85,9 +106,9 @@ class NovicesMembersPage extends StatelessWidget {
         SizedBox(height: 12.0),
         Expanded(
           child: ListView.builder(
-            itemCount: novices.length,
+            itemCount: noviceList.length,
             itemBuilder: (context, index) {
-              return MemberItemWidget(memberEntity: novices[index]);
+              return MemberItemWidget(memberEntity: noviceList[index]);
             },
           ),
         ),
