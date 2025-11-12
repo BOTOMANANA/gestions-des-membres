@@ -4,6 +4,7 @@ import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/emty_result_for_searching_member.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
@@ -22,12 +23,7 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
   @override
   void initState() {
     super.initState();
-
-    // 💡 MODIFICATION: L'appel au provider est déplacé dans initState.
-    // Cela garantit qu'il est appelé à chaque fois que la page est ouverte,
-    // résolvant le problème d'état persistant et assurant le rafraîchissement.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // On utilise 'listen: false' car nous sommes dans initState
       Provider.of<MemberProviders>(
         context,
         listen: false,
@@ -55,12 +51,6 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
       backgroundColor: Colors.white,
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
-          // if (provider.state == MemberState.initial) {
-          //   WidgetsBinding.instance.addPostFrameCallback((_) {
-          //     provider.getMembersByStatus(category: 'Novice');
-          //   });
-          // }
-
           if (provider.state == MemberState.loading) {
             return widgetCircularToLoadMembers();
           }
@@ -69,18 +59,19 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
             return widgetErrorToLoadMembers(provider: provider);
           }
 
-          final membersNovices =
+          final noviceMembers =
               provider.searchedMembers.isNotEmpty
                   ? provider.searchedMembers
                   : provider.members;
 
-          if (membersNovices.isEmpty) {
-            return const Center(child: Text('aucun novice a trouver'));
-          }
-          if (provider.state == MemberState.succes) {
-            return _getAndDisplayNoviceMembers(noviceList: membersNovices);
-          }
-          return const Center();
+          bool isListInitiallyEmpty =
+              provider.members.isEmpty && !provider.searchedMembers.isNotEmpty;
+
+          return _getAndDisplayNoviceMembers(
+            noviceList: noviceMembers,
+            isSearching: provider.searchedMembers.isNotEmpty,
+            isInitialLoadEmpty: isListInitiallyEmpty,
+          );
         },
       ),
       floatingActionButton: customFloatingButton(
@@ -95,24 +86,42 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
     );
   }
 
-  Widget _getAndDisplayNoviceMembers({required List<MemberEntity> noviceList}) {
+  Widget _getAndDisplayNoviceMembers({
+    required List<MemberEntity> noviceList,
+    required bool isSearching,
+    required bool isInitialLoadEmpty,
+  }) {
+    if (isInitialLoadEmpty) {
+      return emptyResultForSearchingMember(
+        title: 'Aucun novice trouvé',
+        status: 'novice',
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: InputSearchMembers(),
+          child: InputSearchMembers(category: 'Novice'),
         ),
         SizedBox(height: 12.0),
         Expanded(
-          child: ListView.builder(
-            itemCount: noviceList.length,
-            itemBuilder: (context, index) {
-              return MemberItemWidget(memberEntity: noviceList[index]);
-            },
-          ),
+          child:
+              noviceList.isEmpty && isSearching
+                  ? emptyResultAndElderMemberNotFound(status: 'novice')
+                  : _showNoviceMembers(noviceList: noviceList),
         ),
       ],
+    );
+  }
+
+  Widget _showNoviceMembers({required List<MemberEntity> noviceList}) {
+    return ListView.builder(
+      itemCount: noviceList.length,
+      itemBuilder: (context, index) {
+        return MemberItemWidget(memberEntity: noviceList[index]);
+      },
     );
   }
 }

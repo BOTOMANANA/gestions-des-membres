@@ -9,7 +9,3 @@ class LightThemeColors {
   static Color textBlack = Color(0xFF141B12);
   static Color textSemiBlack = Color(0xFF494D48);
 }
-
-// 255 * 0.5 = 127.5 ≈ 128
-// 128 en hex = 80
-// Donc 50% opacity → 0x80493683

@@ -114,9 +114,9 @@ class MemberItemWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _getMemberFullName(data: memberEntity.fullName),
+                getMemberFullName(data: memberEntity.fullName),
                 const SizedBox(height: 2),
-                _getMemberCountry(data: memberEntity.country),
+                getMemberCountry(data: memberEntity.country),
               ],
             ),
           ),
@@ -129,27 +129,6 @@ class MemberItemWidget extends StatelessWidget {
     );
   }
 
-  Text _getMemberFullName({required String data}) {
-    return Text(
-      data,
-      style: AppFonts.robotoFont(
-        size: 13.0,
-        color: LightThemeColors.textBlack,
-        weight: FontWeight.w600,
-      ),
-    );
-  }
-
-  Text _getMemberCountry({required String data}) {
-    return Text(
-      data,
-      style: AppFonts.robotoCondensedFont(
-        size: 11.0,
-        color: LightThemeColors.textSemiBlack,
-      ),
-    );
-  }
-
   Future _showUpdateMemberBottomSheet({required BuildContext context}) {
     return showModalBottomSheet(
       context: context,
@@ -158,4 +137,25 @@ class MemberItemWidget extends StatelessWidget {
       builder: (context) => UpdateMemberBottomSheet(memberEntity: memberEntity),
     );
   }
+}
+
+Text getMemberFullName({required String data}) {
+  return Text(
+    data,
+    style: AppFonts.robotoFont(
+      size: 13.0,
+      color: LightThemeColors.textBlack,
+      weight: FontWeight.w600,
+    ),
+  );
+}
+
+Text getMemberCountry({required String data}) {
+  return Text(
+    data,
+    style: AppFonts.robotoCondensedFont(
+      size: 11.0,
+      color: LightThemeColors.textSemiBlack,
+    ),
+  );
 }

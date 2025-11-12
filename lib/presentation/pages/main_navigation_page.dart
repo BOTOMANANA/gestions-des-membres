@@ -3,7 +3,7 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/home_page.dart';
-import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
+import 'package:association_appli/presentation/widgets/empty_activity_in_page.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:bottom_bar_matu/bottom_bar_label_slide/bottom_bar_label_slide.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +22,21 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Center(child: Text('Search Page')),
-    Center(child: Text('Profile Page')),
-    Center(child: Text('settings Page')),
-    Center(child: Text('other Page')),
+    EmptyActivityInPage(
+      imageEmpty: 'assets/images/document.png',
+      title: 'Pas d acitivite',
+      description:
+          'Commencez votre premier activite depuis maintainent! Creez-en une et passez a laction',
+    ),
+    EmptyActivityInPage(
+      imageEmpty: 'assets/images/statistics.png',
+      title: 'Pas d acitivite',
+      description:
+          'Commencez votre premier activite depuis maintainent! Creez-en une et passez a laction',
+    ),
+
+    Center(child: Text('settings of my application AntMobile')),
+    Center(child: Text('Profile of your association here')),
   ];
 
   final List labels = ['Accueil', 'Activites', 'Statis', 'Params', 'Profile'];
@@ -56,12 +67,13 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
       backgroundColor: Colors.white,
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
+        height: 64.0,
         decoration: BoxDecoration(
           color: Colors.white,
 
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.08),
               offset: const Offset(0, -2),
               blurRadius: 24.0,
               spreadRadius: 1,

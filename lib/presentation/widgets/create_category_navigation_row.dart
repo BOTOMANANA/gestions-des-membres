@@ -16,7 +16,7 @@ List _pageRoutes = [
   PageRoutes.novice,
   PageRoutes.senior,
   PageRoutes.older,
-  PageRoutes.createMember,
+  PageRoutes.allMembers,
 ];
 
 Widget createCategoryNavigationRow({required BuildContext context}) {
@@ -28,7 +28,7 @@ Widget createCategoryNavigationRow({required BuildContext context}) {
           _createCategoryCard(
             context: context,
             icon: iconPaths[index],
-            route: _pageRoutes[index],
+            pageRoute: _pageRoutes[index],
           ),
           _createCategoryLabel(title: categoriesTitles[index]),
         ],
@@ -40,10 +40,13 @@ Widget createCategoryNavigationRow({required BuildContext context}) {
 Widget _createCategoryCard({
   required BuildContext context,
   required String icon,
-  required String route,
+  required String pageRoute,
 }) {
   return InkWell(
-    onTap: () => Navigator.pushNamed(context, route),
+    onTap: () => Navigator.pushNamed(context, pageRoute),
+    focusColor: Colors.transparent,
+    hoverColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     child: Container(
       width: 60.0,
       height: 60.0,
@@ -61,7 +64,7 @@ Widget _createCategoryLabel({required String title}) {
     title,
     style: AppFonts.robotoFont(
       size: 14.0,
-      color: LightThemeColors.textBlack,
+      color: LightThemeColors.textSemiBlack,
       weight: FontWeight.w600,
     ),
   );

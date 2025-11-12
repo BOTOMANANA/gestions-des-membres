@@ -52,10 +52,12 @@ class CarouselImageWidget extends StatefulWidget {
 }
 
 class _CarouselImageWidgetState extends State<CarouselImageWidget> {
-  List images = [
-    'assets/images/marketing.png',
-    'assets/images/listen.png',
-    'assets/images/mental.png',
+  List imagesPaths = [
+    'assets/images/fianarantsoa.png',
+    'assets/images/sambavaville.png',
+    'assets/images/morondava.png',
+    'assets/images/toliara.png',
+    'assets/images/antomaro.png',
   ];
 
   int _currentIndex = 0;
@@ -67,7 +69,7 @@ class _CarouselImageWidgetState extends State<CarouselImageWidget> {
       children: [
         CarouselSlider(
           items:
-              images
+              imagesPaths
                   .map(
                     (item) => Container(
                       margin: EdgeInsets.all(4.0),
@@ -103,10 +105,10 @@ class _CarouselImageWidgetState extends State<CarouselImageWidget> {
         SizedBox(height: 16.0),
         AnimatedSmoothIndicator(
           activeIndex: _currentIndex,
-          count: images.length,
-          effect: SwapEffect(
-            dotHeight: 8,
-            dotWidth: 8,
+          count: imagesPaths.length,
+          effect: WormEffect(
+            dotHeight: 8.0,
+            dotWidth: 8.0,
             dotColor: Colors.grey.shade200,
             activeDotColor: LightThemeColors.colorPrimary,
           ),

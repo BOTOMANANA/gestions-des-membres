@@ -4,6 +4,7 @@ import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
+import 'package:association_appli/presentation/widgets/load_members/emty_result_for_searching_member.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
@@ -22,12 +23,7 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
   @override
   void initState() {
     super.initState();
-
-    // 💡 MODIFICATION: L'appel au provider est déplacé dans initState.
-    // Cela garantit qu'il est appelé à chaque fois que la page est ouverte,
-    // résolvant le problème d'état persistant et assurant le rafraîchissement.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // On utilise 'listen: false' car nous sommes dans initState
       Provider.of<MemberProviders>(
         context,
         listen: false,
@@ -53,14 +49,9 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
         ],
       ),
       backgroundColor: Colors.white,
+
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
-          // if (provider.state == MemberState.initial) {
-          //   WidgetsBinding.instance.addPostFrameCallback((_) {
-          //     provider.getMembersByStatus(category: 'Ancien');
-          //   });
-          // }
-
           if (provider.state == MemberState.loading) {
             return widgetCircularToLoadMembers();
           }
@@ -74,13 +65,14 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
                   ? provider.searchedMembers
                   : provider.members;
 
-          if (seniorMembers.isEmpty) {
-            return const Center(child: Text('aucun novice a trouver'));
-          }
-          if (provider.state == MemberState.succes) {
-            return _getAndDisplaySeniorMembers(seniorList: seniorMembers);
-          }
-          return const Center();
+          bool canInitializeLoad =
+              provider.members.isEmpty && !provider.searchedMembers.isNotEmpty;
+
+          return _getAndDisplaySeniorMembers(
+            seniorList: seniorMembers,
+            isSearching: provider.searchedMembers.isNotEmpty,
+            isInitialLoadempty: canInitializeLoad,
+          );
         },
       ),
       floatingActionButton: customFloatingButton(
@@ -95,24 +87,41 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
     );
   }
 
-  Widget _getAndDisplaySeniorMembers({required List<MemberEntity> seniorList}) {
+  Widget _getAndDisplaySeniorMembers({
+    required List<MemberEntity> seniorList,
+    required bool isSearching,
+    required bool isInitialLoadempty,
+  }) {
+    if (isInitialLoadempty) {
+      return emptyResultForSearchingMember(
+        title: 'Aucun Ancien trouvé',
+        status: 'ancien',
+      );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: InputSearchMembers(),
+          child: InputSearchMembers(category: 'Ancien'),
         ),
         SizedBox(height: 12.0),
         Expanded(
-          child: ListView.builder(
-            itemCount: seniorList.length,
-            itemBuilder: (context, index) {
-              return MemberItemWidget(memberEntity: seniorList[index]);
-            },
-          ),
+          child:
+              seniorList.isEmpty && isSearching
+                  ? emptyResultAndElderMemberNotFound(status: 'ancien')
+                  : _showSeniorMembers(seniorList: seniorList),
         ),
       ],
+    );
+  }
+
+  Widget _showSeniorMembers({required List<MemberEntity> seniorList}) {
+    return ListView.builder(
+      itemCount: seniorList.length,
+      itemBuilder: (context, index) {
+        return MemberItemWidget(memberEntity: seniorList[index]);
+      },
     );
   }
 }

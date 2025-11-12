@@ -1,8 +1,5 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
-import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button.dart';
@@ -74,9 +71,6 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
     print('=>>>>>>>>>>>>>>$_selectedCategory =<<<<<<<<<<=============');
     context.read<MemberProviders>().reasetState();
     FocusScope.of(context).unfocus();
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => NovicesMembersPage()));
 
     clearTextFieldController();
     renderDropdownInitial();

@@ -4,7 +4,6 @@ import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/emty_result_for_searching_member.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
@@ -12,22 +11,19 @@ import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ElderMembersPage extends StatefulWidget {
-  const ElderMembersPage({super.key});
+class DisplayAllMembers extends StatefulWidget {
+  const DisplayAllMembers({super.key});
 
   @override
-  State<ElderMembersPage> createState() => _OlderMembersPageState();
+  State<DisplayAllMembers> createState() => _DisplayAllMembersState();
 }
 
-class _OlderMembersPageState extends State<ElderMembersPage> {
+class _DisplayAllMembersState extends State<DisplayAllMembers> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MemberProviders>(
-        context,
-        listen: false,
-      ).getMembersByStatus(category: 'Doyen');
+      Provider.of<MemberProviders>(context, listen: false).getMembers();
     });
   }
 
@@ -37,7 +33,7 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
       appBar: widgetAppBar(
         context: context,
         icon: 'assets/icons/arrowleftt.png',
-        title: 'Doyens',
+        title: 'Tous les membres',
         background: Colors.white,
         actions: [
           customIconButton(
@@ -59,19 +55,18 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
             return widgetErrorToLoadMembers(provider: provider);
           }
 
-          final memberToDisplay =
+          final allMembers =
               provider.searchedMembers.isNotEmpty
                   ? provider.searchedMembers
                   : provider.members;
 
-          bool isListInitiallyEmpty =
-              provider.members.isEmpty && !provider.searchedMembers.isNotEmpty;
-
-          return _getAndDisplayElderMembers(
-            elderList: memberToDisplay,
-            isSearching: provider.searchedMembers.isNotEmpty,
-            isInitialLoadEmpty: isListInitiallyEmpty,
-          );
+          if (allMembers.isEmpty) {
+            return const Center(child: Text('aucun members a trouver'));
+          }
+          if (provider.state == MemberState.succes) {
+            return _getAndDisplayAllMembers(allMemberList: allMembers);
+          }
+          return const Center();
         },
       ),
       floatingActionButton: customFloatingButton(
@@ -86,41 +81,24 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
     );
   }
 
-  Widget _getAndDisplayElderMembers({
-    required List<MemberEntity> elderList,
-    required bool isSearching,
-    required bool isInitialLoadEmpty,
-  }) {
-    if (isInitialLoadEmpty) {
-      return emptyResultForSearchingMember(
-        title: 'Aucun doyen trouvé',
-        status: 'doyen',
-      );
-    }
+  Widget _getAndDisplayAllMembers({required List<MemberEntity> allMemberList}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: InputSearchMembers(category: 'Doyen'),
+          child: InputSearchMembers(category: ''),
         ),
         SizedBox(height: 12.0),
         Expanded(
-          child:
-              elderList.isEmpty && isSearching
-                  ? emptyResultAndElderMemberNotFound(status: 'doyen')
-                  : _showElderMembers(elderList: elderList),
+          child: ListView.builder(
+            itemCount: allMemberList.length,
+            itemBuilder: (context, index) {
+              return MemberItemWidget(memberEntity: allMemberList[index]);
+            },
+          ),
         ),
       ],
-    );
-  }
-
-  Widget _showElderMembers({required List<MemberEntity> elderList}) {
-    return ListView.builder(
-      itemCount: elderList.length,
-      itemBuilder: (context, index) {
-        return MemberItemWidget(memberEntity: elderList[index]);
-      },
     );
   }
 }

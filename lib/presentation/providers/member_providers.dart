@@ -28,23 +28,41 @@ class MemberProviders with ChangeNotifier {
     required this.searchMemberUsecase,
   });
 
-  MemberState state = MemberState.initial;
+  MemberState _state = MemberState.initial;
+  MemberState get state => _state;
   String errorMessage = '';
-  List<MemberEntity> members = [];
+  List<MemberEntity> _members = [];
+  List<MemberEntity> get members => _members;
+
+  List<MemberEntity> _responsibleMembersList = [];
+  List<MemberEntity> get responsibleMembersList => _responsibleMembersList;
   List<MemberEntity> searchedMembers = [];
+
   MemberEntity? memberEntity;
   bool isSearching = false;
+  bool isCategory = false;
+  String? lastCategoryStatus;
 
   void _setLoading() {
-    state = MemberState.loading;
-    members = []; // Correction: On vide explicitement la liste des membres
+    _state = MemberState.loading;
+    // members = [];
     searchedMembers = [];
     isSearching = false;
     notifyListeners();
   }
 
+  void _setSucces(List<MemberEntity> data, {bool isOfficeList = false}) {
+    if (isOfficeList) {
+      _responsibleMembersList = data;
+    } else {
+      _members = data;
+    }
+    _state = MemberState.succes;
+    notifyListeners();
+  }
+
   void reasetState() {
-    state = MemberState.initial;
+    _state = MemberState.initial;
     notifyListeners();
   }
 
@@ -53,51 +71,57 @@ class MemberProviders with ChangeNotifier {
     var result = await createMemberUsecase(memberEntity: memberEntity);
     result.fold(
       (failure) {
-        state = MemberState.error;
+        _state = MemberState.error;
         errorMessage = failure.errorMessage;
         notifyListeners();
       },
       (createSuccess) {
-        state = MemberState.succes;
+        _state = MemberState.succes;
+        notifyListeners();
       },
     );
   }
 
   void getMembers() async {
     _setLoading();
+    lastCategoryStatus = null;
+    isCategory = false;
     var result = await getAllMembersUsecase();
 
     result.fold(
       (failure) {
-        state = MemberState.error;
+        _state = MemberState.error;
         errorMessage = failure.errorMessage;
-        members = [];
+        // members = [];
         notifyListeners();
       },
       (allListMembers) {
-        state = MemberState.succes;
-        members = allListMembers;
-        notifyListeners();
+        _setSucces(allListMembers);
       },
     );
   }
 
   void getMembersByStatus({required String category}) async {
     _setLoading();
-    members = [];
+    // members = [];
+    lastCategoryStatus = category;
+    isCategory = true;
     var membersCategory = await getMemberByStatusUsecase(
       memberCategory: category,
     );
+    isCategory = true;
     membersCategory.fold(
       (failure) {
-        state = MemberState.error;
+        _state = MemberState.error;
         errorMessage = failure.errorMessage;
-        members = [];
+        // members = [];
         notifyListeners();
       },
       (filteredMembers) {
-        state = MemberState.succes;
-        members = filteredMembers;
+        _setSucces(filteredMembers);
+        // state = MemberState.succes;
+        // members = filteredMembers;
+        // isCategory = true;
         notifyListeners();
       },
     );
@@ -106,15 +130,20 @@ class MemberProviders with ChangeNotifier {
   void deleteMember({required int id}) async {
     _setLoading();
     var memberToDelete = await deleteMemberUsecase(id: id);
-
     memberToDelete.fold(
       (failure) {
-        state = MemberState.error;
+        _state = MemberState.error;
         errorMessage = failure.errorMessage;
         notifyListeners();
       },
       (deleteSucces) {
-        state = MemberState.succes;
+        _state = MemberState.succes;
+        if (lastCategoryStatus != null) {
+          getMembersByStatus(category: lastCategoryStatus!);
+        } else {
+          getMembers();
+        }
+        loadResponsibleMembers();
       },
     );
   }
@@ -123,30 +152,19 @@ class MemberProviders with ChangeNotifier {
     var memberToUpdate = await updateMemberUsecase(memberEntity: memberEntity);
     memberToUpdate.fold(
       (failure) {
-        state = MemberState.error;
+        _state = MemberState.error;
         errorMessage = failure.errorMessage;
         notifyListeners();
       },
       (_) {
-        getMembers();
-        notifyListeners();
-      },
-    );
-  }
+        if (lastCategoryStatus != null) {
+          getMembersByStatus(category: lastCategoryStatus!);
+        } else {
+          getMembers();
+        }
+        loadResponsibleMembers();
 
-  void searchSingleMember({required String fullName}) async {
-    isSearching = true;
-    notifyListeners();
-    var members = await searchMemberUsecase(fullName: fullName);
-    members.fold(
-      (failure) {
-        state = MemberState.error;
-        errorMessage = failure.errorMessage;
-        searchedMembers = [];
-        notifyListeners();
-      },
-      (membersList) {
-        searchedMembers = membersList;
+        // getMembers();
         notifyListeners();
       },
     );
@@ -154,6 +172,55 @@ class MemberProviders with ChangeNotifier {
 
   void clearSearchResult() {
     searchedMembers = [];
+    isSearching = false;
     notifyListeners();
+  }
+
+  void searchMember({
+    required String fullName,
+    required String category,
+  }) async {
+    isSearching = true;
+    notifyListeners();
+    var members = await searchMemberUsecase(fullName: fullName);
+    members.fold(
+      (failure) {
+        _state = MemberState.error;
+        errorMessage = failure.errorMessage;
+        searchedMembers = [];
+        notifyListeners();
+      },
+      (membersList) {
+        final searchedMembers =
+            membersList.where((member) => member.category == category).toList();
+        _setSucces(searchedMembers);
+        isSearching = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  void loadResponsibleMembers() async {
+    _setLoading();
+    var result = await getAllMembersUsecase();
+    result.fold(
+      (failure) {
+        _state = MemberState.error;
+        errorMessage = failure.errorMessage;
+        notifyListeners();
+      },
+      (allMembers) {
+        final responsibleMembers =
+            allMembers
+                .where(
+                  (member) =>
+                      member.memberResponsability != null &&
+                      member.memberResponsability!.isNotEmpty,
+                )
+                .toList();
+        _setSucces(responsibleMembers, isOfficeList: true);
+        // notifyListeners();
+      },
+    );
   }
 }
