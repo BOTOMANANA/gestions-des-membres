@@ -10,7 +10,7 @@ Widget emptyResultForSearchingMember({
     children: [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: InputSearchMembers(category: 'Doyen'),
+        child: InputSearchMembers(category: status),
       ),
       SizedBox(height: 80.0),
       EmptyStateWidget(

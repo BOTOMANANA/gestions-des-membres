@@ -92,10 +92,11 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
     required bool isSearching,
     required bool isInitialLoadempty,
   }) {
+    final status = 'Ancien';
     if (isInitialLoadempty) {
       return emptyResultForSearchingMember(
         title: 'Aucun Ancien trouvé',
-        status: 'ancien',
+        status: status,
       );
     }
     return Column(
@@ -103,13 +104,13 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: InputSearchMembers(category: 'Ancien'),
+          child: InputSearchMembers(category: status),
         ),
         SizedBox(height: 12.0),
         Expanded(
           child:
               seniorList.isEmpty && isSearching
-                  ? emptyResultAndElderMemberNotFound(status: 'ancien')
+                  ? emptyResultAndElderMemberNotFound(status: status)
                   : _showSeniorMembers(seniorList: seniorList),
         ),
       ],

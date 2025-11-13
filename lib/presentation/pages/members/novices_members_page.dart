@@ -91,10 +91,11 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
     required bool isSearching,
     required bool isInitialLoadEmpty,
   }) {
+    final status = 'Novice';
     if (isInitialLoadEmpty) {
       return emptyResultForSearchingMember(
         title: 'Aucun novice trouvé',
-        status: 'novice',
+        status: status,
       );
     }
 
@@ -103,13 +104,13 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: InputSearchMembers(category: 'Novice'),
+          child: InputSearchMembers(category: status),
         ),
         SizedBox(height: 12.0),
         Expanded(
           child:
               noviceList.isEmpty && isSearching
-                  ? emptyResultAndElderMemberNotFound(status: 'novice')
+                  ? emptyResultAndElderMemberNotFound(status: status)
                   : _showNoviceMembers(noviceList: noviceList),
         ),
       ],

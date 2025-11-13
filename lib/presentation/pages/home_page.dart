@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:math' as Math;
-
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       leading: customIconButton(
         iconPath: 'assets/icons/menu.png',
-        size: 24.0,
+        size: 18.0,
         onPressed: () {},
       ),
       title: Padding(

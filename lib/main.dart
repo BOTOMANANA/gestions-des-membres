@@ -18,7 +18,6 @@ void main() async {
   // print("✅ Base supprimée : $fullPath");
 
   await setup();
-
   runApp(
     MultiProvider(
       providers: [
