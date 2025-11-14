@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
+import 'package:association_appli/presentation/widgets/button/custom_button_cancel.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
@@ -28,7 +29,7 @@ class ShowConfirmDeleteDialog {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(32),
               ),
               child: _contentDialog(
                 context: context,
@@ -56,24 +57,19 @@ class ShowConfirmDeleteDialog {
     required String title,
     required String details,
   }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
       children: [
-        _dialogTitle(title: title, size: 16, weight: FontWeight.w600),
-        const SizedBox(height: 16),
-        Image.asset('assets/images/garbage.png', width: 110.0, height: 110.0),
-        const SizedBox(height: 8.0),
-        _dialogBody(body: details),
-        const Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Positioned(
+          top: 0,
+          right: 0,
+          child: customButtonCancel(context: context),
+        ),
+
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _customTextButton(
-              onPressed: () => Navigator.pop(context, false),
-              title: 'Annuler',
-              backgroundColor: LightThemeColors.colorPrimary.withOpacity(0.12),
-              textColor: LightThemeColors.colorPrimary,
-            ),
+            _bodyOfAlertDialog(body: details),
+            const Spacer(),
             _customTextButton(
               onPressed: () {
                 Navigator.pop(context, true);
@@ -101,19 +97,19 @@ class ShowConfirmDeleteDialog {
     required Color textColor,
   }) {
     return SizedBox(
-      width: 130.0,
+      width: 220.0,
       height: 48.0,
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(16.0),
           ),
         ),
         child: Text(
           title,
-          style: AppFonts.robotoCondensedFont(size: 12.0, color: textColor),
+          style: AppFonts.robotoCondensedFont(size: 14.0, color: textColor),
         ),
       ),
     );
@@ -134,16 +130,19 @@ class ShowConfirmDeleteDialog {
     );
   }
 
-  static Column _dialogBody({required String body}) {
+  static Column _bodyOfAlertDialog({required String body}) {
     return Column(
       children: [
+        const SizedBox(height: 28.0),
+        Image.asset('assets/images/garbage.png', width: 110.0, height: 110.0),
+        const SizedBox(height: 8.0),
         _dialogTitle(
           title: 'Voulez-vous vraiment supprimer',
-          size: 12.0,
+          size: 16.0,
           weight: FontWeight.w500,
         ),
         const SizedBox(height: 8),
-        _dialogTitle(title: body, size: 12.0, weight: FontWeight.w500),
+        _dialogTitle(title: body, size: 14.0, weight: FontWeight.w500),
       ],
     );
   }

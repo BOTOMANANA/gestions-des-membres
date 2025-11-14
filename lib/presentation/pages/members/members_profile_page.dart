@@ -5,15 +5,14 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_qr_code_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
-import 'package:association_appli/presentation/widgets/custom_qr_code.dart';
 import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MembersProfilePage extends StatefulWidget {
@@ -129,7 +128,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
               iconPath: 'assets/icons/qrcode.png',
               size: 16.0,
               onPressed: () {
-                CustomQrCode.showDialog(context: context, data: data);
+                ShowQrCodeDialog.showDialog(context: context, data: data);
               },
             ),
           ],
