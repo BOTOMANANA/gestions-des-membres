@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, library_prefixes
 
 import 'dart:math' as Math;
 import 'package:association_appli/domain/entities/member_entity.dart';
@@ -110,8 +110,9 @@ class _HomePageState extends State<HomePage> {
             Text(
               'Votre association',
               style: AppFonts.robotoCondensedFont(
-                size: 18.0,
+                size: 16.0,
                 color: LightThemeColors.textBlack,
+                weight: FontWeight.w600,
               ),
             ),
           ],
@@ -146,7 +147,15 @@ Widget _buildLabelCategory({
         _customTextTitle(title: 'Categories'),
         IconButton(
           onPressed: () => onPressedAdd(context),
-          icon: Icon(Icons.add, color: LightThemeColors.colorPrimary),
+          icon: Container(
+            width: 30.0,
+            height: 30.0,
+            decoration: BoxDecoration(
+              color: LightThemeColors.colorPrimary.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Icon(Icons.add, color: LightThemeColors.colorPrimary),
+          ),
         ),
       ],
     ),
@@ -168,7 +177,7 @@ Widget _buildLabelOfficeList({required BuildContext context}) {
             style: AppFonts.robotoCondensedFont(
               size: 14.0,
               color: LightThemeColors.textSemiBlack.withOpacity(0.5),
-              weight: FontWeight.w600,
+              weight: FontWeight.w500,
             ),
           ),
         ),
@@ -198,7 +207,7 @@ Widget _getAndDisplayResponsibleMembers({
     children: [
       Expanded(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: itemCount,

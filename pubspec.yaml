@@ -29,6 +29,8 @@ dependencies:
   hidden_drawer_menu: ^3.0.1
   url_launcher: ^6.3.2
   qr_flutter: ^4.1.0
+  icons_launcher: ^3.0.3
+  pdf: ^3.11.3
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +44,11 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+
+icons_launcher:
+  image_path: "assets/icons/focushome.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true

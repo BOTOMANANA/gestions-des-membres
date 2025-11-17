@@ -1,4 +1,5 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
+import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
@@ -39,7 +40,12 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
           customIconButton(
             iconPath: 'assets/icons/filepdf.png',
             size: 16.0,
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<GeneratePdfProviders>(
+                context,
+                listen: false,
+              ).generateAllMembersPdf();
+            },
           ),
           SizedBox(width: 8.0),
         ],

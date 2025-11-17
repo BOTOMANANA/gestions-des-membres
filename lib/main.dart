@@ -1,5 +1,6 @@
 import 'package:association_appli/core/di/get_it.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
+import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
@@ -24,6 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => getIt<UserProviders>()),
         ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<MemberProviders>()),
+        ChangeNotifierProvider(create: (_) => getIt<GeneratePdfProviders>()),
       ],
       child: const MyApp(),
     ),

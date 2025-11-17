@@ -6,3 +6,7 @@ abstract class Failure {
 class DatabaseFailure extends Failure {
   DatabaseFailure({required super.errorMessage});
 }
+
+class PdfFailure extends Failure {
+  PdfFailure({required super.errorMessage});
+}
