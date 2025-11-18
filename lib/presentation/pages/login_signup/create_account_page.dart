@@ -2,7 +2,7 @@
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/widgets/auth_bottom_sheet.dart';
-import 'package:association_appli/presentation/widgets/button/custom_button.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccountPage extends StatelessWidget {

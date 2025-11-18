@@ -1,6 +1,6 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class ActivityItemWidget extends StatelessWidget {

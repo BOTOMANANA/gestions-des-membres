@@ -6,7 +6,7 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_qr_code_dialog.dart';
-import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';

@@ -10,16 +10,17 @@ import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class UpdateMemberBottomSheet extends StatefulWidget {
+class UpdateMemberBottomSheetWidget extends StatefulWidget {
   final MemberEntity memberEntity;
-  const UpdateMemberBottomSheet({super.key, required this.memberEntity});
+  const UpdateMemberBottomSheetWidget({super.key, required this.memberEntity});
 
   @override
-  State<UpdateMemberBottomSheet> createState() =>
+  State<UpdateMemberBottomSheetWidget> createState() =>
       _UpdateMemberBottomSheetState();
 }
 
-class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
+class _UpdateMemberBottomSheetState
+    extends State<UpdateMemberBottomSheetWidget> {
   final _fullNameController = TextEditingController();
   final _genreController = TextEditingController();
   final _countryController = TextEditingController();

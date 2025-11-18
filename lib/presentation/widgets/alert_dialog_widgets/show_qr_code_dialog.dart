@@ -1,4 +1,4 @@
-import 'package:association_appli/presentation/widgets/button/custom_button_cancel.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

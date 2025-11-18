@@ -6,7 +6,7 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
-import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/caroussel_widget.dart';
 import 'package:association_appli/presentation/widgets/create_category_navigation_row.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
