@@ -5,10 +5,10 @@ import 'package:association_appli/presentation/widgets/button_widgets/custom_flo
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/emty_result_for_searching_member.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/members_load_status_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,11 +53,12 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
           if (provider.state == MemberState.loading) {
-            return widgetCircularToLoadMembers();
+            return buildLoadingIndicator();
           }
 
           if (provider.state == MemberState.error) {
-            return widgetErrorToLoadMembers(provider: provider);
+            String message = provider.errorMessage;
+            return buildErrorStatePlaceholder(errorMessage: message);
           }
 
           final seniorMembers =
@@ -94,7 +95,7 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
   }) {
     final status = 'Ancien';
     if (isInitialLoadempty) {
-      return emptyResultForSearchingMember(
+      return buildSearchNoResultsPlaceholder(
         title: 'Aucun Ancien trouvé',
         status: status,
       );
@@ -110,14 +111,14 @@ class _SeniorsMembersPageState extends State<SeniorsMembersPage> {
         Expanded(
           child:
               seniorList.isEmpty && isSearching
-                  ? emptyResultAndElderMemberNotFound(status: status)
-                  : _showSeniorMembers(seniorList: seniorList),
+                  ? buildInitialEmptyStatePlaceholder(status: status)
+                  : _buildSeniorMembersList(seniorList: seniorList),
         ),
       ],
     );
   }
 
-  Widget _showSeniorMembers({required List<MemberEntity> seniorList}) {
+  Widget _buildSeniorMembersList({required List<MemberEntity> seniorList}) {
     return ListView.builder(
       itemCount: seniorList.length,
       itemBuilder: (context, index) {

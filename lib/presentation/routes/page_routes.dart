@@ -1,8 +1,8 @@
 import 'package:association_appli/presentation/pages/home_page.dart';
 import 'package:association_appli/presentation/pages/introduction_page.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
+import 'package:association_appli/presentation/pages/members/all_members_page.dart';
 import 'package:association_appli/presentation/pages/members/create_member_page.dart';
-import 'package:association_appli/presentation/pages/members/display_all_members.dart';
 import 'package:association_appli/presentation/pages/members/elder_members_page.dart';
 import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
 import 'package:association_appli/presentation/pages/members/office_members_page.dart';
@@ -28,7 +28,7 @@ class PageRoutes {
     novice: (context) => NovicesMembersPage(),
     senior: (context) => SeniorsMembersPage(),
     older: (context) => ElderMembersPage(),
-    allMembers: (context) => DisplayAllMembers(),
+    allMembers: (context) => AllMembersPage(),
     officeMembers: (context) => OfficeMembersPage(),
     createMember: (context) => CreateMemberPage(),
   };

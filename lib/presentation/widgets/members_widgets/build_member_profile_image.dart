@@ -1,42 +1,42 @@
 import 'dart:io';
 
 import 'package:association_appli/domain/entities/member_entity.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-Widget getImageProfileMemberInStorageFile({
+Widget buildMemberProfileImage({
   required MemberEntity member,
   required double size,
   required String folderPath,
 }) {
   return FutureBuilder<bool>(
-    future: _checkStoragePermissionDialog(),
+    future: _requestStoragePermission(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return widgetCircularToLoadMembers();
+        return buildLoadingIndicator();
       }
 
       final hasPermission = snapshot.data ?? false;
       if (!hasPermission) {
-        return _defaultProfileImage(member: member, size: size);
+        return _buildDefaultAvatar(member: member, size: size);
       }
 
       final imageFile = File('$folderPath/${member.fullName}.png');
       if (imageFile.existsSync()) {
-        return _takeProfileImageMemberInStorage(
+        return _buildImageFromFile(
           member: member,
           image: imageFile,
           size: size,
         );
       } else {
-        return _defaultProfileImage(member: member, size: size);
+        return _buildDefaultAvatar(member: member, size: size);
       }
     },
   );
 }
 
-Widget _takeProfileImageMemberInStorage({
+Widget _buildImageFromFile({
   required MemberEntity member,
   required File image,
   required double size,
@@ -50,12 +50,12 @@ Widget _takeProfileImageMemberInStorage({
       fit: BoxFit.cover,
       errorBuilder:
           (context, error, stackTrace) =>
-              _defaultProfileImage(member: member, size: size),
+              _buildDefaultAvatar(member: member, size: size),
     ),
   );
 }
 
-Widget _defaultProfileImage({
+Widget _buildDefaultAvatar({
   required MemberEntity member,
   required double size,
 }) {
@@ -75,7 +75,7 @@ Widget _defaultProfileImage({
   );
 }
 
-Future<bool> _checkStoragePermissionDialog() async {
+Future<bool> _requestStoragePermission() async {
   final status = await Permission.storage.status;
   if (status.isGranted) return true;
   final result = await Permission.storage.request();

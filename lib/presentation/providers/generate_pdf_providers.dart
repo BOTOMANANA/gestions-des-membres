@@ -18,7 +18,6 @@ class GeneratePdfProviders extends ChangeNotifier {
     final result = await generateMembersPdfUsecase();
     result.fold(
       (failure) {
-        print(failure.errorMessage);
         notifyListeners();
       },
       (pdfBytes) async {
@@ -36,7 +35,6 @@ class GeneratePdfProviders extends ChangeNotifier {
     );
     result.fold(
       (failure) {
-        print(failure.errorMessage);
         notifyListeners();
       },
       (pdfBytes) async {

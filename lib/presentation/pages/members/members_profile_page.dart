@@ -8,9 +8,10 @@ import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_qr_code_dialog.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
-import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_member_profile_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,11 +47,12 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
       body: Consumer<SingleMemberProvider>(
         builder: (context, provider, _) {
           if (provider.state == SingleMemberState.loading) {
-            return widgetCircularToLoadMembers();
+            return buildLoadingIndicator();
           }
 
           if (provider.state == SingleMemberState.error) {
-            return widgetErrorToLoadSingleMember(provider: provider);
+            String errorMessage = provider.errorMessage;
+            return buildErrorStatePlaceholder(errorMessage: errorMessage);
           }
 
           if (provider.state == SingleMemberState.succes) {
@@ -184,7 +186,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(4.0),
-            child: getImageProfileMemberInStorageFile(
+            child: buildMemberProfileImage(
               member: member,
               size: 70.0,
               folderPath: '/storage/emulated/0/Picture',

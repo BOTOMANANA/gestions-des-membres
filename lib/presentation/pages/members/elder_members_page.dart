@@ -5,10 +5,10 @@ import 'package:association_appli/presentation/widgets/button_widgets/custom_flo
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/emty_result_for_searching_member.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/members_load_status_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,11 +52,12 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
           if (provider.state == MemberState.loading) {
-            return widgetCircularToLoadMembers();
+            return buildLoadingIndicator();
           }
 
           if (provider.state == MemberState.error) {
-            return widgetErrorToLoadMembers(provider: provider);
+            String message = provider.errorMessage;
+            return buildErrorStatePlaceholder(errorMessage: message);
           }
 
           final memberToDisplay =
@@ -93,7 +94,7 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
   }) {
     final status = 'Doyen';
     if (isInitialLoadEmpty) {
-      return emptyResultForSearchingMember(
+      return buildSearchNoResultsPlaceholder(
         title: 'Aucun doyen trouvé',
         status: status,
       );
@@ -109,7 +110,7 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
         Expanded(
           child:
               elderList.isEmpty && isSearching
-                  ? emptyResultAndElderMemberNotFound(status: status)
+                  ? buildInitialEmptyStatePlaceholder(status: status)
                   : _showElderMembers(elderList: elderList),
         ),
       ],

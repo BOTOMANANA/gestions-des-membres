@@ -23,8 +23,8 @@ class _EmptyStateWidgetState extends State<EmptyStateWidget> {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = Colors.white;
-    Offset distance = Offset(4, 4);
-    double blur = 30;
+    Offset distance = Offset(4.0, 4.0);
+    double blur = 30.0;
     return Center(
       child: Column(
         children: [
@@ -66,7 +66,8 @@ class _EmptyStateWidgetState extends State<EmptyStateWidget> {
       children: [
         SizedBox(height: 8.0),
         Image.asset(image, width: 100, height: 100),
-        _textStyle(data: title, size: 14.0, weight: FontWeight.w600),
+        SizedBox(height: 4.0),
+        _textStyle(data: title, size: 13.0, weight: FontWeight.w600),
       ],
     );
   }
@@ -88,13 +89,16 @@ Widget _textStyle({
 }
 
 Widget _showEmptyMessage({required String message}) {
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Text(
-      message,
-      style: AppFonts.robotoCondensedFont(
-        size: 16.0,
-        color: LightThemeColors.textSemiBlack,
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        textAlign: TextAlign.center,
+        message,
+        style: AppFonts.robotoCondensedFont(
+          size: 16.0,
+          color: LightThemeColors.textSemiBlack,
+        ),
       ),
     ),
   );

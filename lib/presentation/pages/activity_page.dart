@@ -1,5 +1,5 @@
-import 'package:association_appli/presentation/widgets/alert_dialog/show_create_activity_dialog.dart';
-import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_create_activity_dialog.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:flutter/material.dart';
 
 class ActivityPage extends StatefulWidget {

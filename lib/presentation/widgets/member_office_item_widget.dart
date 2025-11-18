@@ -3,7 +3,7 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_member_profile_image.dart';
 import 'package:flutter/material.dart';
 
 class MemberOfficeItemWidget extends StatelessWidget {
@@ -39,7 +39,7 @@ class MemberOfficeItemWidget extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 6.0),
-            getImageProfileMemberInStorageFile(
+            buildMemberProfileImage(
               member: memberEntity,
               size: 80.0,
               folderPath: '/storage/emulated/0/Picture',

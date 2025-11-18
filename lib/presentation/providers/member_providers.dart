@@ -176,25 +176,59 @@ class MemberProviders with ChangeNotifier {
     notifyListeners();
   }
 
+  // void searchMember({
+  //   required String fullName,
+  //   required String category,
+  // }) async {
+  //   isSearching = true;
+  //   notifyListeners();
+  //   var members = await searchMemberUsecase(fullName: fullName);
+  //   members.fold(
+  //     (failure) {
+  //       _state = MemberState.error;
+  //       errorMessage = failure.errorMessage;
+  //       searchedMembers = [];
+  //       notifyListeners();
+  //     },
+  //     (membersList) {
+  //       final searchedMembers =
+  //           membersList.where((member) => member.category == category).toList();
+  //       // _setSucces(searchedMembers);
+  //       isSearching = false;
+  //       notifyListeners();
+  //     },
+  //   );
+  // }
+
   void searchMember({
     required String fullName,
     required String category,
   }) async {
     isSearching = true;
+
+    if (fullName.isEmpty) {
+      clearSearchResult();
+      return;
+    }
+
     notifyListeners();
+
     var members = await searchMemberUsecase(fullName: fullName);
     members.fold(
       (failure) {
         _state = MemberState.error;
         errorMessage = failure.errorMessage;
         searchedMembers = [];
+        isSearching = true;
         notifyListeners();
       },
       (membersList) {
-        final searchedMembers =
+        final results =
             membersList.where((member) => member.category == category).toList();
-        _setSucces(searchedMembers);
-        isSearching = false;
+
+        searchedMembers = results;
+        isSearching = true;
+
         notifyListeners();
       },
     );

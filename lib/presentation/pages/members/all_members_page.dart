@@ -6,22 +6,23 @@ import 'package:association_appli/presentation/widgets/alert_dialog_widgets/snac
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
+import 'package:association_appli/presentation/widgets/empty_state_widget.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DisplayAllMembers extends StatefulWidget {
-  const DisplayAllMembers({super.key});
+class AllMembersPage extends StatefulWidget {
+  const AllMembersPage({super.key});
 
   @override
-  State<DisplayAllMembers> createState() => _DisplayAllMembersState();
+  State<AllMembersPage> createState() => _AllMembersPageState();
 }
 
-class _DisplayAllMembersState extends State<DisplayAllMembers> {
+class _AllMembersPageState extends State<AllMembersPage> {
   @override
   void initState() {
     super.initState();
@@ -63,11 +64,12 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
           if (provider.state == MemberState.loading) {
-            return widgetCircularToLoadMembers();
+            return buildLoadingIndicator();
           }
 
           if (provider.state == MemberState.error) {
-            return widgetErrorToLoadMembers(provider: provider);
+            String message = provider.errorMessage;
+            return buildErrorStatePlaceholder(errorMessage: message);
           }
 
           final allMembers =
@@ -76,7 +78,9 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
                   : provider.members;
 
           if (allMembers.isEmpty) {
-            return const Center(child: Text('aucun members a trouver'));
+            return Center(
+              child: _createInitialEmptyStatePlaceholder(status: 'Membres'),
+            );
           }
           if (provider.state == MemberState.succes) {
             return _getAndDisplayAllMembers(allMemberList: allMembers);
@@ -105,14 +109,31 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
           child: InputSearchMembers(category: ''),
         ),
         SizedBox(height: 12.0),
-        Expanded(
-          child: ListView.builder(
-            itemCount: allMemberList.length,
-            itemBuilder: (context, index) {
-              return MemberItemWidget(memberEntity: allMemberList[index]);
-            },
-          ),
+        Expanded(child: _buildMembersList(allMemberList: allMemberList)),
+      ],
+    );
+  }
+
+  Widget _buildMembersList({required List<MemberEntity> allMemberList}) {
+    return ListView.builder(
+      itemCount: allMemberList.length,
+      itemBuilder: (context, index) {
+        return MemberItemWidget(memberEntity: allMemberList[index]);
+      },
+    );
+  }
+
+  Widget _createInitialEmptyStatePlaceholder({required String status}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        EmptyStateWidget(
+          title: 'Pas de $status',
+          imageEmpty: 'assets/images/emptyfolder.png',
+          message:
+              'Aucun $status trouvé dans la base de donnee. Je suis desole!',
         ),
+        SizedBox(height: 60.0),
       ],
     );
   }

@@ -9,9 +9,9 @@ import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/caroussel_widget.dart';
 import 'package:association_appli/presentation/widgets/create_category_navigation_row.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_office_item_widget.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
       body: Consumer<MemberProviders>(
         builder: (context, provider, _) {
           final responsibleMembers = provider.responsibleMembersList;
+          String message = provider.errorMessage;
+
           return Column(
             children: [
               // CarousselWidget(),
@@ -69,16 +71,23 @@ class _HomePageState extends State<HomePage> {
               _buildLabelOfficeList(context: context),
               if (provider.state == MemberState.loading &&
                   responsibleMembers.isEmpty)
-                Expanded(child: Center(child: widgetCircularToLoadMembers()))
+                Expanded(child: Center(child: buildLoadingIndicator()))
               else if (provider.state == MemberState.error &&
                   responsibleMembers.isEmpty)
                 Expanded(
                   child: Center(
-                    child: widgetErrorToLoadMembers(provider: provider),
+                    child: buildErrorStatePlaceholder(errorMessage: message),
                   ),
                 )
               else if (responsibleMembers.isEmpty)
-                const Center(child: Text('Aucun membre responsable récupéré.'))
+                const Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 50.0),
+                      Text('Aucun membre des burreaux à afficher.'),
+                    ],
+                  ),
+                )
               else
                 Expanded(
                   child: _getAndDisplayResponsibleMembers(
