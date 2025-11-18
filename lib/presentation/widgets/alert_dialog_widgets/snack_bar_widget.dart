@@ -1,7 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
-showSnackBarWidget({
+snackBarWidget({
   required BuildContext context,
   required String title,
   String? details,
