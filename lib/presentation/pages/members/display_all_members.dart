@@ -1,15 +1,15 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
-import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/snack_bar_widget.dart';
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
-import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
       context,
       listen: false,
     ).generateAllMembersPdf();
-    showSnackBarWidget(
+    snackBarWidget(
       context: context,
       title: 'Exporter en pdf',
       type: ContentType.success,
@@ -45,7 +45,7 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widgetAppBar(
+      appBar: customAppBarWidget(
         context: context,
         icon: 'assets/icons/arrowleftt.png',
         title: 'Tous les membres',

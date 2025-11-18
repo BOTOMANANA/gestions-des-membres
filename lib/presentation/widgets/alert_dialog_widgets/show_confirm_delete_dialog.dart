@@ -1,5 +1,5 @@
 // ignore_for_file: deprecated_member_use
-import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/snack_bar_widget.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button_cancel.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class ShowConfirmDeleteDialog {
             _customTextButton(
               onPressed: () {
                 Navigator.pop(context, true);
-                showSnackBarWidget(
+                snackBarWidget(
                   context: context,
                   title: title,
                   details: details,
