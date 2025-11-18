@@ -13,7 +13,7 @@ showSnackBarWidget({
     elevation: 0,
     backgroundColor: Colors.transparent,
     content: SizedBox(
-      height: 60.0,
+      height: 64.0,
       child: AwesomeSnackbarContent(
         title: title,
         message: "$details \n \n",

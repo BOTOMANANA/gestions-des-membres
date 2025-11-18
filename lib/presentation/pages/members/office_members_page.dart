@@ -19,7 +19,7 @@ class _OfficeMembersPageState extends State<OfficeMembersPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
       Provider.of<MemberProviders>(
         context,
         listen: false,
@@ -73,8 +73,8 @@ class _OfficeMembersPageState extends State<OfficeMembersPage> {
       padding: EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 4.0,
       ),
       itemCount: officeMembersList.length,
       itemBuilder: (context, index) {

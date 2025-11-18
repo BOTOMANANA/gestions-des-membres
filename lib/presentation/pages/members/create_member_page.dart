@@ -4,10 +4,10 @@ import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
 import 'package:association_appli/presentation/widgets/button/custom_button.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
+import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/member_category_item.dart';
-import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ class _CreateMemberPageState extends State<CreateMemberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widgetAppBar(
+      appBar: customAppBarWidget(
         context: context,
         title: 'Ajout de membre',
         background: Colors.white,

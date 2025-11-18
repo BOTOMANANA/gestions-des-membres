@@ -7,10 +7,10 @@ import 'package:association_appli/presentation/providers/single_member_provider.
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_qr_code_dialog.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/load_members/get_image_profile_of_member_in_storage.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_circular_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
-import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,7 +35,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     });
 
     return Scaffold(
-      appBar: widgetAppBar(
+      appBar: customAppBarWidget(
         context: context,
         icon: 'assets/icons/arrowleftt.png',
         title: 'Profile',

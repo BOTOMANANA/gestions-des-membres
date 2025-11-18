@@ -2,6 +2,7 @@ import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog/show_snackbar.dart';
 import 'package:association_appli/presentation/widgets/button/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
@@ -9,6 +10,7 @@ import 'package:association_appli/presentation/widgets/load_members/widget_circu
 import 'package:association_appli/presentation/widgets/load_members/widget_error_to_load_members.dart';
 import 'package:association_appli/presentation/widgets/member_item_widget.dart';
 import 'package:association_appli/presentation/widgets/widget_app_bar.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +30,18 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
     });
   }
 
+  void exportPDF() {
+    Provider.of<GeneratePdfProviders>(
+      context,
+      listen: false,
+    ).generateAllMembersPdf();
+    showSnackBarWidget(
+      context: context,
+      title: 'Exporter en pdf',
+      type: ContentType.success,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,12 +54,7 @@ class _DisplayAllMembersState extends State<DisplayAllMembers> {
           customIconButton(
             iconPath: 'assets/icons/filepdf.png',
             size: 16.0,
-            onPressed: () {
-              Provider.of<GeneratePdfProviders>(
-                context,
-                listen: false,
-              ).generateAllMembersPdf();
-            },
+            onPressed: () => exportPDF(),
           ),
           SizedBox(width: 8.0),
         ],
