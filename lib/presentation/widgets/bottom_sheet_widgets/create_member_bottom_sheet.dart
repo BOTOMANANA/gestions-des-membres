@@ -3,23 +3,22 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/auth_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class UpdateMemberBottomSheet extends StatefulWidget {
-  final MemberEntity memberEntity;
-  const UpdateMemberBottomSheet({super.key, required this.memberEntity});
+class CreateMemberBottomSheet extends StatefulWidget {
+  final String status;
+  const CreateMemberBottomSheet({super.key, required this.status});
 
   @override
-  State<UpdateMemberBottomSheet> createState() =>
-      _UpdateMemberBottomSheetState();
+  State<CreateMemberBottomSheet> createState() =>
+      _CreateMemberBottomSheetState();
 }
 
-class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
+class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
   final _fullNameController = TextEditingController();
   final _genreController = TextEditingController();
   final _countryController = TextEditingController();
@@ -29,25 +28,7 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
   final _facultyController = TextEditingController();
   final _studentCardNumberController = TextEditingController();
   final _freeShipController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _responsabilityController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    final member = widget.memberEntity;
-    _fullNameController.text = member.fullName;
-    _genreController.text = member.genre;
-    _countryController.text = member.country;
-    _cinController.text = member.cinNumber.toString();
-    _phoneNumberController.text = member.phoneNumber.toString();
-    _quarterController.text = member.quarter;
-    _facultyController.text = member.faculty;
-    _studentCardNumberController.text = member.studentCardNumber;
-    _freeShipController.text = member.memberShipFee.toString();
-    _categoryController.text = member.category ?? '';
-    _responsabilityController.text = member.memberResponsability ?? '';
-  }
 
   @override
   void dispose() {
@@ -60,13 +41,11 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
     _facultyController.dispose();
     _studentCardNumberController.dispose();
     _freeShipController.dispose();
-    _categoryController.dispose();
     _responsabilityController.dispose();
     super.dispose();
   }
 
   void _onSubmit() {
-    final memberId = widget.memberEntity.id!;
     final fullName = _fullNameController.text.toString();
     final genre = _genreController.text;
     final country = _countryController.text.trim();
@@ -75,12 +54,10 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
     final quarter = _quarterController.text.trim();
     final faculty = _facultyController.text.trim();
     final studentCardNumber = _studentCardNumberController.text.toString();
-    final category = _categoryController.text.trim();
     final responsability = _responsabilityController.text.trim();
     final freeShip = _freeShipController.text.toInt();
 
-    final updateMember = MemberEntity(
-      id: memberId,
+    final insertMember = MemberEntity(
       fullName: fullName,
       genre: genre,
       country: country,
@@ -89,12 +66,12 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
       faculty: faculty,
       quarter: quarter,
       studentCardNumber: studentCardNumber,
-      category: category,
+      category: widget.status,
       memberResponsability: responsability,
       memberShipFee: freeShip,
       createAt: DateTime.now(),
     );
-    context.read<MemberProviders>().updateMember(memberEntity: updateMember);
+    context.read<MemberProviders>().createMember(memberEntity: insertMember);
     Navigator.pop(context);
   }
 
@@ -105,29 +82,12 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
       initialChildSize: 0.9,
       maxChildSize: 0.9,
       builder: (context, scrollController) {
-        return _createContentBottomSheet();
+        return _buildContentBottomSheet();
       },
     );
   }
 
-  Widget _createContentBottomSheet() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
-        ),
-      ),
-      child: _buildBodyOfBottomSheet(),
-    );
-  }
-
-  Widget _buildBodyOfBottomSheet() {
-    return Column(children: [designHeaderBar, _createBottomSheetFormular()]);
-  }
-
-  Widget _createBottomSheetFormular() {
+  Widget _buildContentBottomSheet() {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -144,7 +104,13 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
             ),
           ),
           SizedBox(height: 20.0),
-          _buildFooterSelction(),
+          CustomTextButtom(
+            background: LightThemeColors.colorPrimary,
+            title: 'Enregistre',
+            color: Colors.white,
+            width: 100.0,
+            onPressed: () => _onSubmit(),
+          ),
         ],
       ),
     );
@@ -224,40 +190,12 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
           preffIconPath: 'assets/icons/wallet.png',
           hintText: 'Adhesion',
         ),
-        CustomTextField(
-          controller: _categoryController,
-          keyboardType: TextInputType.text,
-          preffIconPath: 'assets/icons/city.png',
-          hintText: 'Category',
-        ),
+
         CustomTextField(
           controller: _responsabilityController,
           keyboardType: TextInputType.number,
           preffIconPath: 'assets/icons/wallet.png',
           hintText: 'Responsabilite',
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFooterSelction() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomTextButtom(
-          background: LightThemeColors.colorPrimary.withOpacity(0.1),
-          title: 'Annuler',
-          color: LightThemeColors.colorPrimary,
-          width: 100.0,
-          onPressed: () => Navigator.pop(context),
-        ),
-        SizedBox(width: 12.0),
-        CustomTextButtom(
-          background: LightThemeColors.colorPrimary,
-          title: 'Sauvegarder',
-          color: Colors.white,
-          width: 200.0,
-          onPressed: () => _onSubmit(),
         ),
       ],
     );
