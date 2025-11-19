@@ -88,30 +88,39 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
   }
 
   Widget _buildContentBottomSheet() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 12.0),
-          _buildHeaderTextFieldSection(),
-          _buildGridTextFieldSection(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0),
-            child: CustomTextField(
-              controller: _genreController,
-              keyboardType: TextInputType.name,
-              preffIconPath: 'assets/icons/city.png',
-              hintText: 'Genre',
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 50.0),
+            _buildHeaderTextFieldSection(),
+            _buildGridTextFieldSection(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14.0),
+              child: CustomTextField(
+                controller: _genreController,
+                keyboardType: TextInputType.name,
+                preffIconPath: 'assets/icons/city.png',
+                hintText: 'Genre',
+              ),
             ),
-          ),
-          SizedBox(height: 20.0),
-          CustomTextButtom(
-            background: LightThemeColors.colorPrimary,
-            title: 'Enregistre',
-            color: Colors.white,
-            width: 100.0,
-            onPressed: () => _onSubmit(),
-          ),
-        ],
+            SizedBox(height: 20.0),
+            CustomTextButtom(
+              background: LightThemeColors.colorPrimary,
+              title: 'Enregistre',
+              color: Colors.white,
+              width: 200.0,
+              onPressed: () => _onSubmit(),
+            ),
+          ],
+        ),
       ),
     );
   }
