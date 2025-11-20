@@ -44,8 +44,8 @@ class MemberOfficeItemWidget extends StatelessWidget {
               size: 80.0,
               folderPath: '/storage/emulated/0/Picture',
             ),
-            _getMemberFullName(data: memberEntity.fullName),
-            getResponsibleOfMember(
+            _buildMemberFullNameText(data: memberEntity.fullName),
+            buildMemberResponsibleText(
               data: memberEntity.memberResponsability ?? 'Non defini',
             ),
           ],
@@ -55,7 +55,7 @@ class MemberOfficeItemWidget extends StatelessWidget {
   }
 }
 
-Widget _getMemberFullName({required String data}) {
+Widget _buildMemberFullNameText({required String data}) {
   return Padding(
     padding: const EdgeInsets.all(4.0),
     child: Text(
@@ -71,7 +71,7 @@ Widget _getMemberFullName({required String data}) {
   );
 }
 
-Text getResponsibleOfMember({required String data}) {
+Text buildMemberResponsibleText({required String data}) {
   return Text(
     data,
     style: AppFonts.robotoCondensedFont(
