@@ -1,6 +1,6 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/create_member_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
@@ -76,14 +76,24 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
         },
       ),
       floatingActionButton: customFloatingButton(
-        onPressed: () {
-          ShowConfirmDeleteDialog.show(
-            context: context,
-            title: 'title',
-            details: 'details',
-          );
-        },
+        onPressed: () => _showCreateMemberBottomShet(status: categoryStatus),
       ),
     );
+  }
+
+  Future<void> _showCreateMemberBottomShet({required String status}) async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => CreateMemberBottomSheet(status: status),
+    );
+
+    if (mounted) {
+      Provider.of<MemberProviders>(
+        context,
+        listen: false,
+      ).getMembersByStatus(category: status);
+    }
   }
 }

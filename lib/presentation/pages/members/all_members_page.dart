@@ -1,7 +1,7 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
+import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/snack_bar_widget.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
@@ -89,13 +89,7 @@ class _AllMembersPageState extends State<AllMembersPage> {
         },
       ),
       floatingActionButton: customFloatingButton(
-        onPressed: () {
-          ShowConfirmDeleteDialog.show(
-            context: context,
-            title: 'title',
-            details: 'details',
-          );
-        },
+        onPressed: () => Navigator.pushNamed(context, PageRoutes.createMember),
       ),
     );
   }

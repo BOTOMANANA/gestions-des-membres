@@ -3,6 +3,7 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_responsible_dialog.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
@@ -28,7 +29,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
   final _facultyController = TextEditingController();
   final _studentCardNumberController = TextEditingController();
   final _freeShipController = TextEditingController();
-  final _responsabilityController = TextEditingController();
+  final _responsibleController = TextEditingController();
 
   @override
   void dispose() {
@@ -41,8 +42,21 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
     _facultyController.dispose();
     _studentCardNumberController.dispose();
     _freeShipController.dispose();
-    _responsabilityController.dispose();
+    _responsibleController.dispose();
     super.dispose();
+  }
+
+  void _selectResponsible() async {
+    final String? selectedResponsible = await ShowResponsibleDialog.showDialog(
+      context: context,
+    );
+
+    if (selectedResponsible != null) {
+      if (mounted) {
+        _responsibleController.text = selectedResponsible;
+        print('================>>>>>>>> $selectedResponsible');
+      }
+    }
   }
 
   void _onSubmit() {
@@ -54,8 +68,9 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
     final quarter = _quarterController.text.trim();
     final faculty = _facultyController.text.trim();
     final studentCardNumber = _studentCardNumberController.text.toString();
-    final responsability = _responsabilityController.text.trim();
+    final responsible = _responsibleController.text.trim();
     final freeShip = _freeShipController.text.toInt();
+    print('=============== $responsible ================');
 
     final insertMember = MemberEntity(
       fullName: fullName,
@@ -67,7 +82,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
       quarter: quarter,
       studentCardNumber: studentCardNumber,
       category: widget.status,
-      memberResponsability: responsability,
+      memberResponsability: responsible,
       memberShipFee: freeShip,
       createAt: DateTime.now(),
     );
@@ -99,19 +114,10 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 50.0),
+            const SizedBox(height: 50.0),
             _buildHeaderTextFieldSection(),
             _buildGridTextFieldSection(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: CustomTextField(
-                controller: _genreController,
-                keyboardType: TextInputType.name,
-                preffIconPath: 'assets/icons/city.png',
-                hintText: 'Genre',
-              ),
-            ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             CustomTextButtom(
               background: LightThemeColors.colorPrimary,
               title: 'Enregistre',
@@ -119,6 +125,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
               width: 200.0,
               onPressed: () => _onSubmit(),
             ),
+            const SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -146,7 +153,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
             hintText: 'district',
           ),
 
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
         ],
       ),
     );
@@ -200,11 +207,24 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
           hintText: 'Adhesion',
         ),
 
+        InkWell(
+          onTap: _selectResponsible,
+          child: IgnorePointer(
+            child: CustomTextFieldReadOnly(
+              controller: _responsibleController,
+              keyboardType: TextInputType.text,
+              preffIconPath: 'assets/icons/wallet.png',
+              hintText: 'Responsabilite',
+              readOnly: true,
+            ),
+          ),
+        ),
+
         CustomTextField(
-          controller: _responsabilityController,
-          keyboardType: TextInputType.number,
-          preffIconPath: 'assets/icons/wallet.png',
-          hintText: 'Responsabilite',
+          controller: _genreController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/city.png',
+          hintText: 'Genre',
         ),
       ],
     );
