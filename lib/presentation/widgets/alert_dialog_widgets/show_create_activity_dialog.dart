@@ -71,7 +71,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
         vertical: 24.0,
       ),
       content: SizedBox(
-        height: 300.0,
+        height: 340.0,
         width: 400.0,
         child: _buildContentOfDialog(),
       ),
@@ -86,50 +86,55 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
           right: 0,
           child: customButtonCancelWithSize(context: context, size: 30.0),
         ),
-        Column(
-          children: [
-            SizedBox(height: 32.0),
-            Text('Lancer une activiter'),
-            SizedBox(height: 20.0),
-            CustomTextField(
-              controller: _nameController,
-              keyboardType: TextInputType.name,
+        _buildTextFieldSection(),
+      ],
+    );
+  }
+
+  Widget _buildTextFieldSection() {
+    return Column(
+      children: [
+        SizedBox(height: 32.0),
+        Text('Lancer une activiter'),
+        SizedBox(height: 20.0),
+        CustomTextField(
+          controller: _nameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/task.png',
+          hintText: 'Nom de l\'activite',
+        ),
+
+        const SizedBox(height: 12.0),
+
+        InkWell(
+          onTap: () => _showDateRangePicker(context),
+          child: IgnorePointer(
+            child: CustomTextFieldReadOnly(
+              controller: _dateRangeController,
+              keyboardType: TextInputType.text,
               preffIconPath: 'assets/icons/calendar.png',
-              hintText: 'Nom de l\'activite',
+              hintText: 'Date de début - Date de fin',
+              readOnly: true,
             ),
+          ),
+        ),
+        const SizedBox(height: 12.0),
 
-            SizedBox(height: 8.0),
+        CustomTextField(
+          controller: _nameController,
+          keyboardType: TextInputType.name,
+          preffIconPath: 'assets/icons/localisation.png',
+          hintText: 'Lieu de l\'activite',
+        ),
 
-            InkWell(
-              onTap: () => _showDateRangePicker(context),
-              child: IgnorePointer(
-                child: CustomTextFieldReadOnly(
-                  controller: _dateRangeController,
-                  keyboardType: TextInputType.text,
-                  preffIconPath: 'assets/icons/calendar.png',
-                  hintText: 'Date de début - Date de fin',
-                  readOnly: true,
-                ),
-              ),
-            ),
-            CustomTextField(
-              controller: _nameController,
-              keyboardType: TextInputType.name,
-              preffIconPath: 'assets/icons/calendar.png',
-              hintText: 'Lieu de l\'activite',
-            ),
-
-            SizedBox(height: 8.0),
-            SizedBox(height: 16.0),
-            _customTextButton(
-              onPressed: () {
-                _onSubmit();
-              },
-              title: 'Enregistrer',
-              backgroundColor: LightThemeColors.colorPrimary,
-              textColor: Colors.white,
-            ),
-          ],
+        const SizedBox(height: 24.0),
+        _customTextButton(
+          onPressed: () {
+            _onSubmit();
+          },
+          title: 'Enregistrer',
+          backgroundColor: LightThemeColors.colorPrimary,
+          textColor: Colors.white,
         ),
       ],
     );
