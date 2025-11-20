@@ -2,6 +2,7 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
+import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   final _nameController = TextEditingController();
   final _dateRangeController = TextEditingController();
   final _locationController = TextEditingController();
-  List<DateTime?> selectedPeriod = [];
+  List<DateTime?> _selectedDateRange = [];
 
   @override
   void dispose() {
@@ -35,7 +36,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
     final List<DateTime?>? dates =
         await DateRangeDialogHelper.showDateRangePicker(
           context: context,
-          initialDates: selectedPeriod,
+          initialDates: _selectedDateRange,
         );
 
     if (dates != null &&
@@ -50,7 +51,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
       final String dateRangeString = '$formattedStartDate - $formattedEndDate';
 
       setState(() {
-        selectedPeriod = dates;
+        _selectedDateRange = dates;
         _dateRangeController.text = dateRangeString;
       });
     }
@@ -58,7 +59,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
 
   _onSubmit() {
     final name = _nameController.text;
-    final date = _dateRangeController.text;
+    final dateRangeString = _dateRangeController.text;
     final location = _locationController.text;
   }
 
@@ -94,8 +95,15 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   Widget _buildTextFieldSection() {
     return Column(
       children: [
-        SizedBox(height: 32.0),
-        Text('Lancer une activiter'),
+        SizedBox(height: 28.0),
+        Text(
+          'Lancer une activiter',
+          style: AppFonts.robotoFont(
+            size: 18.0,
+            color: LightThemeColors.textSemiBlack,
+            weight: FontWeight.bold,
+          ),
+        ),
         SizedBox(height: 20.0),
         CustomTextField(
           controller: _nameController,
@@ -121,47 +129,21 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
         const SizedBox(height: 12.0),
 
         CustomTextField(
-          controller: _nameController,
+          controller: _locationController,
           keyboardType: TextInputType.name,
           preffIconPath: 'assets/icons/localisation.png',
           hintText: 'Lieu de l\'activite',
         ),
 
         const SizedBox(height: 24.0),
-        _customTextButton(
-          onPressed: () {
-            _onSubmit();
-          },
+        CustomTextButtom(
+          background: LightThemeColors.colorPrimary,
           title: 'Enregistrer',
-          backgroundColor: LightThemeColors.colorPrimary,
-          textColor: Colors.white,
+          color: Colors.white,
+          width: 220.0,
+          onPressed: () => _onSubmit(),
         ),
       ],
-    );
-  }
-
-  Widget _customTextButton({
-    required VoidCallback onPressed,
-    required String title,
-    required Color backgroundColor,
-    required Color textColor,
-  }) {
-    return SizedBox(
-      width: 220.0,
-      height: 48.0,
-      child: TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-        ),
-        child: Text(
-          title,
-          style: AppFonts.robotoCondensedFont(size: 14.0, color: textColor),
-        ),
-      ),
     );
   }
 }
