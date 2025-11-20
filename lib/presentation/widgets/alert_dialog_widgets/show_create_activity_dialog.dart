@@ -1,5 +1,6 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:flutter/material.dart';
@@ -14,31 +15,66 @@ class ShowCreateActivityDialog extends StatefulWidget {
 
 class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   final _nameController = TextEditingController();
-  final _startDateController = TextEditingController();
-  final _endDateController = TextEditingController();
-  final _localisationController = TextEditingController();
+  final _dateRangeController = TextEditingController();
+  final _locationController = TextEditingController();
+  List<DateTime?> selectedPeriod = [];
 
   @override
   void dispose() {
     _nameController.dispose();
-    _startDateController.dispose();
-    _endDateController.dispose();
-    _localisationController.dispose();
+    _dateRangeController.dispose();
+    _locationController.dispose();
     super.dispose();
   }
 
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
+  void _showDateRangePicker(BuildContext context) async {
+    final List<DateTime?>? dates =
+        await DateRangeDialogHelper.showDateRangePicker(
+          context: context,
+          initialDates: selectedPeriod,
+        );
+
+    if (dates != null &&
+        dates.length == 2 &&
+        dates[0] != null &&
+        dates[1] != null) {
+      final DateTime startDate = dates[0]!;
+      final DateTime endDate = dates[1]!;
+
+      final String formattedStartDate = _formatDate(startDate);
+      final String formattedEndDate = _formatDate(endDate);
+      final String dateRangeString = '$formattedStartDate - $formattedEndDate';
+
+      setState(() {
+        selectedPeriod = dates;
+        _dateRangeController.text = dateRangeString;
+      });
+    }
+  }
+
   _onSubmit() {
-    final name = _nameController.text.toString();
-    final startDate = _startDateController.text.toString();
-    final endDate = _endDateController.text.toString();
-    final localisation = _localisationController.text.toString();
+    final name = _nameController.text;
+    final date = _dateRangeController.text;
+    final location = _locationController.text;
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      content: SizedBox(height: 320.0, child: _buildContentOfDialog()),
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 24.0,
+      ),
+      content: SizedBox(
+        height: 300.0,
+        width: 400.0,
+        child: _buildContentOfDialog(),
+      ),
     );
   }
 
@@ -63,20 +99,27 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
             ),
 
             SizedBox(height: 8.0),
-            CustomTextField(
-              controller: _startDateController,
-              keyboardType: TextInputType.datetime,
-              preffIconPath: 'assets/icons/calendar.png',
-              hintText: 'Date de debut',
-            ),
-            SizedBox(height: 8.0),
 
-            CustomTextField(
-              controller: _endDateController,
-              keyboardType: TextInputType.datetime,
-              preffIconPath: 'assets/icons/city.png',
-              hintText: 'Date de fin',
+            InkWell(
+              onTap: () => _showDateRangePicker(context),
+              child: IgnorePointer(
+                child: CustomTextFieldReadOnly(
+                  controller: _dateRangeController,
+                  keyboardType: TextInputType.text,
+                  preffIconPath: 'assets/icons/calendar.png',
+                  hintText: 'Date de début - Date de fin',
+                  readOnly: true,
+                ),
+              ),
             ),
+            CustomTextField(
+              controller: _nameController,
+              keyboardType: TextInputType.name,
+              preffIconPath: 'assets/icons/calendar.png',
+              hintText: 'Lieu de l\'activite',
+            ),
+
+            SizedBox(height: 8.0),
             SizedBox(height: 16.0),
             _customTextButton(
               onPressed: () {

@@ -31,6 +31,7 @@ dependencies:
   qr_flutter: ^4.1.0
   icons_launcher: ^3.0.3
   pdf: ^3.11.3
+  calendar_date_picker2: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -10,10 +10,14 @@ AppBar customAppBarWidget({
   List<Widget>? actions,
 }) {
   return AppBar(
+    surfaceTintColor: Colors.transparent,
+    shadowColor: Colors.transparent,
     leading: GestureDetector(
       onTap: () => Navigator.pop(context),
       child: Image.asset(icon!),
     ),
+
+    elevation: 0.0,
     title: Text(
       title,
       style: AppFonts.robotoCondensedFont(

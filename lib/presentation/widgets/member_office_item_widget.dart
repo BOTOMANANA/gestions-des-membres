@@ -65,7 +65,8 @@ Widget _buildMemberFullNameText({required String data}) {
         color: LightThemeColors.textBlack,
         weight: FontWeight.w500,
       ),
-      maxLines: 1,
+      textAlign: TextAlign.center,
+      maxLines: 2,
       overflow: TextOverflow.ellipsis,
     ),
   );
