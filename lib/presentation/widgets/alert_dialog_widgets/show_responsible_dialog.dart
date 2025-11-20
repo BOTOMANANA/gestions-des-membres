@@ -6,7 +6,6 @@ import 'package:association_appli/presentation/widgets/button_widgets/custom_but
 import 'package:flutter/material.dart';
 
 class ShowResponsibleDialog {
-  // Rendre la liste statique ou créer une instance. Pour simplifier, rendons-la statique.
   static final List<Map<String, String>> responsabilityOptions = [
     {'id': '5', 'icon': 'assets/icons/president.png', 'name': 'President'},
     {'id': '5', 'icon': 'assets/icons/oldman.png', 'name': 'President-doyen'},
