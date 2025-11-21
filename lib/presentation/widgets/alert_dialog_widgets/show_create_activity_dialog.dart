@@ -1,10 +1,13 @@
+import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
+import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShowCreateActivityDialog extends StatefulWidget {
   const ShowCreateActivityDialog({super.key});
@@ -19,6 +22,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   final _dateRangeController = TextEditingController();
   final _locationController = TextEditingController();
   List<DateTime?> _selectedDateRange = [];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -60,9 +64,28 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   }
 
   _onSubmit() {
+    if (_nameController.text.isEmpty ||
+        _locationController.text.isEmpty ||
+        _selectedDateRange.length < 2) {
+      print('Veuillez remplir tous les champs ');
+      return;
+    }
     final name = _nameController.text;
-    final dateRangeString = _dateRangeController.text;
     final location = _locationController.text;
+    final DateTime formattedStartDate = _selectedDateRange[0]!;
+    final DateTime formattedEndDate = _selectedDateRange[1]!;
+
+    final newActivityEntity = ActivityEntity(
+      name: name,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+      location: location,
+    );
+    final activityProvider = Provider.of<ActivityProvider>(
+      context,
+      listen: false,
+    );
+    activityProvider.createActivity(activity: newActivityEntity);
   }
 
   @override
@@ -76,7 +99,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
       content: SizedBox(
         height: 340.0,
         width: 400.0,
-        child: _buildContentOfDialog(),
+        child: Form(key: _formKey, child: _buildContentOfDialog()),
       ),
     );
   }

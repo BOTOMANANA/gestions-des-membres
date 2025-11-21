@@ -1,4 +1,7 @@
+import 'package:association_appli/data/datasources/app_database_helper.dart';
 import 'package:association_appli/domain/entities/activity_entity.dart';
+
+final _helper = AppDatabaseHelper.instance;
 
 class ActivityModel extends ActivityEntity {
   ActivityModel({
@@ -12,7 +15,7 @@ class ActivityModel extends ActivityEntity {
   factory ActivityModel.fromJson(Map<String, dynamic> json) {
     return ActivityModel(
       id: json['id'],
-      name: json['activity_name'],
+      name: json['name'],
       startDate: DateTime.parse(json['start_date']),
       endDate: DateTime.parse(json['end_date']),
       location: json['location'],
@@ -22,7 +25,7 @@ class ActivityModel extends ActivityEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'activity_name': name,
+      'name': name,
       'start_date': startDate.toIso8601String(),
       'end_date': endDate.toIso8601String(),
       'location': location,

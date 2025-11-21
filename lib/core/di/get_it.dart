@@ -1,12 +1,18 @@
+import 'package:association_appli/data/datasources/activity_local_datasources.dart';
 import 'package:association_appli/data/datasources/app_database_helper.dart';
 import 'package:association_appli/data/datasources/member_local_datasources.dart';
 import 'package:association_appli/data/datasources/user_local_datasources.dart';
+import 'package:association_appli/data/repositories/activity_repository_impl.dart';
 import 'package:association_appli/data/repositories/member_repository_impl.dart';
 import 'package:association_appli/data/repositories/user_repository_impl.dart';
 import 'package:association_appli/data/services/pdf_generator_services_impl.dart';
+import 'package:association_appli/domain/repositories/activity_repository.dart';
 import 'package:association_appli/domain/repositories/member_repository.dart';
 import 'package:association_appli/domain/repositories/user_repository.dart';
 import 'package:association_appli/domain/services/pdf_generator_services.dart';
+import 'package:association_appli/domain/usecases/activity_usecases/create_activity_usecase.dart';
+import 'package:association_appli/domain/usecases/activity_usecases/delete_activity_usecase.dart';
+import 'package:association_appli/domain/usecases/activity_usecases/get_all_acitvity_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/create_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/delete_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/get_all_members_usecase.dart';
@@ -18,6 +24,7 @@ import 'package:association_appli/domain/usecases/service_usecase/generate_membe
 import 'package:association_appli/domain/usecases/service_usecase/generate_members_pdf_by_category_usecase.dart';
 import 'package:association_appli/domain/usecases/user_usecases/login_usecase.dart';
 import 'package:association_appli/domain/usecases/user_usecases/signup_usecase.dart';
+import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
@@ -48,6 +55,9 @@ Future registerLocalDatabaseSource() async {
   getIt.registerLazySingleton<UserLocalDatasources>(
     () => UserLocalDatasourcesImpl(),
   );
+  getIt.registerLazySingleton<ActivityLocalDatasources>(
+    () => ActivityLocalDatasourcesImpl(),
+  );
 }
 
 Future registerRepositories() async {
@@ -56,6 +66,10 @@ Future registerRepositories() async {
   );
   getIt.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(userLocalDatasources: getIt()),
+  );
+
+  getIt.registerLazySingleton<ActivityRepository>(
+    () => ActivityRepositoryImpl(activityLocalDatasources: getIt()),
   );
 }
 
@@ -81,6 +95,10 @@ Future registerUsecases() async {
       pdfGenerator: getIt(),
     ),
   );
+
+  getIt.registerLazySingleton(() => CreateActivityUsecase(repository: getIt()));
+  getIt.registerLazySingleton(() => DeleteActivityUsecase(repository: getIt()));
+  getIt.registerLazySingleton(() => GetAllAcitvityUsecase(repository: getIt()));
 }
 
 Future registerProvider() async {
@@ -108,6 +126,13 @@ Future registerProvider() async {
     ),
   );
   getIt.registerLazySingleton(() => ThemeNotifier());
+  getIt.registerLazySingleton(
+    () => ActivityProvider(
+      getAllAcitvityUsecase: getIt(),
+      createActivityUsecase: getIt(),
+      deleteActivityUsecase: getIt(),
+    ),
+  );
 }
 
 Future<void> registerService() async {

@@ -3,15 +3,10 @@ import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/domain/repositories/activity_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class CreateActivityUsecase {
+class GetAllAcitvityUsecase {
   ActivityRepository repository;
-  CreateActivityUsecase({required this.repository});
-
-  Future<Either<Failure, void>> call({
-    required ActivityEntity activityEntity,
-  }) async {
-    return await repository.createActivityRepository(
-      activityEntity: activityEntity,
-    );
+  GetAllAcitvityUsecase({required this.repository});
+  Future<Either<Failure, List<ActivityEntity>>> call() async {
+    return await repository.getAllActivityRepository();
   }
 }

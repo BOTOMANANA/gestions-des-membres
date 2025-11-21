@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? databaseVersion = 15;
+  final int? databaseVersion = 16;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -95,7 +95,7 @@ class AppDatabaseHelper {
 
   final String tableActivity = 'activities';
   final String columnActivityId = 'id';
-  final String columnActivityName = 'activity_name';
+  final String columnActivityName = 'name';
   final String columnStartDate = 'start_date';
   final String columnEndDate = 'end_date';
   final String columnLocation = 'location';

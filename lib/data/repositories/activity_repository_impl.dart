@@ -14,7 +14,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     required ActivityEntity activityEntity,
   }) async {
     try {
-      await activityLocalDatasources.createActity(
+      await activityLocalDatasources.createActivity(
         activityModel: ActivityModel.fromEntity(activityEntity: activityEntity),
       );
       return Right(null);
