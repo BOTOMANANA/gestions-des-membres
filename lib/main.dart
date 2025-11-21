@@ -38,7 +38,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = context.watch<ThemeNotifier>();
-    final lightTheme = ThemeData(brightness: Brightness.light);
+    final lightTheme = ThemeData(
+      brightness: Brightness.light,
+      primaryColor: LightThemeColors.colorPrimary,
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo),
+    );
     final darkTheme = ThemeData(brightness: Brightness.dark);
 
     return MaterialApp(
