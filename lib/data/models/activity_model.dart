@@ -13,8 +13,8 @@ class ActivityModel extends ActivityEntity {
     return ActivityModel(
       id: json['id'],
       activityName: json['activity_name'],
-      startDate: json['start_date'],
-      endDate: json['end_date'],
+      startDate: DateTime.parse(json['start_date']),
+      endDate: DateTime.parse(json['end_date']),
       location: json['location'],
     );
   }
@@ -23,8 +23,8 @@ class ActivityModel extends ActivityEntity {
     return {
       'id': id,
       'activity_name': activityName,
-      'start_date': startDate,
-      'end_date': endDate,
+      'start_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
       'location': location,
     };
   }
