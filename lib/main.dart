@@ -16,7 +16,7 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // cleanupDatabaseArtifacts();
+  _cleanupDatabaseArtifacts();
   await setup();
   runApp(
     MultiProvider(
@@ -57,8 +57,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//Nettoie les fichiers de base de données.
-Future<void> cleanupDatabaseArtifacts() async {
+//Nettoie les fichiers de base de données local.
+Future<void> _cleanupDatabaseArtifacts() async {
   final dbPath = await getDatabasesPath();
   final fullPath = join(dbPath, 'AssociationDB.db');
   await deleteDatabase(fullPath);

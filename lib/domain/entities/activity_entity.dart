@@ -1,13 +1,13 @@
 class ActivityEntity {
   int? id;
-  String activityName;
+  String name;
   DateTime startDate;
   DateTime endDate;
   String location;
 
   ActivityEntity({
     this.id,
-    required this.activityName,
+    required this.name,
     required this.startDate,
     required this.endDate,
     required this.location,

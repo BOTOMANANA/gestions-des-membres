@@ -1,5 +1,4 @@
 // ignore_for_file: constant_identifier_names
-import 'package:association_appli/domain/entities/product_entity.dart';
 
 class MemberEntity {
   final int? id;
@@ -15,7 +14,6 @@ class MemberEntity {
   final String? memberResponsability;
   final int memberShipFee;
   DateTime? createAt;
-  final List<ProductEntity>? products;
 
   MemberEntity({
     this.id,
@@ -31,6 +29,5 @@ class MemberEntity {
     this.memberResponsability,
     required this.memberShipFee,
     required this.createAt,
-    this.products = const [],
   });
 }

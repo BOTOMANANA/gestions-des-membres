@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:association_appli/data/models/product_model.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
-import 'package:association_appli/domain/entities/product_entity.dart';
 
 class MemberModel extends MemberEntity {
   MemberModel({
@@ -19,7 +15,6 @@ class MemberModel extends MemberEntity {
     required super.memberResponsability,
     required super.memberShipFee,
     required super.createAt,
-    required super.products,
   });
 
   // on a besoin de ca dans la recuperation des donnees dans la base de donnee car la base donne de les data en model il faut donc transforme en json et cle-valeur et  en list enfin on des liste de model mais reste cle-valeur
@@ -42,14 +37,6 @@ class MemberModel extends MemberEntity {
                   json['created_at'].toString().isNotEmpty)
               ? DateTime.parse(json['created_at'])
               : DateTime.now(),
-      products:
-          (json['products'] != null)
-              ? List<ProductEntity>.from(
-                jsonDecode(
-                  json['products'],
-                ).map((product) => ProductModel.fromJson(product)),
-              )
-              : [],
     );
   }
 
@@ -69,7 +56,6 @@ class MemberModel extends MemberEntity {
       'responsability': memberResponsability,
       'member_ship_free': memberShipFee,
       'created_at': createAt?.toIso8601String(),
-      'products': jsonEncode(products ?? []),
     };
   }
 
@@ -89,7 +75,6 @@ class MemberModel extends MemberEntity {
       memberResponsability: memberEntity.memberResponsability,
       memberShipFee: memberEntity.memberShipFee,
       createAt: memberEntity.createAt,
-      products: [],
     );
   }
 }
