@@ -76,7 +76,7 @@ class ShowResponsibleDialog {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20.0),
-              _title(),
+              _buildDialogTitle(),
               Expanded(child: _buildListResponsible(context)),
             ],
           ),
@@ -101,7 +101,7 @@ class ShowResponsibleDialog {
     );
   }
 
-  static Widget _title() {
+  static Widget _buildDialogTitle() {
     return Padding(
       padding: EdgeInsets.only(left: 30.0),
       child: Text(
@@ -121,12 +121,18 @@ class ShowResponsibleDialog {
     required String name,
   }) {
     return InkWell(
-      onTap: () {
-        Navigator.pop(context, name);
-      },
+      onTap: () => Navigator.pop(context, name),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
+        child: _child(name: name, icon: icon),
+      ),
+    );
+  }
+
+  static Widget _child({required String name, required String icon}) {
+    return Column(
+      children: [
+        Row(
           children: [
             Image.asset(icon, width: 24, height: 24),
             const SizedBox(width: 16.0),
@@ -140,7 +146,7 @@ class ShowResponsibleDialog {
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

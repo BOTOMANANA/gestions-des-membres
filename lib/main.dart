@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:association_appli/core/di/get_it.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
+import 'package:association_appli/presentation/providers/theme_provider.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +15,14 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final dbPath = await getDatabasesPath();
-  // final fullPath = join(dbPath, 'AssociationDB.db');
-  // await deleteDatabase(fullPath);
-  // print("✅ Ancienne base supprimée avec succès");
-  // print("✅ Base supprimée : $fullPath");
+
+  _deleteDatabase();
 
   await setup();
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => getIt<ThemeProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<UserProviders>()),
         ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<MemberProviders>()),
@@ -32,12 +33,23 @@ void main() async {
   );
 }
 
+Future<void> _deleteDatabase() async {
+  final dbPath = await getDatabasesPath();
+  final fullPath = join(dbPath, 'AssociationDB.db');
+  await deleteDatabase(fullPath);
+  print("✅ Ancienne base supprimée avec succès");
+  print("✅ Base supprimée : $fullPath");
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = context.read<ThemeProvider>().isDarkMode;
+
     return MaterialApp(
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       initialRoute: PageRoutes.mainNavigationBar,
       routes: PageRoutes.routes,

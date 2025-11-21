@@ -1,12 +1,12 @@
 import 'package:association_appli/presentation/pages/home_page.dart';
 import 'package:association_appli/presentation/pages/introduction_page.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
-import 'package:association_appli/presentation/pages/members/all_members_page.dart';
-import 'package:association_appli/presentation/pages/members/create_member_page.dart';
-import 'package:association_appli/presentation/pages/members/elder_members_page.dart';
-import 'package:association_appli/presentation/pages/members/novices_members_page.dart';
-import 'package:association_appli/presentation/pages/members/office_members_page.dart';
-import 'package:association_appli/presentation/pages/members/seniors_members_page.dart';
+import 'package:association_appli/presentation/pages/member_page/all_members_page.dart';
+import 'package:association_appli/presentation/pages/member_page/create_member_page.dart';
+import 'package:association_appli/presentation/pages/member_page/elder_members_page.dart';
+import 'package:association_appli/presentation/pages/member_page/novices_members_page.dart';
+import 'package:association_appli/presentation/pages/member_page/office_members_page.dart';
+import 'package:association_appli/presentation/pages/member_page/seniors_members_page.dart';
 import 'package:flutter/material.dart';
 
 class PageRoutes {

@@ -13,21 +13,10 @@ class DateRangeDialogHelper {
     final config = CalendarDatePicker2WithActionButtonsConfig(
       calendarType: CalendarDatePicker2Type.range,
       selectedDayHighlightColor: LightThemeColors.colorPrimary,
-
-      cancelButton: Text(
-        'Retour',
-        textAlign: TextAlign.center,
-        style: AppFonts.robotoCondensedFont(size: 14.0, color: Colors.black87),
-      ),
-      // Configuration du bouton 'OK'
-      okButton: Text(
-        'Confirmer',
-        textAlign: TextAlign.center,
-        style: AppFonts.robotoCondensedFont(
-          size: 14.0,
-          color: LightThemeColors.colorPrimary,
-          weight: FontWeight.w600,
-        ),
+      cancelButton: _buildTextAction(title: 'Annuler', color: Colors.black87),
+      okButton: _buildTextAction(
+        title: 'Confirmer',
+        color: LightThemeColors.colorPrimary,
       ),
     );
 
@@ -35,11 +24,23 @@ class DateRangeDialogHelper {
       dialogBackgroundColor: Colors.white,
       context: context,
       config: config,
-      dialogSize: const Size(325, 400),
-      borderRadius: BorderRadius.circular(16),
+      dialogSize: const Size(325.0, 400.0),
+      borderRadius: BorderRadius.circular(16.0),
       value: initialDates,
     );
 
     return results;
+  }
+
+  static Text _buildTextAction({required String title, required Color color}) {
+    return Text(
+      title,
+      textAlign: TextAlign.center,
+      style: AppFonts.robotoCondensedFont(
+        size: 14.0,
+        color: color,
+        weight: FontWeight.w500,
+      ),
+    );
   }
 }

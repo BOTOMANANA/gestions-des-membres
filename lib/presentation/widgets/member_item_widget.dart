@@ -2,7 +2,7 @@
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/pages/members/members_profile_page.dart';
+import 'package:association_appli/presentation/pages/member_page/members_profile_page.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/update_member_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/create_date_time_at.dart';

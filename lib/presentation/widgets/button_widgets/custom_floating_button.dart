@@ -14,10 +14,10 @@ Widget customFloatingButtonWithText({
   required VoidCallback onPressed,
   required String icon,
   required String title,
-  required double buttonSize,
+  required double width,
 }) {
   return SizedBox(
-    width: buttonSize,
+    width: width,
     child: FloatingActionButton(
       onPressed: onPressed,
       backgroundColor: LightThemeColors.colorPrimary,

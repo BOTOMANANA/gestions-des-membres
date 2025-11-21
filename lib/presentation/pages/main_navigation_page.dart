@@ -2,7 +2,7 @@
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/pages/activity_page.dart';
+import 'package:association_appli/presentation/pages/activity_page/activity_page.dart';
 import 'package:association_appli/presentation/pages/home_page.dart';
 import 'package:association_appli/presentation/widgets/empty_activity_in_page.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';

@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? version = 10;
+  final int? version = 11;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -93,15 +93,19 @@ $userPassword TEXT
 ''';
 
   final String tableActivity = 'activity';
-  final String columnActivityId = 'activity_id';
+  final String activityId = 'id';
+  final String columnActivityName = 'activity_name';
   final String columnStartDate = 'start_date';
   final String columnEndDate = 'end_date';
+  final String columnLocation = 'location';
 
   late final String createTableActivity = '''
 CREATE TABLE $tableActivity(
-$columnActivityId INTEGER PRIMARY KEY AUTOINCREMENT,
-$columnStartDate DATETIME,
-$columnEndDate DATETIME
+$activityId INTEGER PRIMARY KEY AUTOINCREMENT,
+$columnActivityName TEXT,
+$columnStartDate TEXT,
+$columnEndDate TEXT,
+$columnLocation TEXT
 )
 
 ''';
@@ -109,6 +113,7 @@ $columnEndDate DATETIME
   final String tableProducts = 'products';
   final String columnProductId = 'product_id';
   final String columnMemberId = 'member_id'; // cle etranger
+  final String columnActivityId = 'activity_id'; // cle E
   final String columnProductName = 'name';
   final String columnProductPrice = 'price';
   final String columnProductTicketNumber = 'ticket_number';

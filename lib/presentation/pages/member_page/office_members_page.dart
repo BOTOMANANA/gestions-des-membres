@@ -3,7 +3,6 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/pages/date_range_exemple_page.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/member_office_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +31,6 @@ class _OfficeMembersPageState extends State<OfficeMembersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => DateRangeExamplePage()),
-          );
-        },
-      ),
       appBar: _customAppBar(),
       body: Consumer<MemberProviders>(
         builder: (context, providers, _) {

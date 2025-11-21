@@ -21,6 +21,7 @@ import 'package:association_appli/domain/usecases/user_usecases/signup_usecase.d
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
+import 'package:association_appli/presentation/providers/theme_provider.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:get_it/get_it.dart';
 
@@ -106,6 +107,7 @@ Future registerProvider() async {
       generateMembersPdfByCategoryUsecase: getIt(),
     ),
   );
+  getIt.registerLazySingleton(() => ThemeProvider());
 }
 
 Future<void> registerService() async {

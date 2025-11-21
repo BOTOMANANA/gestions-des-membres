@@ -22,9 +22,9 @@ class _ActivityPageState extends State<ActivityPage> {
             builder: (context) => ShowCreateActivityDialog(),
           );
         },
-        icon: 'assets/icons/call.png',
+        icon: 'assets/icons/addactivity.png',
         title: 'Créer activité',
-        buttonSize: 200.0,
+        width: 150.0,
       ),
     );
   }

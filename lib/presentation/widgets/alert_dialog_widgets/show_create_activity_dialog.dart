@@ -29,7 +29,9 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    String day = date.day.toString().padLeft(2, '0');
+    String month = date.month.toString().padLeft(2, '0');
+    return '$day/$month/${date.year}';
   }
 
   void _showDateRangePicker(BuildContext context) async {
@@ -126,6 +128,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
             ),
           ),
         ),
+
         const SizedBox(height: 12.0),
 
         CustomTextField(
@@ -136,6 +139,7 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
         ),
 
         const SizedBox(height: 24.0),
+
         CustomTextButtom(
           background: LightThemeColors.colorPrimary,
           title: 'Enregistrer',
