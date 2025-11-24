@@ -6,11 +6,11 @@ import 'package:association_appli/presentation/widgets/alert_dialog_widgets/snac
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
-import 'package:association_appli/presentation/widgets/empty_state_widget.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/items_widgets/member_item_widget.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/state_placeholder_widgets/build_intial_empty_state_placeholder.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,18 +72,23 @@ class _AllMembersPageState extends State<AllMembersPage> {
             return buildErrorStatePlaceholder(errorMessage: message);
           }
 
-          final allMembers =
+          final members =
               provider.searchedMembers.isNotEmpty
                   ? provider.searchedMembers
                   : provider.members;
 
-          if (allMembers.isEmpty) {
+          if (members.isEmpty) {
             return Center(
-              child: _createInitialEmptyStatePlaceholder(status: 'Membres'),
+              child: BuildIntialEmptyStatePlaceholder(
+                title: 'Pas des membres',
+                image: 'assets/images/emptyfolder.png',
+                message:
+                    'Aucun membres trouvé dans la base de donnee. Je suis desole!',
+              ),
             );
           }
           if (provider.state == MemberState.succes) {
-            return _getAndDisplayAllMembers(allMemberList: allMembers);
+            return _getAndDisplayAllMembers(allMemberList: members);
           }
           return const Center();
         },
@@ -114,21 +119,6 @@ class _AllMembersPageState extends State<AllMembersPage> {
       itemBuilder: (context, index) {
         return MemberItemWidget(memberEntity: allMemberList[index]);
       },
-    );
-  }
-
-  Widget _createInitialEmptyStatePlaceholder({required String status}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        EmptyStateWidget(
-          title: 'Pas de $status',
-          imageEmpty: 'assets/images/emptyfolder.png',
-          message:
-              'Aucun $status trouvé dans la base de donnee. Je suis desole!',
-        ),
-        SizedBox(height: 60.0),
-      ],
     );
   }
 }

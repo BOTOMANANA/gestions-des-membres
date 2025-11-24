@@ -1,7 +1,7 @@
 // ignore_for_file: unused_field
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
-import 'package:association_appli/presentation/pages/login_signup/create_account_page.dart';
+import 'package:association_appli/presentation/pages/create_association_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -58,7 +58,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
   void _onFinish() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => CreateAccountPage()),
+      MaterialPageRoute(builder: (context) => CreateAssociationPage()),
     );
   }
 

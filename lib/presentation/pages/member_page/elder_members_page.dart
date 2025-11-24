@@ -4,9 +4,9 @@ import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/crea
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
-import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/members_list_display.dart';
+import 'package:association_appli/presentation/widgets/state_placeholder_widgets/build_error_state_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +56,12 @@ class _OlderMembersPageState extends State<ElderMembersPage> {
 
           if (provider.state == MemberState.error) {
             String message = provider.errorMessage;
-            return buildErrorStatePlaceholder(errorMessage: message);
+            return BuildErrorStatePlaceholder(
+              message: 'Il y a une errerur se produit $message',
+              onPressed: () {
+                provider.getMembersByStatus(category: categoryStatus);
+              },
+            );
           }
 
           final bool isSearching = provider.isSearching;

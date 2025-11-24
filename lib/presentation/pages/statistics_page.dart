@@ -1,3 +1,4 @@
+import 'package:association_appli/presentation/widgets/empty_activity_in_page.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -10,6 +11,15 @@ class StatisticsPage extends StatefulWidget {
 class _StatisticsPageState extends State<StatisticsPage> {
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Scaffold(
+      body: Center(
+        child: EmptyActivityInPage(
+          imageEmpty: 'assets/images/statistics.png',
+          title: 'Pas d acitivite',
+          description:
+              'Commencez votre premier activite depuis maintainent! Creez-en une et passez a laction',
+        ),
+      ),
+    );
   }
 }

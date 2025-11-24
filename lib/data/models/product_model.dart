@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:association_appli/domain/entities/product_entity.dart';
 import 'package:flutter/foundation.dart';
 

@@ -1,6 +1,6 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/widgets/input_search_members.dart';
-import 'package:association_appli/presentation/widgets/member_item_widget.dart';
+import 'package:association_appli/presentation/widgets/items_widgets/member_item_widget.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/members_load_status_widgets.dart';
 import 'package:flutter/material.dart';
 

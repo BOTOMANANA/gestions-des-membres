@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print, unused_element
-
 import 'package:association_appli/core/di/get_it.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';

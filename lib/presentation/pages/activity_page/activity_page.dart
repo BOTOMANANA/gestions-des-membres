@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
-import 'package:association_appli/presentation/widgets/activity_item_widget.dart';
+import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
+import 'package:association_appli/presentation/widgets/items_widgets/activity_item_widget.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_create_activity_dialog.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_floating_button.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/state_placeholder_widgets/build_error_state_placeholder.dart';
+import 'package:association_appli/presentation/widgets/state_placeholder_widgets/build_intial_empty_state_placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,111 +23,75 @@ class _ActivityPageState extends State<ActivityPage> {
   void initState() {
     super.initState();
     // Déclencher la récupération des activités dès que la page est initialisée.
-    // Utilisation de Future.microtask pour éviter les erreurs de "setstate during build"
-    Future.microtask(
-      () =>
-          Provider.of<ActivityProvider>(
-            context,
-            listen: false,
-          ).fetchAllActivities(),
-    );
-  }
-
-  // Widget qui gère l'affichage en fonction de l'état du Provider
-  Widget _buildBody(BuildContext context, ActivityProvider provider) {
-    switch (provider.state) {
-      case ActivityState.loading:
-        return const Center(child: CircularProgressIndicator());
-
-      case ActivityState.error:
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error_outline,
-                  color: Colors.redAccent,
-                  size: 40,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  provider.errorMessage ??
-                      'Erreur inconnue lors du chargement des activités.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium?.copyWith(color: Colors.redAccent),
-                ),
-                const SizedBox(height: 20),
-                // Bouton pour réessayer le chargement
-                ElevatedButton.icon(
-                  onPressed: () => provider.fetchAllActivities(),
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Réessayer'),
-                ),
-              ],
-            ),
-          ),
-        );
-
-      case ActivityState.loaded:
-        if (provider.activities.isEmpty) {
-          return Center(
-            child: Text(
-              'Aucune activité trouvée. Créez-en une !',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          );
-        }
-
-        // Affichage de la liste des activités
-        return ListView.builder(
-          padding: const EdgeInsets.all(
-            16.0,
-          ).copyWith(bottom: 100), // Espace pour le FAB
-          itemCount: provider.activities.length,
-          itemBuilder: (context, index) {
-            final ActivityEntity activity = provider.activities[index];
-            return ActivityItemWidget(activityEntity: activity);
-          },
-        );
-
-      case ActivityState.initial:
-      default:
-        // Au cas où initState n'a pas encore déclenché l'appel, afficher le chargement.
-        return const Center(child: CircularProgressIndicator());
-    }
+    Future.microtask(() {
+      Provider.of<ActivityProvider>(
+        context,
+        listen: false,
+      ).fetchAllActivities();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Utilisation de context.watch (équivalent à Consumer) pour reconstruire l'UI
-    // dès que le Provider notifie un changement (chargement, données, erreur)
-    final activityProvider = context.watch<ActivityProvider>();
-
+    final provider = context.watch<ActivityProvider>();
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Couleur de fond plus douce
-      appBar: AppBar(
-        title: const Text('Gestion des Activités'),
-        centerTitle: true,
+      backgroundColor: Colors.grey[50],
+      appBar: customAppBarWidget(
+        context: context,
+        title: 'Gestion des Activités',
+        background: Colors.white,
+        actions: [],
+        icon: 'assets/icons/arrowleftt.png',
       ),
-      body: _buildBody(context, activityProvider),
-
+      body: _buildBody(context, provider),
       floatingActionButton: customFloatingButtonWithText(
         onPressed: () {
-          // Afficher la boîte de dialogue de création d'activité
           showDialog(
             context: context,
             builder: (context) => ShowCreateActivityDialog(),
           );
         },
-        icon:
-            'assets/icons/addactivity.png', // Assurez-vous que ce chemin d'icône est correct
+        icon: 'assets/icons/addactivity.png',
         title: 'Créer activité',
         width: 150.0,
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, ActivityProvider provider) {
+    switch (provider.state) {
+      case ActivityState.loading:
+        return buildLoadingIndicator();
+
+      case ActivityState.error:
+        return BuildErrorStatePlaceholder(
+          message: 'Erreur lors du chargement des activités.',
+          onPressed: () => provider.fetchAllActivities(),
+        );
+
+      case ActivityState.loaded:
+        if (provider.activities.isEmpty) {
+          return BuildIntialEmptyStatePlaceholder(
+            title: '',
+            image: 'assets/images/emptyfolder.png',
+            message: 'Aucune activité trouvée. Créez-en une !',
+          );
+        }
+        return _activityListToDisplay(activityProvider: provider);
+
+      case ActivityState.initial:
+        return buildLoadingIndicator();
+    }
+  }
+
+  Widget _activityListToDisplay({required ActivityProvider activityProvider}) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0).copyWith(bottom: 100.0),
+      itemCount: activityProvider.activities.length,
+      itemBuilder: (context, index) {
+        final ActivityEntity activity = activityProvider.activities[index];
+        return ActivityItemWidget(activityEntity: activity);
+      },
     );
   }
 }

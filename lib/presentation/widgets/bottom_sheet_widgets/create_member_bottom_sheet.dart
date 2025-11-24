@@ -4,7 +4,7 @@ import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_responsible_dialog.dart';
-import 'package:association_appli/presentation/widgets/auth_bottom_sheet.dart';
+import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/header_bar_sheet_widget.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
@@ -115,7 +115,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            designHeaderBar,
+            HeaderBarSheetWidget(),
             const SizedBox(height: 50.0),
             _buildHeaderTextFieldSection(),
             _buildGridTextFieldSection(),

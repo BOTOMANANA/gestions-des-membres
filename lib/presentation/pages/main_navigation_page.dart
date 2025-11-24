@@ -4,7 +4,9 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/activity_page/activity_page.dart';
 import 'package:association_appli/presentation/pages/home_page.dart';
-import 'package:association_appli/presentation/widgets/empty_activity_in_page.dart';
+import 'package:association_appli/presentation/pages/profile_page.dart';
+import 'package:association_appli/presentation/pages/settings_page.dart';
+import 'package:association_appli/presentation/pages/statistics_page.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:bottom_bar_matu/bottom_bar_label_slide/bottom_bar_label_slide.dart';
 import 'package:flutter/material.dart';
@@ -19,30 +21,18 @@ class MainNavigationPage extends StatefulWidget {
 class _MainNavigationPageState extends State<MainNavigationPage> {
   final PageController controller = PageController();
   int _currentIndex = 0;
-  bool isSelected = true;
+  // bool isSelected = true;
 
   final List<Widget> _pages = [
     HomePage(),
     ActivityPage(),
-    // EmptyActivityInPage(
-    //   imageEmpty: 'assets/images/document.png',
-    //   title: 'Pas d acitivite',
-    //   description:
-    //       'Commencez votre premier activite depuis maintainent! Creez-en une et passez a laction',
-    // ),
-    EmptyActivityInPage(
-      imageEmpty: 'assets/images/statistics.png',
-      title: 'Pas d acitivite',
-      description:
-          'Commencez votre premier activite depuis maintainent! Creez-en une et passez a laction',
-    ),
-
-    Center(child: Text('settings of my application AntMobile')),
-    Center(child: Text('Profile of your association here')),
+    StatisticsPage(),
+    SettingsPage(),
+    ProfilePage(),
   ];
 
-  final List labels = ['Accueil', 'Activites', 'Statis', 'Params', 'Profile'];
-  final List iconsPaths = [
+  final List labels = ['Accueil', 'Activités', 'Statis', 'Params', 'Profile'];
+  final List icons = [
     'assets/icons/home.png',
     'assets/icons/task.png',
     'assets/icons/stats.png',
@@ -50,18 +40,13 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     'assets/icons/profile.png',
   ];
 
-  final List iconsFocusPaths = [
+  final List iconsFocus = [
     'assets/icons/focushome.png',
     'assets/icons/focustask.png',
     'assets/icons/focusstats.png',
     'assets/icons/focusparams.png',
     'assets/icons/focusprofile.png',
   ];
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +73,14 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
           color: LightThemeColors.colorPrimary,
           backgroundColor: Colors.white,
 
-          items: List.generate(iconsPaths.length, (index) {
+          items: List.generate(icons.length, (index) {
             return _buildBottomNavBarItem(
               label: labels[index],
-              icon: iconsPaths[index],
-              focusIcon: iconsFocusPaths[index],
+              icon: icons[index],
+              focusIcon: iconsFocus[index],
               isSelected: _currentIndex == index,
             );
           }),
-
           onSelect: (index) {
             setState(() => _currentIndex = index);
           },
@@ -115,23 +99,17 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
       iconBuilder: (color) => Image.asset(isSelected ? focusIcon : icon),
       label: label,
       iconSize: 24.0,
-      labelTextStyle: isSelected ? _onLabelFocused() : _onLabel(),
+      labelTextStyle: _onLabelStyle(isSelected: isSelected),
     );
   }
 }
 
-TextStyle _onLabelFocused() {
+TextStyle _onLabelStyle({required bool isSelected}) {
+  final color = LightThemeColors.textFieldBorderColors;
+  final focusColor = LightThemeColors.colorPrimary;
   return AppFonts.robotoCondensedFont(
-    size: 14.0,
-    color: LightThemeColors.colorPrimary,
-    weight: FontWeight.bold,
-  );
-}
-
-TextStyle _onLabel() {
-  return AppFonts.robotoCondensedFont(
-    size: 12.0,
-    color: LightThemeColors.textFieldBorderColors,
-    weight: FontWeight.w500,
+    size: isSelected ? 14.0 : 12.0,
+    color: isSelected ? focusColor : color,
+    weight: isSelected ? FontWeight.bold : FontWeight.w500,
   );
 }

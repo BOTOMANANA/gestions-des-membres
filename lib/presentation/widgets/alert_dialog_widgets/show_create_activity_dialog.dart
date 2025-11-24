@@ -2,6 +2,7 @@ import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
+import 'package:association_appli/presentation/utils/formatted_date.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
@@ -18,11 +19,11 @@ class ShowCreateActivityDialog extends StatefulWidget {
 }
 
 class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _dateRangeController = TextEditingController();
   final _locationController = TextEditingController();
   List<DateTime?> _selectedDateRange = [];
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -32,12 +33,6 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
     super.dispose();
   }
 
-  String _formatDate(DateTime date) {
-    String day = date.day.toString().padLeft(2, '0');
-    String month = date.month.toString().padLeft(2, '0');
-    return '$day/$month/${date.year}';
-  }
-
   void _showDateRangePicker(BuildContext context) async {
     final List<DateTime?>? dates =
         await DateRangeDialogHelper.showDateRangePicker(
@@ -45,16 +40,19 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
           initialDates: _selectedDateRange,
         );
 
-    if (dates != null &&
+    final canNotEmptyDate =
+        dates != null &&
         dates.length == 2 &&
         dates[0] != null &&
-        dates[1] != null) {
+        dates[1] != null;
+
+    if (canNotEmptyDate) {
       final DateTime startDate = dates[0]!;
       final DateTime endDate = dates[1]!;
 
-      final String formattedStartDate = _formatDate(startDate);
-      final String formattedEndDate = _formatDate(endDate);
-      final String dateRangeString = '$formattedStartDate - $formattedEndDate';
+      final formattedStartDate = FormattedDate.formatDate(startDate);
+      final formattedEndDate = FormattedDate.formatDate(endDate);
+      final dateRangeString = '$formattedStartDate - $formattedEndDate';
 
       setState(() {
         _selectedDateRange = dates;
@@ -64,9 +62,12 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
   }
 
   _onSubmit() {
-    if (_nameController.text.isEmpty ||
+    final isNotValidForm =
+        _nameController.text.isEmpty ||
         _locationController.text.isEmpty ||
-        _selectedDateRange.length < 2) {
+        _selectedDateRange.length < 2;
+
+    if (isNotValidForm) {
       print('Veuillez remplir tous les champs ');
       return;
     }
@@ -75,17 +76,15 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
     final DateTime formattedStartDate = _selectedDateRange[0]!;
     final DateTime formattedEndDate = _selectedDateRange[1]!;
 
-    final newActivityEntity = ActivityEntity(
+    final newActivity = ActivityEntity(
       name: name,
       startDate: formattedStartDate,
       endDate: formattedEndDate,
       location: location,
     );
-    final activityProvider = Provider.of<ActivityProvider>(
-      context,
-      listen: false,
-    );
-    activityProvider.createActivity(activity: newActivityEntity);
+    final provider = Provider.of<ActivityProvider>(context, listen: false);
+    provider.createActivity(activity: newActivity);
+    Navigator.pop(context);
   }
 
   @override

@@ -3,7 +3,7 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/auth_bottom_sheet.dart';
+import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/header_bar_sheet_widget.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
@@ -124,7 +124,9 @@ class _UpdateMemberBottomSheetState extends State<UpdateMemberBottomSheet> {
   }
 
   Widget _buildBodyOfBottomSheet() {
-    return Column(children: [designHeaderBar, _createBottomSheetFormular()]);
+    return Column(
+      children: [HeaderBarSheetWidget(), _createBottomSheetFormular()],
+    );
   }
 
   Widget _createBottomSheetFormular() {
