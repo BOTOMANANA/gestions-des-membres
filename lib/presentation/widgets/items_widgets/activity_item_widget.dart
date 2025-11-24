@@ -7,7 +7,6 @@ import 'package:association_appli/presentation/providers/activity_provider.dart'
 import 'package:association_appli/presentation/utils/formatted_date.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class ActivityItemWidget extends StatelessWidget {
   final ActivityEntity activityEntity;
@@ -57,10 +56,21 @@ class ActivityItemWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Stack(
           children: [
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ClipRRect(child: Image.asset('assets/images/call.png')),
-                _buildInfoSection(date: date),
+                Container(
+                  height: 100,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+
+                SizedBox(width: 12),
+
+                Expanded(child: _buildInfoSection(date: date)),
               ],
             ),
 
@@ -94,9 +104,9 @@ class ActivityItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         _buildTitle(),
-        SizedBox(height: 8.0),
+        SizedBox(height: 4.0),
         _buildLocation(),
-        SizedBox(height: 8.0),
+        SizedBox(height: 4.0),
         _buildDateRange(date: date),
       ],
     );
@@ -105,7 +115,11 @@ class ActivityItemWidget extends StatelessWidget {
   Widget _buildTitle() {
     return Text(
       activityEntity.name,
-      style: AppFonts.robotoFont(size: 14.0, color: LightThemeColors.textBlack),
+      style: AppFonts.robotoFont(
+        size: 14.0,
+        color: LightThemeColors.textBlack,
+        weight: FontWeight.w500,
+      ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -114,12 +128,8 @@ class ActivityItemWidget extends StatelessWidget {
   Widget _buildLocation() {
     return Row(
       children: [
-        const Icon(
-          Icons.location_on_outlined,
-          size: 18,
-          color: Colors.blueGrey,
-        ),
-        const SizedBox(width: 8),
+        Icon(Icons.location_on_outlined, size: 18, color: Colors.grey[400]),
+        const SizedBox(width: 4.0),
         Expanded(
           child: Text(
             activityEntity.location,
@@ -137,13 +147,17 @@ class ActivityItemWidget extends StatelessWidget {
   Widget _buildDateRange({required String date}) {
     return Row(
       children: [
-        Icon(Icons.calendar_month, size: 16.0),
-        const SizedBox(width: 8),
+        Icon(
+          Icons.calendar_today_outlined,
+          size: 16.0,
+          color: Colors.grey[400],
+        ),
+        const SizedBox(width: 4.0),
         Text(
           date,
           style: AppFonts.robotoCondensedFont(
             size: 12.0,
-            color: LightThemeColors.colorPrimary,
+            color: LightThemeColors.textSemiBlack,
           ),
         ),
       ],
@@ -152,8 +166,8 @@ class ActivityItemWidget extends StatelessWidget {
 
   Widget _buildDeleteButton({required BuildContext context, required int id}) {
     return SizedBox(
-      height: 30.0,
-      width: 90.0,
+      height: 34.0,
+      width: 80.0,
       child: TextButton(
         onPressed: () {
           Provider.of<ActivityProvider>(

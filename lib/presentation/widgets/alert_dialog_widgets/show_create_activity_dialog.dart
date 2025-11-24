@@ -89,16 +89,18 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.white,
-      insetPadding: const EdgeInsets.symmetric(
-        horizontal: 20.0,
-        vertical: 24.0,
-      ),
-      content: SizedBox(
-        height: 340.0,
-        width: 400.0,
-        child: Form(key: _formKey, child: _buildContentOfDialog()),
+    return SingleChildScrollView(
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+          vertical: 24.0,
+        ),
+        content: SizedBox(
+          height: 340.0,
+          width: 400.0,
+          child: Form(key: _formKey, child: _buildContentOfDialog()),
+        ),
       ),
     );
   }

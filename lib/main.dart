@@ -16,7 +16,7 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  _cleanupDatabaseArtifacts();
+  // _cleanupDatabaseArtifacts();
   await setup();
   runApp(
     MultiProvider(

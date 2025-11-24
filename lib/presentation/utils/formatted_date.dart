@@ -22,14 +22,14 @@ class FormattedDate {
       final String startDay = dayFormat.format(start);
       final String endDay = dayFormat.format(end);
 
-      return 'Du $startDay au $endDay - $monthYear';
+      return '$startDay au $endDay - $monthYear';
     } else {
       // Format complet si les dates couvrent plusieurs mois/années
       final DateFormat fullDateFormat = DateFormat('dd MMM yyyy');
       final String startDate = fullDateFormat.format(start);
       final String endDate = fullDateFormat.format(end);
 
-      return 'Du $startDate au $endDate';
+      return '$startDate au $endDate';
     }
   }
 }
