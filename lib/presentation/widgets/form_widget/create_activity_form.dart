@@ -1,4 +1,4 @@
-import 'package:association_appli/presentation/utils/formatted_date.dart';
+import 'package:association_appli/presentation/utils/date_formatter.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/customTextField.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +38,8 @@ class _CreateActivityFormState extends State<CreateActivityForm> {
       final DateTime startDate = dates[0]!;
       final DateTime endDate = dates[1]!;
 
-      final formattedStartDate = FormattedDate.formatDate(startDate);
-      final formattedEndDate = FormattedDate.formatDate(endDate);
+      final formattedStartDate = DateFormatter.formatDate(startDate);
+      final formattedEndDate = DateFormatter.formatDate(endDate);
       final dateRangeString = '$formattedStartDate - $formattedEndDate';
 
       setState(() {

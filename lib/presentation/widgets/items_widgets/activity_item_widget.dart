@@ -4,7 +4,7 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/activity_page/single_activity_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
-import 'package:association_appli/presentation/utils/formatted_date.dart';
+import 'package:association_appli/presentation/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,10 @@ class ActivityItemWidget extends StatelessWidget {
 
   ActivityItemWidget({super.key, required this.activityEntity});
 
-  void _route({required BuildContext context, required int id}) {
+  void _navigateToActivityDetails({
+    required BuildContext context,
+    required int id,
+  }) {
     final route = Navigator.of(context);
     route.push(
       MaterialPageRoute(builder: (context) => SingleActivityPage(id: id)),
@@ -22,19 +25,19 @@ class ActivityItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String formattedDateRange = FormattedDate.formatDateRange(
+    final String dateRangeText = DateFormatter.formatDateRange(
       activityEntity.startDate,
       activityEntity.endDate,
     );
 
     return InkWell(
       onTap: () {},
-      child: _buildbody(context: context, date: formattedDateRange),
+      child: _buildCardBody(context: context, date: dateRangeText),
     );
   }
 
-  Widget _buildbody({required BuildContext context, required String date}) {
-    final Offset distance = Offset(4.0, 4.0);
+  Widget _buildCardBody({required BuildContext context, required String date}) {
+    final Offset shadowOffset = Offset(4.0, 4.0);
     return Container(
       height: 92.0,
       width: double.infinity,
@@ -42,12 +45,12 @@ class ActivityItemWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
-          _buildShadow(
-            offset: distance,
+          _buildBoxShadow(
+            offset: shadowOffset,
             color: LightThemeColors.colorPrimary.withOpacity(0.12),
           ),
-          _buildShadow(
-            offset: -distance,
+          _buildBoxShadow(
+            offset: -shadowOffset,
             color: LightThemeColors.textFieldBorderColors.withOpacity(0.12),
           ),
         ],
@@ -70,14 +73,14 @@ class ActivityItemWidget extends StatelessWidget {
 
                 SizedBox(width: 12),
 
-                Expanded(child: _buildInfoSection(date: date)),
+                Expanded(child: _buildActivityInfo(date: date)),
               ],
             ),
 
             Positioned(
               right: 0.0,
               bottom: 0.0,
-              child: _buildDeleteButton(
+              child: _buildDeleteActionButton(
                 context: context,
                 id: activityEntity.id!,
               ),
@@ -88,7 +91,7 @@ class ActivityItemWidget extends StatelessWidget {
     );
   }
 
-  BoxShadow _buildShadow({required Offset offset, required Color color}) {
+  BoxShadow _buildBoxShadow({required Offset offset, required Color color}) {
     final double blur = 15.0;
     return BoxShadow(
       offset: offset,
@@ -98,21 +101,21 @@ class ActivityItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection({required String date}) {
+  Widget _buildActivityInfo({required String date}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _buildTitle(),
+        _buildActivityTitle(),
         SizedBox(height: 4.0),
-        _buildLocation(),
+        _buildActivityLocation(),
         SizedBox(height: 4.0),
-        _buildDateRange(date: date),
+        _buildActivityDateRange(date: date),
       ],
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildActivityTitle() {
     return Text(
       activityEntity.name,
       style: AppFonts.robotoFont(
@@ -125,7 +128,7 @@ class ActivityItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildLocation() {
+  Widget _buildActivityLocation() {
     return Row(
       children: [
         Icon(Icons.location_on_outlined, size: 18, color: Colors.grey[400]),
@@ -144,7 +147,7 @@ class ActivityItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDateRange({required String date}) {
+  Widget _buildActivityDateRange({required String date}) {
     return Row(
       children: [
         Icon(
@@ -164,7 +167,10 @@ class ActivityItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDeleteButton({required BuildContext context, required int id}) {
+  Widget _buildDeleteActionButton({
+    required BuildContext context,
+    required int id,
+  }) {
     return SizedBox(
       height: 34.0,
       width: 80.0,

@@ -17,7 +17,6 @@ class FormattedDate {
     final DateFormat dayFormat = DateFormat('dd'); // Ex: 25
 
     if (sameMonthAndYear) {
-      // Format concis : "25 au 30 -11- 2025"
       final String monthYear = monthYearFormat.format(start);
       final String startDay = dayFormat.format(start);
       final String endDay = dayFormat.format(end);
