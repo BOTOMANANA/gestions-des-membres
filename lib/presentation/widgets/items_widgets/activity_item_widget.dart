@@ -5,6 +5,7 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/pages/activity_page/single_activity_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/utils/date_formatter.dart';
+import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_delete_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,8 +32,13 @@ class ActivityItemWidget extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: () {},
-      child: _buildCardBody(context: context, date: dateRangeText),
+      onTap: () {
+        // _navigateToActivityDetails(context: context, id: activityEntity.id!);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: _buildCardBody(context: context, date: dateRangeText),
+      ),
     );
   }
 
@@ -64,10 +70,10 @@ class ActivityItemWidget extends StatelessWidget {
               children: [
                 Container(
                   height: 100,
-                  width: 60,
+                  width: 64,
                   decoration: BoxDecoration(
                     color: Colors.blueGrey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
 
@@ -176,10 +182,17 @@ class ActivityItemWidget extends StatelessWidget {
       width: 80.0,
       child: TextButton(
         onPressed: () {
-          Provider.of<ActivityProvider>(
-            context,
-            listen: false,
-          ).deleteActivity(id: id);
+          ShowDeleteDialog.show(
+            context: context,
+            details: "l'activite ${activityEntity.name}",
+            onPressed: () {
+              Provider.of<ActivityProvider>(
+                context,
+                listen: false,
+              ).deleteActivity(id: id);
+              Navigator.pop(context);
+            },
+          );
         },
         style: buttonStyle,
         child: Text(

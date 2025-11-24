@@ -2,7 +2,7 @@ import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
-import 'package:association_appli/presentation/utils/formatted_date.dart';
+import 'package:association_appli/presentation/utils/date_formatter.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
@@ -50,8 +50,8 @@ class _ShowCreateActivityDialogState extends State<ShowCreateActivityDialog> {
       final DateTime startDate = dates[0]!;
       final DateTime endDate = dates[1]!;
 
-      final formattedStartDate = FormattedDate.formatDate(startDate);
-      final formattedEndDate = FormattedDate.formatDate(endDate);
+      final formattedStartDate = DateFormatter.formatDate(startDate);
+      final formattedEndDate = DateFormatter.formatDate(endDate);
       final dateRangeString = '$formattedStartDate - $formattedEndDate';
 
       setState(() {

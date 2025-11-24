@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-class FormattedDate {
+class DateFormatter {
   static String formatDate(DateTime date) {
     String day = date.day.toString().padLeft(2, '0');
     String month = date.month.toString().padLeft(2, '0');
