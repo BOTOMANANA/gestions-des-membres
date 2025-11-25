@@ -1,13 +1,16 @@
 import 'package:association_appli/data/datasources/activity_local_datasources.dart';
 import 'package:association_appli/data/datasources/app_database_helper.dart';
 import 'package:association_appli/data/datasources/member_local_datasources.dart';
+import 'package:association_appli/data/datasources/product_local_datasources.dart';
 import 'package:association_appli/data/datasources/user_local_datasources.dart';
 import 'package:association_appli/data/repositories/activity_repository_impl.dart';
 import 'package:association_appli/data/repositories/member_repository_impl.dart';
+import 'package:association_appli/data/repositories/product_repository_impl.dart';
 import 'package:association_appli/data/repositories/user_repository_impl.dart';
 import 'package:association_appli/data/services/pdf_generator_services_impl.dart';
 import 'package:association_appli/domain/repositories/activity_repository.dart';
 import 'package:association_appli/domain/repositories/member_repository.dart';
+import 'package:association_appli/domain/repositories/product_repository.dart';
 import 'package:association_appli/domain/repositories/user_repository.dart';
 import 'package:association_appli/domain/services/pdf_generator_services.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/create_activity_usecase.dart';
@@ -20,6 +23,9 @@ import 'package:association_appli/domain/usecases/member_usecases/get_member_by_
 import 'package:association_appli/domain/usecases/member_usecases/get_member_by_status_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/search_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/update_member_usecase.dart';
+import 'package:association_appli/domain/usecases/product_usecase/create_product_usecase.dart';
+import 'package:association_appli/domain/usecases/product_usecase/delete_product_usecase.dart';
+import 'package:association_appli/domain/usecases/product_usecase/get_products_for_activity.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_member_pdf_usecase.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_members_pdf_by_category_usecase.dart';
 import 'package:association_appli/domain/usecases/user_usecases/login_usecase.dart';
@@ -27,6 +33,7 @@ import 'package:association_appli/domain/usecases/user_usecases/signup_usecase.d
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/providers/product_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/theme_notifier.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
@@ -58,6 +65,9 @@ Future registerLocalDatabaseSource() async {
   getIt.registerLazySingleton<ActivityLocalDatasources>(
     () => ActivityLocalDatasourcesImpl(),
   );
+  getIt.registerLazySingleton<ProductLocalDatasources>(
+    () => ProductLocalDatasourcesImpl(),
+  );
 }
 
 Future registerRepositories() async {
@@ -67,9 +77,11 @@ Future registerRepositories() async {
   getIt.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(userLocalDatasources: getIt()),
   );
-
   getIt.registerLazySingleton<ActivityRepository>(
     () => ActivityRepositoryImpl(activityLocalDatasources: getIt()),
+  );
+  getIt.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryImpl(datasources: getIt()),
   );
 }
 
@@ -99,6 +111,12 @@ Future registerUsecases() async {
   getIt.registerLazySingleton(() => CreateActivityUsecase(repository: getIt()));
   getIt.registerLazySingleton(() => DeleteActivityUsecase(repository: getIt()));
   getIt.registerLazySingleton(() => GetAllAcitvityUsecase(repository: getIt()));
+
+  getIt.registerLazySingleton(() => CreateProductUseCase(repository: getIt()));
+  getIt.registerLazySingleton(() => DeleteProductUsecase(repository: getIt()));
+  getIt.registerLazySingleton(
+    () => GetProductsForActivity(repository: getIt()),
+  );
 }
 
 Future registerProvider() async {
@@ -131,6 +149,13 @@ Future registerProvider() async {
       getAllAcitvityUsecase: getIt(),
       createActivityUsecase: getIt(),
       deleteActivityUsecase: getIt(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => ProductProvider(
+      createProductUseCase: getIt(),
+      deleteProductUsecase: getIt(),
+      getProductsForActivity: getIt(),
     ),
   );
 }

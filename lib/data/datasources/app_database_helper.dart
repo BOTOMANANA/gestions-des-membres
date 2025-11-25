@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? databaseVersion = 16;
+  final int? databaseVersion = 17;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -89,7 +89,7 @@ class AppDatabaseHelper {
   $columnStatus TEXT NOT NULL,
   $columnMemberResponsability TEXT,
   $columnMemberShipFree INTEGER,
-  $columnCreatedAt TEXT
+  $columnCreatedAt TEXT NOT NULL
   )
   ''';
 
@@ -103,10 +103,10 @@ class AppDatabaseHelper {
   late final String createTableActivity = '''
   CREATE TABLE $tableActivity(
   $columnActivityId INTEGER PRIMARY KEY AUTOINCREMENT,
-  $columnActivityName TEXT,
-  $columnStartDate TEXT,
-  $columnEndDate TEXT,
-  $columnLocation TEXT
+  $columnActivityName TEXT NOT NULL,
+  $columnStartDate TEXT NOT NULL,
+  $columnEndDate TEXT NOT NULL,
+  $columnLocation TEXT NOT NULL
   )
   ''';
 
@@ -119,7 +119,6 @@ class AppDatabaseHelper {
   final String columnAPProductPrice = 'price';
   final String columnAPProductRequiredTicket = 'required_tickets';
   final String columnAPProductDate = 'date';
-  final String colAPCreatedAt = 'created_at';
 
   late final String createTableActivityProducts = '''
   CREATE TABLE $tableActivityProducts(
@@ -128,7 +127,7 @@ class AppDatabaseHelper {
   $columnAPProductName TEXT NOT NULL,
   $columnAPProductPrice REAL NOT NULL, 
   $columnAPProductRequiredTicket INTEGER NOT NULL, 
-  $columnAPProductDate TEXT NOT NULL, 
+  $columnAPProductDate TEXT, 
   FOREIGN KEY ($columnAPActivityIdFK) REFERENCES $tableActivity($columnActivityId) ON DELETE CASCADE
   )
   ''';

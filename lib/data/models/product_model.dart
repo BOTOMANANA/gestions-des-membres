@@ -1,6 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
 import 'package:association_appli/domain/entities/product_entity.dart';
-import 'package:flutter/foundation.dart';
 
 class ProductModel extends ProductEntity {
   ProductModel({
@@ -13,24 +11,26 @@ class ProductModel extends ProductEntity {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    final String dateString = json['date'] as String;
+
     return ProductModel(
       id: json['id'],
       activityId: json['activity_id'],
       name: json['name'],
       price: json['price'],
       requiredTickets: json['required_tickets'],
-      createAt: json['date'],
+      createAt: DateTime.parse(dateString),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'member_id': activeDevToolsServerAddress,
+      'activity_id': activityId,
       'name': name,
       'price': price,
       'required_tickets': requiredTickets,
-      'date': createAt,
+      'date': createAt.toIso8601String(),
     };
   }
 

@@ -5,6 +5,7 @@ import 'package:association_appli/presentation/pages/main_navigation_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/providers/product_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/theme_notifier.dart';
 import 'package:association_appli/presentation/providers/user_providers.dart';
@@ -16,7 +17,7 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // _cleanupDatabaseArtifacts();
+  _cleanupDatabaseArtifacts();
   await setup();
   runApp(
     MultiProvider(
@@ -26,6 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<MemberProviders>()),
         ChangeNotifierProvider(create: (_) => getIt<ActivityProvider>()),
+        ChangeNotifierProvider(create: (_) => getIt<ProductProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<GeneratePdfProviders>()),
       ],
       child: const MyApp(),

@@ -2,7 +2,7 @@
 import 'package:association_appli/domain/entities/activity_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
-import 'package:association_appli/presentation/pages/activity_page/single_activity_page.dart';
+import 'package:association_appli/presentation/pages/activity_page/single_activity_details_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/utils/date_formatter.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_delete_dialog.dart';
@@ -20,7 +20,9 @@ class ActivityItemWidget extends StatelessWidget {
   }) {
     final route = Navigator.of(context);
     route.push(
-      MaterialPageRoute(builder: (context) => SingleActivityPage(id: id)),
+      MaterialPageRoute(
+        builder: (context) => SingleActivityDetailsPage(id: id),
+      ),
     );
   }
 
@@ -33,7 +35,7 @@ class ActivityItemWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // _navigateToActivityDetails(context: context, id: activityEntity.id!);
+        _navigateToActivityDetails(context: context, id: activityEntity.id!);
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),

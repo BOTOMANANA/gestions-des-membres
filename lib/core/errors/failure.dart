@@ -10,3 +10,11 @@ class DatabaseFailure extends Failure {
 class PdfFailure extends Failure {
   PdfFailure({required super.errorMessage});
 }
+
+Failure failure({required String error}) {
+  return DatabaseFailure(errorMessage: error);
+}
+
+Failure pdfFailure({required String error}) {
+  return PdfFailure(errorMessage: error);
+}
