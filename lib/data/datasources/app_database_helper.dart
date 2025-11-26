@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AppDatabaseHelper {
   static final AppDatabaseHelper instance = AppDatabaseHelper._init();
   AppDatabaseHelper._init();
-  final int? databaseVersion = 17;
+  final int? databaseVersion = 18;
   static Database? _database;
 
   Future<Database?> getDatabase() async {
@@ -27,7 +27,7 @@ class AppDatabaseHelper {
   }
 
   Future _createDB(Database db, int version) async {
-    await db.execute(createTableUser);
+    await db.execute(createTableAssociation);
     await db.execute(createTableMember);
     await db.execute(createTableActivity);
     await db.execute(createTableActivityProducts);
@@ -36,7 +36,7 @@ class AppDatabaseHelper {
   }
 
   Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    await db.execute('DROP TABLE IF EXISTS users');
+    await db.execute('DROP TABLE IF EXISTS association');
     await db.execute('DROP TABLE IF EXISTS members');
     await db.execute('DROP TABLE IF EXISTS activities');
     await db.execute('DROP TABLE IF EXISTS activity_products');
@@ -45,18 +45,18 @@ class AppDatabaseHelper {
     await _createDB(db, newVersion);
   }
 
-  final String tableUser = 'users';
-  final String userId = 'user_id';
-  final String userName = 'user_name';
-  final String userEmail = 'user_email';
-  final String userPassword = 'user_password';
+  final String tableAssociation = 'association';
+  final String columnAssociationId = 'id';
+  final String columnAssociationName = 'name';
+  final String columnAssociationSlogan = 'slogan';
+  final String columnAssociationSiege = 'siege';
 
-  late final String createTableUser = '''
-  CREATE TABLE $tableUser(
-  $userId INTEGER PRIMARY KEY AUTOINCREMENT,
-  $userName TEXT,
-  $userEmail TEXT,
-  $userPassword TEXT
+  late final String createTableAssociation = '''
+  CREATE TABLE $tableAssociation(
+  $columnAssociationId INTEGER PRIMARY KEY AUTOINCREMENT,
+  $columnAssociationName TEXT NOT NULL,
+  $columnAssociationSlogan TEXT,
+  $columnAssociationSiege TEXT NOT NULL
   )
   ''';
 

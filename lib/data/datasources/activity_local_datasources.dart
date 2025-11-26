@@ -32,6 +32,6 @@ class ActivityLocalDatasourcesImpl implements ActivityLocalDatasources {
   Future<List<ActivityModel>> getAllActivity() async {
     final database = await _database;
     var result = await database!.query(_helper.tableActivity);
-    return result.map((value) => ActivityModel.fromJson(value)).toList();
+    return result.map((activity) => ActivityModel.fromJson(activity)).toList();
   }
 }

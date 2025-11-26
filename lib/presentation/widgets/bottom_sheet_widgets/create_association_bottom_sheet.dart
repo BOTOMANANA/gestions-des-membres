@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:association_appli/domain/entities/association_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/association_provider.dart';
@@ -48,7 +50,7 @@ class _CreateAssociationBottomSheetState
       siege: siege,
       slogan: slogan,
     );
-    provider.createAssociation(association: association);
+    provider.createAssociation(associationEntity: association);
   }
 
   @override

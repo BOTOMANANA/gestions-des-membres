@@ -1,21 +1,29 @@
 import 'package:association_appli/data/datasources/activity_local_datasources.dart';
 import 'package:association_appli/data/datasources/app_database_helper.dart';
+import 'package:association_appli/data/datasources/association_local_datasources.dart';
 import 'package:association_appli/data/datasources/member_local_datasources.dart';
+import 'package:association_appli/data/datasources/member_product_status_local_datasources.dart';
 import 'package:association_appli/data/datasources/product_local_datasources.dart';
-import 'package:association_appli/data/datasources/user_local_datasources.dart';
 import 'package:association_appli/data/repositories/activity_repository_impl.dart';
+import 'package:association_appli/data/repositories/association_repository_impl.dart';
+import 'package:association_appli/data/repositories/member_product_status_repository_impl.dart';
 import 'package:association_appli/data/repositories/member_repository_impl.dart';
 import 'package:association_appli/data/repositories/product_repository_impl.dart';
-import 'package:association_appli/data/repositories/user_repository_impl.dart';
 import 'package:association_appli/data/services/pdf_generator_services_impl.dart';
 import 'package:association_appli/domain/repositories/activity_repository.dart';
+import 'package:association_appli/domain/repositories/association_repository.dart';
+import 'package:association_appli/domain/repositories/member_product_status_repository.dart';
 import 'package:association_appli/domain/repositories/member_repository.dart';
 import 'package:association_appli/domain/repositories/product_repository.dart';
-import 'package:association_appli/domain/repositories/user_repository.dart';
 import 'package:association_appli/domain/services/pdf_generator_services.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/create_activity_usecase.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/delete_activity_usecase.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/get_all_acitvity_usecase.dart';
+import 'package:association_appli/domain/usecases/association_usecases/create_association_usecase.dart';
+import 'package:association_appli/domain/usecases/association_usecases/get_association_usecase.dart';
+import 'package:association_appli/domain/usecases/member_product_status_usecase/get_member_product_status_by_product_id.dart';
+import 'package:association_appli/domain/usecases/member_product_status_usecase/save_member_product_status.dart';
+import 'package:association_appli/domain/usecases/member_product_status_usecase/update_payment_status.dart';
 import 'package:association_appli/domain/usecases/member_usecases/create_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/delete_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/get_all_members_usecase.dart';
@@ -28,15 +36,13 @@ import 'package:association_appli/domain/usecases/product_usecase/delete_product
 import 'package:association_appli/domain/usecases/product_usecase/get_products_for_activity.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_member_pdf_usecase.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_members_pdf_by_category_usecase.dart';
-import 'package:association_appli/domain/usecases/user_usecases/login_usecase.dart';
-import 'package:association_appli/domain/usecases/user_usecases/signup_usecase.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
+import 'package:association_appli/presentation/providers/association_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/product_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/theme_notifier.dart';
-import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:get_it/get_it.dart';
 
 var getIt = GetIt.instance;
@@ -59,8 +65,8 @@ Future registerLocalDatabaseSource() async {
   getIt.registerLazySingleton<MemberLocalDatasources>(
     () => MemberLocalDatasourcesImpl(),
   );
-  getIt.registerLazySingleton<UserLocalDatasources>(
-    () => UserLocalDatasourcesImpl(),
+  getIt.registerLazySingleton<AssociationLocalDatasources>(
+    () => AssociationLocalDatasourcesImpl(),
   );
   getIt.registerLazySingleton<ActivityLocalDatasources>(
     () => ActivityLocalDatasourcesImpl(),
@@ -68,20 +74,26 @@ Future registerLocalDatabaseSource() async {
   getIt.registerLazySingleton<ProductLocalDatasources>(
     () => ProductLocalDatasourcesImpl(),
   );
+  getIt.registerLazySingleton<MemberProductStatusLocalDatasource>(
+    () => MemberProductStatusLocalDatasourceImpl(),
+  );
 }
 
 Future registerRepositories() async {
   getIt.registerLazySingleton<MemberRepository>(
     () => MemberRepositoryImpl(memberLocalDatasources: getIt()),
   );
-  getIt.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(userLocalDatasources: getIt()),
+  getIt.registerLazySingleton<AssociationRepository>(
+    () => AssociationRepositoryImpl(localDatasources: getIt()),
   );
   getIt.registerLazySingleton<ActivityRepository>(
     () => ActivityRepositoryImpl(activityLocalDatasources: getIt()),
   );
   getIt.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(datasources: getIt()),
+  );
+  getIt.registerLazySingleton<MemberProductStatusRepository>(
+    () => MemberProductStatusRepositoryImpl(),
   );
 }
 
@@ -96,8 +108,10 @@ Future registerUsecases() async {
     () => GetMemberByStatusUsecase(repository: getIt()),
   );
 
-  getIt.registerLazySingleton(() => SignupUsecase(repository: getIt()));
-  getIt.registerLazySingleton(() => LoginUsecase(repository: getIt()));
+  getIt.registerLazySingleton(
+    () => CreateAssociationUsecase(repository: getIt()),
+  );
+  getIt.registerLazySingleton(() => GetAssociationUsecase(repository: getIt()));
   getIt.registerLazySingleton(
     () => GenerateMembersPdfUseCase(repository: getIt(), pdfGenerator: getIt()),
   );
@@ -117,6 +131,14 @@ Future registerUsecases() async {
   getIt.registerLazySingleton(
     () => GetProductsForActivity(repository: getIt()),
   );
+
+  getIt.registerLazySingleton(
+    () => SaveMemberProductStatus(repository: getIt()),
+  );
+  getIt.registerLazySingleton(() => UpdatePaymentStatus(repository: getIt()));
+  getIt.registerLazySingleton(
+    () => GetMemberProductStatusByProductId(repository: getIt()),
+  );
 }
 
 Future registerProvider() async {
@@ -134,7 +156,10 @@ Future registerProvider() async {
     () => SingleMemberProvider(getMemberByIdUsecase: getIt()),
   );
   getIt.registerLazySingleton(
-    () => UserProviders(loginUsecase: getIt(), signupUsecase: getIt()),
+    () => AssociationProvider(
+      createAssociationUsecase: getIt(),
+      getAssociationUsecase: getIt(),
+    ),
   );
 
   getIt.registerLazySingleton(

@@ -1,14 +1,30 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
+import 'package:association_appli/presentation/providers/association_provider.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/create_association_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CreateAssociationPage extends StatelessWidget {
+class CreateAssociationPage extends StatefulWidget {
   const CreateAssociationPage({super.key});
+
+  @override
+  State<CreateAssociationPage> createState() => _CreateAssociationPageState();
+}
+
+class _CreateAssociationPageState extends State<CreateAssociationPage> {
+  bool hasAssociation = false;
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<AssociationProvider>(context, listen: false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,29 +36,43 @@ class CreateAssociationPage extends StatelessWidget {
   }
 
   Widget _buildPageContent(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildHeaderSection(),
-          const SizedBox(height: 60.0),
-          customButton(
-            color: LightThemeColors.colorPrimary,
-            title: 'Creer un association',
-            textColor: Colors.white,
-            onSubmit: () => CreateAssociationBottomSheet(),
+    return Consumer<AssociationProvider>(
+      builder: (context, provider, _) {
+        bool hasAssociation = provider.state == AssociationState.loaded;
+
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildHeaderSection(),
+              const SizedBox(height: 60.0),
+
+              AbsorbPointer(
+                absorbing: hasAssociation, // empêche les clics
+                child: Opacity(
+                  opacity: hasAssociation ? 0.4 : 1.0, // effet visuel gris
+                  child: customButton(
+                    color: LightThemeColors.colorPrimary,
+                    title: 'Créer une association',
+                    textColor: Colors.white,
+                    onSubmit: () => CreateAssociationBottomSheet(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+
+              customButton(
+                color: LightThemeColors.colorPrimary.withOpacity(0.12),
+                title: 'Suivant',
+                textColor: LightThemeColors.colorPrimary,
+                onSubmit: () => Navigator.pushNamed(context, PageRoutes.home),
+              ),
+              const SizedBox(height: 20.0),
+              _buildUsageTermsNote(),
+            ],
           ),
-          const SizedBox(height: 10.0),
-          customButton(
-            color: LightThemeColors.colorPrimary.withOpacity(0.12),
-            title: 'Suivant',
-            textColor: LightThemeColors.colorPrimary,
-            onSubmit: () => Navigator.pushNamed(context, PageRoutes.home),
-          ),
-          const SizedBox(height: 20.0),
-          _buildUsageTermsNote(),
-        ],
-      ),
+        );
+      },
     );
   }
 

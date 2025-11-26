@@ -3,12 +3,12 @@ import 'package:association_appli/core/di/get_it.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
+import 'package:association_appli/presentation/providers/association_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/product_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/theme_notifier.dart';
-import 'package:association_appli/presentation/providers/user_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -23,7 +23,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => getIt<ThemeNotifier>()),
-        ChangeNotifierProvider(create: (_) => getIt<UserProviders>()),
+        ChangeNotifierProvider(create: (_) => getIt<AssociationProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<SingleMemberProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<MemberProviders>()),
         ChangeNotifierProvider(create: (_) => getIt<ActivityProvider>()),
