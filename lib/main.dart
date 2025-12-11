@@ -4,6 +4,7 @@ import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/pages/main_navigation_page.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/providers/association_provider.dart';
+import 'package:association_appli/presentation/providers/call_number_phone_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/providers/product_provider.dart';
@@ -17,7 +18,7 @@ import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  _cleanupDatabaseArtifacts();
+  // _cleanupDatabaseArtifacts();
   await setup();
   runApp(
     MultiProvider(
@@ -29,14 +30,15 @@ void main() async {
         ChangeNotifierProvider(create: (_) => getIt<ActivityProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<ProductProvider>()),
         ChangeNotifierProvider(create: (_) => getIt<GeneratePdfProviders>()),
+        ChangeNotifierProvider(create: (_) => getIt<CallNumberPhoneProvider>()),
       ],
-      child: const MyApp(),
+      child: const AntMobileApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AntMobileApp extends StatelessWidget {
+  const AntMobileApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,12 @@
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
+import 'package:association_appli/presentation/providers/call_number_phone_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_confirm_delete_dialog.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_qr_code_dialog.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
+import 'package:association_appli/presentation/widgets/create_text_widget.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
@@ -14,7 +16,6 @@ import 'package:association_appli/presentation/widgets/members_widgets/build_mem
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MembersProfilePage extends StatefulWidget {
   final int id;
@@ -41,7 +42,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
         icon: 'assets/icons/arrowleftt.png',
         title: 'Profile',
         background: Colors.white,
-        actions: [_appBarAction()],
+        actions: [BuildAppBarAction()],
       ),
       backgroundColor: Colors.white,
       body: Consumer<SingleMemberProvider>(
@@ -75,6 +76,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                   _bodyOfPersonalInformation(member: member),
                   const SizedBox(height: 16.0),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Activites',
@@ -108,34 +110,6 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           return const SizedBox.shrink();
         },
       ),
-    );
-  }
-
-  Widget _appBarAction() {
-    return Consumer<SingleMemberProvider>(
-      builder: (context, provider, child) {
-        final member = provider.memberEntity;
-        final String data =
-            '"id":${member?.id},"nom":"${member!.fullName}","phone":"${member.phoneNumber}"';
-        return Row(
-          children: [
-            customIconButton(
-              iconPath: 'assets/icons/call.png',
-              size: 16.0,
-              onPressed: () {
-                _callMember('${member.phoneNumber}');
-              },
-            ),
-            customIconButton(
-              iconPath: 'assets/icons/qrcode.png',
-              size: 16.0,
-              onPressed: () {
-                ShowQrCodeDialog.showDialog(context: context, data: data);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -194,21 +168,24 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           ),
         ),
         SizedBox(height: 8.0),
-        titleTextFonts(
+        CreateTextWidget.buildTextWidget(
           data: member.fullName,
           color: Colors.white,
+          size: 16.0,
           weight: FontWeight.bold,
         ),
         SizedBox(height: 4.0),
-        subTitleTextFonts(
+        CreateTextWidget.buildTextWidget(
           data: member.category ?? 'Aucun(ne)',
           color: Colors.white54,
+          size: 12.0,
+          weight: FontWeight.w600,
         ),
         SizedBox(height: 20.0),
-        _getAmountOfCotisation(
-          freeShip: member.memberShipFee.toInt(),
+        DisplaySingleMemberCotisationList(
+          freeShip: member.memberShipFee,
           social: 0,
-          amountActivity: 0,
+          activities: 0,
         ),
       ],
     );
@@ -256,57 +233,6 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
     );
   }
 
-  Text titleTextFonts({
-    required String data,
-    required Color color,
-    required FontWeight weight,
-  }) {
-    return Text(
-      data,
-      style: AppFonts.robotoFont(size: 16.0, color: color, weight: weight),
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-
-  Text subTitleTextFonts({required String data, required Color color}) {
-    return Text(
-      data,
-      style: AppFonts.robotoFont(
-        size: 12.0,
-        color: color,
-        weight: FontWeight.w600,
-      ),
-    );
-  }
-
-  Row _getAmountOfCotisation({
-    required int freeShip,
-    required int social,
-    required int amountActivity,
-  }) {
-    final titleCotisation = ['Adhesion', 'C.Socials', 'Activites'];
-    final amounts = [freeShip, social, amountActivity];
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: List.generate(titleCotisation.length, (index) {
-        return Column(
-          children: [
-            titleTextFonts(
-              data: '${amounts[index]}',
-              color: Colors.white,
-              weight: FontWeight.bold,
-            ),
-            subTitleTextFonts(
-              data: titleCotisation[index],
-              color: Colors.white54,
-            ),
-          ],
-        );
-      }),
-    );
-  }
-
   Widget _otherInformationPersonal({
     required String iconPath,
     required String firstData,
@@ -331,14 +257,17 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                titleTextFonts(
+                CreateTextWidget.buildTextWidget(
                   data: firstData,
                   color: LightThemeColors.colorPrimary,
+                  size: 16.0,
                   weight: FontWeight.w500,
                 ),
-                subTitleTextFonts(
+                CreateTextWidget.buildTextWidget(
                   data: lastData!,
                   color: LightThemeColors.colorPrimary.withOpacity(0.5),
+                  size: 12.0,
+                  weight: FontWeight.normal,
                 ),
               ],
             ),
@@ -366,11 +295,40 @@ Widget _cardActivityContainer() {
   );
 }
 
-Future<void> _callMember(String phoneNumber) async {
-  final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
-  if (await canLaunchUrl(phoneUri)) {
-    await launchUrl(phoneUri);
-  } else {
-    throw 'Impossible de passe une appelle sur $phoneNumber';
+class BuildAppBarAction extends StatelessWidget {
+  const BuildAppBarAction({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    late final CallNumberPhoneProvider callProvider;
+    final provider = Provider.of<SingleMemberProvider>(context, listen: false);
+    callProvider = Provider.of<CallNumberPhoneProvider>(context, listen: false);
+
+    final member = provider.memberEntity;
+    final contact = '${member!.phoneNumber}';
+
+    final String data = '''
+    "id":${member.id!},
+    "nom":"${member.fullName}",
+    "phone": $contact,
+    ''';
+    return Row(
+      children: [
+        customIconButton(
+          iconPath: 'assets/icons/call.png',
+          size: 16.0,
+          onPressed: () {
+            callProvider.callMember(contact: contact);
+          },
+        ),
+        customIconButton(
+          iconPath: 'assets/icons/qrcode.png',
+          size: 16.0,
+          onPressed: () {
+            ShowQrCodeDialog.showDialog(context: context, data: data);
+          },
+        ),
+      ],
+    );
   }
 }
