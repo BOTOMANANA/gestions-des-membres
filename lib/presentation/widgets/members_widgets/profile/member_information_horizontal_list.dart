@@ -34,25 +34,31 @@ class _MemberInformationHorizontalListState
       '${widget.member.cinNumber}',
       ' ${widget.member.phoneNumber}',
     ];
-    return ListView.builder(
-      itemCount: iconsPath.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (_, index) {
-        return Container(
-          width: 190.0,
-          height: 70.0,
-          decoration: BoxDecoration(
-            color: LightThemeColors.colorPrimary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: MemberInfoCardItem(
-            iconsAssets: iconsPath,
-            infoTitles: title,
-            infoSubtitles: subTitle,
-            index: index,
-          ),
-        );
-      },
+    return SizedBox(
+      height: 70.0,
+      child: ListView.builder(
+        itemCount: iconsPath.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Container(
+              width: 190.0,
+              height: 70.0,
+              decoration: BoxDecoration(
+                color: LightThemeColors.colorPrimary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: MemberInfoCardItem(
+                iconsAssets: iconsPath,
+                infoTitles: title,
+                infoSubtitles: subTitle,
+                index: index,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

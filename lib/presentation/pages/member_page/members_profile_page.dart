@@ -1,6 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
-import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/call_number_phone_provider.dart';
@@ -13,6 +11,9 @@ import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart
 import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_member_profile_image.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/profile/member_contribution_summary.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/profile/member_information_horizontal_list.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/profile/profile_action_buttons.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
         icon: 'assets/icons/arrowleftt.png',
         title: 'Profile',
         background: Colors.white,
-        actions: [BuildAppBarAction()],
+        actions: [ProfileActionButtons()],
       ),
       backgroundColor: Colors.white,
       body: Consumer<SingleMemberProvider>(
@@ -73,7 +74,8 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
                       weight: FontWeight.w600,
                     ),
                   ),
-                  _bodyOfPersonalInformation(member: member),
+                  MemberInformationHorizontalList(member: member),
+                  // _bodyOfPersonalInformation(member: member),
                   const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,98 +184,12 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
           weight: FontWeight.w600,
         ),
         SizedBox(height: 20.0),
-        DisplaySingleMemberCotisationList(
+        MemberContributionSummary(
           freeShip: member.memberShipFee,
           social: 0,
           activities: 0,
         ),
       ],
-    );
-  }
-
-  Widget _bodyOfPersonalInformation({required MemberEntity member}) {
-    return Column(
-      children: [
-        SizedBox(height: 8.0),
-
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _otherInformationPersonal(
-                iconPath: 'assets/icons/graduationcard.png',
-                firstData: member.faculty,
-                lastData: member.studentCardNumber,
-              ),
-              SizedBox(width: 4.0),
-              _otherInformationPersonal(
-                iconPath: 'assets/icons/rapid.png',
-                firstData: member.country,
-                lastData: '${member.cinNumber}',
-              ),
-              SizedBox(width: 4.0),
-
-              _otherInformationPersonal(
-                iconPath: 'assets/icons/creditcards.png',
-                firstData: member.faculty,
-                lastData: member.studentCardNumber,
-              ),
-              SizedBox(width: 4.0),
-
-              _otherInformationPersonal(
-                iconPath: 'assets/icons/navigator.png',
-                firstData: member.quarter,
-                lastData: '',
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16.0),
-      ],
-    );
-  }
-
-  Widget _otherInformationPersonal({
-    required String iconPath,
-    required String firstData,
-    required String? lastData,
-  }) {
-    return Container(
-      width: 190.0,
-      height: 70.0,
-      decoration: BoxDecoration(
-        color: LightThemeColors.colorPrimary.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: 8.0),
-          Image.asset(iconPath, width: 44.0, height: 44.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 8.0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CreateTextWidget.buildTextWidget(
-                  data: firstData,
-                  color: LightThemeColors.colorPrimary,
-                  size: 16.0,
-                  weight: FontWeight.w500,
-                ),
-                CreateTextWidget.buildTextWidget(
-                  data: lastData!,
-                  color: LightThemeColors.colorPrimary.withOpacity(0.5),
-                  size: 12.0,
-                  weight: FontWeight.normal,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -295,40 +211,59 @@ Widget _cardActivityContainer() {
   );
 }
 
-class BuildAppBarAction extends StatelessWidget {
-  const BuildAppBarAction({super.key});
+// class BuildAppBarAction extends StatelessWidget {
+//   const BuildAppBarAction({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    late final CallNumberPhoneProvider callProvider;
-    final provider = Provider.of<SingleMemberProvider>(context, listen: false);
-    callProvider = Provider.of<CallNumberPhoneProvider>(context, listen: false);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<SingleMemberProvider>(
+//       builder: (context, provider, child) {
+//         if (provider.state != SingleMemberState.succes ||
+//             provider.memberEntity == null) {
+//           return const SizedBox.shrink();
+//         }
 
-    final member = provider.memberEntity;
-    final contact = '${member!.phoneNumber}';
+//         final member = provider.memberEntity!;
+//         final int contactInt = member.phoneNumber;
+//         final String contact = contactInt.toString();
 
-    final String data = '''
-    "id":${member.id!},
-    "nom":"${member.fullName}",
-    "phone": $contact,
-    ''';
-    return Row(
-      children: [
-        customIconButton(
-          iconPath: 'assets/icons/call.png',
-          size: 16.0,
-          onPressed: () {
-            callProvider.callMember(contact: contact);
-          },
-        ),
-        customIconButton(
-          iconPath: 'assets/icons/qrcode.png',
-          size: 16.0,
-          onPressed: () {
-            ShowQrCodeDialog.showDialog(context: context, data: data);
-          },
-        ),
-      ],
-    );
-  }
-}
+//         if (contactInt == 0) {
+//           return SizedBox.shrink();
+//         }
+
+//         final callProvider = Provider.of<CallNumberPhoneProvider>(
+//           context,
+//           listen: false,
+//         );
+
+//         final String data = '''
+//         {
+//           "id":${member.id},
+//           "nom":"${member.fullName}",
+//           "phone": "$contact"
+//         }
+//         ''';
+
+//         return Row(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             customIconButton(
+//               iconPath: 'assets/icons/call.png',
+//               size: 16.0,
+//               onPressed: () {
+//                 callProvider.callMember(contact: contact.toString());
+//               },
+//             ),
+//             customIconButton(
+//               iconPath: 'assets/icons/qrcode.png',
+//               size: 16.0,
+//               onPressed: () {
+//                 ShowQrCodeDialog.showDialog(context: context, data: data);
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }

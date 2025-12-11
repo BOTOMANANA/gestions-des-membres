@@ -12,6 +12,7 @@ AppBar customAppBarWidget({
   return AppBar(
     surfaceTintColor: Colors.transparent,
     shadowColor: Colors.transparent,
+    leadingWidth: 60.0,
     leading: GestureDetector(
       onTap: () => Navigator.pop(context),
       child: Image.asset(icon!),
@@ -20,8 +21,9 @@ AppBar customAppBarWidget({
     elevation: 0.0,
     title: Text(
       title,
+      overflow: TextOverflow.ellipsis,
       style: AppFonts.robotoCondensedFont(
-        size: 20.0,
+        size: 18.0,
         color: LightThemeColors.textBlack,
       ),
     ),
