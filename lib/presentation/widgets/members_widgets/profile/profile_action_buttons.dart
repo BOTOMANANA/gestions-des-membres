@@ -1,4 +1,4 @@
-import 'package:association_appli/presentation/providers/call_number_phone_provider.dart';
+import 'package:association_appli/presentation/providers/phone_service_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_qr_code_dialog.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
@@ -18,14 +18,14 @@ class ProfileActionButtons extends StatelessWidget {
         }
 
         final member = provider.memberEntity!;
-        final int contactInt = member.phoneNumber;
-        final String contact = contactInt.toString();
+        final int phoneNumber = member.phoneNumber;
+        final String contact = phoneNumber.toString();
 
-        if (contactInt == 0) {
+        if (phoneNumber == 0) {
           return SizedBox.shrink();
         }
 
-        final callProvider = Provider.of<CallNumberPhoneProvider>(
+        final callProvider = Provider.of<PhoneServiceProvider>(
           context,
           listen: false,
         );

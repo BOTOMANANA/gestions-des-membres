@@ -13,7 +13,6 @@ class NumberFormatter {
     if (amount == amount.toInt()) {
       return _integerFormatter.format(amount) + symbol;
     }
-
     return _decimalFormatter.format(amount) + symbol;
   }
 }

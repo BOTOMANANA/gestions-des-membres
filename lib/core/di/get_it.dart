@@ -9,15 +9,17 @@ import 'package:association_appli/data/repositories/association_repository_impl.
 import 'package:association_appli/data/repositories/member_product_status_repository_impl.dart';
 import 'package:association_appli/data/repositories/member_repository_impl.dart';
 import 'package:association_appli/data/repositories/product_repository_impl.dart';
-import 'package:association_appli/data/services/call_phone_number_service_impl.dart';
 import 'package:association_appli/data/services/pdf_generator_services_impl.dart';
+import 'package:association_appli/data/services/phone_service_impl.dart';
+import 'package:association_appli/data/services/profile_image_loader_service_impl.dart';
 import 'package:association_appli/domain/repositories/activity_repository.dart';
 import 'package:association_appli/domain/repositories/association_repository.dart';
 import 'package:association_appli/domain/repositories/member_product_status_repository.dart';
 import 'package:association_appli/domain/repositories/member_repository.dart';
 import 'package:association_appli/domain/repositories/product_repository.dart';
-import 'package:association_appli/domain/services/call_phone_number_service.dart';
 import 'package:association_appli/domain/services/pdf_generator_services.dart';
+import 'package:association_appli/domain/services/phone_service.dart';
+import 'package:association_appli/domain/services/profile_image_loader_service.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/create_activity_usecase.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/delete_activity_usecase.dart';
 import 'package:association_appli/domain/usecases/activity_usecases/get_all_acitvity_usecase.dart';
@@ -36,20 +38,22 @@ import 'package:association_appli/domain/usecases/member_usecases/update_member_
 import 'package:association_appli/domain/usecases/product_usecase/create_product_usecase.dart';
 import 'package:association_appli/domain/usecases/product_usecase/delete_product_usecase.dart';
 import 'package:association_appli/domain/usecases/product_usecase/get_products_for_activity.dart';
-import 'package:association_appli/domain/usecases/service_usecase/call_phone_number_service_usecase.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_member_pdf_usecase.dart';
 import 'package:association_appli/domain/usecases/service_usecase/generate_members_pdf_by_category_usecase.dart';
+import 'package:association_appli/domain/usecases/service_usecase/load_profile_image_service_usecase.dart';
+import 'package:association_appli/domain/usecases/service_usecase/phone_service_usecase.dart';
 import 'package:association_appli/presentation/providers/activity_provider.dart';
 import 'package:association_appli/presentation/providers/association_provider.dart';
-import 'package:association_appli/presentation/providers/call_number_phone_provider.dart';
 import 'package:association_appli/presentation/providers/generate_pdf_providers.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/providers/phone_service_provider.dart';
 import 'package:association_appli/presentation/providers/product_provider.dart';
+import 'package:association_appli/presentation/providers/profile_image_service_provider.dart';
 import 'package:association_appli/presentation/providers/single_member_provider.dart';
 import 'package:association_appli/presentation/providers/theme_notifier.dart';
 import 'package:get_it/get_it.dart';
 
-//============================== Modifier le 10 dec 2025 ======================
+//============================== Modifier le 12 dec 2025 ======================
 
 var getIt = GetIt.instance;
 
@@ -145,8 +149,10 @@ Future registerUsecases() async {
   getIt.registerLazySingleton(
     () => GetMemberProductStatusByProductId(repository: getIt()),
   );
+
+  getIt.registerLazySingleton(() => PhoneServiceUsecase(callService: getIt()));
   getIt.registerLazySingleton(
-    () => CallPhoneNumberServiceUsecase(callService: getIt()),
+    () => LoadProfileImageServiceUsecase(imageLoaderService: getIt()),
   );
 }
 
@@ -172,6 +178,10 @@ Future registerProvider() async {
   );
 
   getIt.registerLazySingleton(
+    () => ProfileImageServiceProvider(serviceUsecase: getIt()),
+  );
+
+  getIt.registerLazySingleton(
     () => GeneratePdfProviders(
       generateMembersPdfUsecase: getIt(),
       generateMembersPdfByCategoryUsecase: getIt(),
@@ -179,7 +189,7 @@ Future registerProvider() async {
   );
 
   getIt.registerLazySingleton(
-    () => CallNumberPhoneProvider(callPhoneNumberServiceUsecase: getIt()),
+    () => PhoneServiceProvider(phoneServiceUsecase: getIt()),
   );
 
   getIt.registerLazySingleton(() => ThemeNotifier());
@@ -200,10 +210,13 @@ Future registerProvider() async {
 }
 
 Future<void> registerService() async {
+  getIt.registerLazySingleton<ProfileImageLoaderService>(
+    () => ProfileImageLoaderServiceImpl(),
+  );
+
   getIt.registerLazySingleton<PdfGeneratorServices>(
     () => PdfGeneratorServicesImpl(),
   );
-  getIt.registerLazySingleton<CallPhoneNumberService>(
-    () => CallPhoneNumberServiceImpl(),
-  );
+
+  getIt.registerLazySingleton<PhoneService>(() => PhoneServiceImpl());
 }

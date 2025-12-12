@@ -3,7 +3,7 @@ import 'package:association_appli/presentation/widgets/create_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class MemberContributionSummary extends StatelessWidget {
-  final int freeShip;
+  final String freeShip;
   final int social;
   final int activities;
 
