@@ -1,7 +1,4 @@
-import 'package:association_appli/data/datasources/app_database_helper.dart';
 import 'package:association_appli/domain/entities/activity_entity.dart';
-
-final _helper = AppDatabaseHelper.instance;
 
 class ActivityModel extends ActivityEntity {
   ActivityModel({

@@ -1,5 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: deprecated_member_use
+
 import 'package:association_appli/presentation/utils/number_formatter.dart';
 import 'package:association_appli/presentation/widgets/build_label_between_section.dart';
 import 'package:flutter/material.dart';

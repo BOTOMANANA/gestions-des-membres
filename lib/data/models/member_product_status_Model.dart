@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:association_appli/domain/entities/member_product_status_entity.dart';
 
 class MemberProductStatusModel extends MemberProductStatusEntity {
