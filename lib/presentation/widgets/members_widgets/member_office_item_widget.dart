@@ -16,23 +16,25 @@ class MemberOfficeItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Container(
         width: 132.0,
-        height: 400.0,
+        height: 410.0,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.0),
           border: BoxBorder.all(
-            color: LightThemeColors.textFieldBorderColors.withOpacity(0.5),
+            color: LightThemeColors.textFieldBorderColors.withOpacity(0.3),
           ),
           boxShadow: [
             BoxShadow(
-              color: LightThemeColors.textBlack.withOpacity(0.05),
-              offset: Offset(0, 2),
+              color: LightThemeColors.textBlack.withOpacity(0.03),
+              offset: Offset(2, 2),
               blurRadius: 12.0,
+              spreadRadius: 1.0,
             ),
             BoxShadow(
-              color: LightThemeColors.colorPrimary.withOpacity(0.05),
-              offset: Offset(-2, 0),
-              blurRadius: 24.0,
+              color: LightThemeColors.colorPrimary.withOpacity(0.03),
+              offset: Offset(-2, -2),
+              blurRadius: 12.0,
+              spreadRadius: 1.0,
             ),
           ],
         ),

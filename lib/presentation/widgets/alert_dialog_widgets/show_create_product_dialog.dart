@@ -4,7 +4,7 @@ import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/product_provider.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
-import 'package:association_appli/presentation/widgets/customTextField.dart';
+import 'package:association_appli/presentation/widgets/custom_text_field.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

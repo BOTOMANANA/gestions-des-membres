@@ -12,14 +12,21 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = context.watch<ThemeNotifier>();
-    final isDark = themeNotifier.isDarkMode;
+    final appTheme = context.watch<ThemeNotifier>();
+    final isDarkMode = appTheme.isDarkMode;
 
     final toggleAction = context.read<ThemeNotifier>().toggleTheme;
 
     return Scaffold(
-      body: ListTile(
-        leading: Switch(value: isDark, onChanged: (isDark) => toggleAction),
+      appBar: AppBar(title: const Text('Params'), centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          leading: Switch(
+            value: isDarkMode,
+            onChanged: (isDark) => toggleAction,
+          ),
+        ),
       ),
     );
   }

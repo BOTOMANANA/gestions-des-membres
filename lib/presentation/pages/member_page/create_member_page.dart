@@ -1,9 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/snack_bar_widget.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button.dart';
-import 'package:association_appli/presentation/widgets/customTextField.dart';
+import 'package:association_appli/presentation/widgets/custom_text_field.dart';
 import 'package:association_appli/presentation/widgets/custom_appbar_widget.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/dropdown_items_responsability.dart';
 import 'package:association_appli/presentation/widgets/dropdown_and_ratio/genre_radio_widget.dart';

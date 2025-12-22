@@ -24,10 +24,8 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MemberProviders>(
-        context,
-        listen: false,
-      ).getMembersByStatus(category: categoryStatus);
+      final provider = Provider.of<MemberProviders>(context, listen: false);
+      provider.getMembersByStatus(category: categoryStatus);
     });
   }
 
@@ -80,7 +78,7 @@ class _NovicesMembersPageState extends State<NovicesMembersPage> {
           );
         },
       ),
-      floatingActionButton: customFloatingButton(
+      floatingActionButton: CustomFloatingButton(
         onPressed: () => _showCreateMemberBottomShet(status: categoryStatus),
       ),
     );

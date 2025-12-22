@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element, unused_local_variable
 
+import 'package:association_appli/core/errors/failure.dart';
 import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/domain/usecases/member_usecases/create_member_usecase.dart';
 import 'package:association_appli/domain/usecases/member_usecases/delete_member_usecase.dart';
@@ -66,14 +67,18 @@ class MemberProviders with ChangeNotifier {
     notifyListeners();
   }
 
+  void _failureState({required Failure failure}) {
+    _state = MemberState.error;
+    errorMessage = failure.errorMessage;
+    notifyListeners();
+  }
+
   void createMember({required MemberEntity memberEntity}) async {
     _setLoading();
     var result = await createMemberUsecase(memberEntity: memberEntity);
     result.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
-        notifyListeners();
+        _failureState(failure: failure);
       },
       (createSuccess) {
         _state = MemberState.succes;
@@ -90,10 +95,8 @@ class MemberProviders with ChangeNotifier {
 
     result.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
+        _failureState(failure: failure);
         // members = [];
-        notifyListeners();
       },
       (allListMembers) {
         _setSucces(allListMembers);
@@ -112,17 +115,15 @@ class MemberProviders with ChangeNotifier {
     isCategory = true;
     membersCategory.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
+        _failureState(failure: failure);
         // members = [];
-        notifyListeners();
       },
       (filteredMembers) {
         _setSucces(filteredMembers);
         // state = MemberState.succes;
         // members = filteredMembers;
         // isCategory = true;
-        notifyListeners();
+        // notifyListeners();
       },
     );
   }
@@ -132,9 +133,7 @@ class MemberProviders with ChangeNotifier {
     var memberToDelete = await deleteMemberUsecase(id: id);
     memberToDelete.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
-        notifyListeners();
+        _failureState(failure: failure);
       },
       (deleteSucces) {
         _state = MemberState.succes;
@@ -152,9 +151,7 @@ class MemberProviders with ChangeNotifier {
     var memberToUpdate = await updateMemberUsecase(memberEntity: memberEntity);
     memberToUpdate.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
-        notifyListeners();
+        _failureState(failure: failure);
       },
       (_) {
         if (lastCategoryStatus != null) {
@@ -239,21 +236,16 @@ class MemberProviders with ChangeNotifier {
     var result = await getAllMembersUsecase();
     result.fold(
       (failure) {
-        _state = MemberState.error;
-        errorMessage = failure.errorMessage;
-        notifyListeners();
+        _failureState(failure: failure);
       },
       (allMembers) {
-        final responsibleMembers =
-            allMembers
-                .where(
-                  (member) =>
-                      member.memberResponsability != null &&
-                      member.memberResponsability!.isNotEmpty,
-                )
-                .toList();
-        _setSucces(responsibleMembers, isOfficeList: true);
-        // notifyListeners();
+        final responsibleMembers = allMembers.where(
+          (member) =>
+              member.memberResponsability != null &&
+              member.memberResponsability!.isNotEmpty,
+        );
+        final listResponsibleMembers = responsibleMembers.toList();
+        _setSucces(listResponsibleMembers, isOfficeList: true);
       },
     );
   }

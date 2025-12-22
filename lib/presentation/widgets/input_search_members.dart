@@ -3,6 +3,7 @@
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
+import 'package:association_appli/presentation/widgets/text_field/custom_input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,9 +70,7 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
               keyboardType: TextInputType.name,
 
               // Déclenche la recherche à chaque frappe
-              onChanged: (value) {
-                _performSearch(provider, value);
-              },
+              onChanged: (value) => _performSearch(provider, value),
 
               decoration: InputDecoration(
                 filled: true,
@@ -84,36 +83,13 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
 
                 suffixIcon:
                     provider.isSearching
-                        ? Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: SizedBox(
-                            width: 14.0,
-                            height: 14.0,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: LightThemeColors.colorPrimary,
-                            ),
-                          ),
-                        )
-                        : IconButton(
-                          onPressed: () {
-                            // Si du texte est présent, on efface et on vide les résultats
-                            if (hasText) {
-                              _userInputController.clear();
-                              provider.clearSearchResult();
-                              provider.getMembersByStatus(
-                                category: widget.category,
-                              );
-                            }
-                            FocusScope.of(context).unfocus();
-                          },
-                          icon: Image.asset(
-                            hasText
-                                ? 'assets/icons/close.png'
-                                : 'assets/icons/search.png',
-                            width: 18.0,
-                            height: 18.0,
-                          ),
+                        ? CustomInputDecoration.circularSearchingActive()
+                        : CustomInputDecoration.cleanSearchButton(
+                          context: context,
+                          hasText: hasText,
+                          controller: _userInputController,
+                          provider: provider,
+                          category: widget.category,
                         ),
 
                 contentPadding: const EdgeInsets.symmetric(
@@ -121,17 +97,8 @@ class _InputSearchMembersState extends State<InputSearchMembers> {
                   horizontal: 16.0,
                 ),
 
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide(
-                    color: LightThemeColors.textFieldBorderColors,
-                  ),
-                ),
-
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide(color: LightThemeColors.colorPrimary),
-                ),
+                enabledBorder: CustomInputDecoration.enabledInputBorder(),
+                focusedBorder: CustomInputDecoration.focusedInputBorder(),
               ),
             ),
           ),

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Widget createDateTimeAt({required DateTime createAt, required Color color}) {
+Padding createDateTimeAt({required DateTime createAt, required Color color}) {
   final formatedDate = DateFormat('yyyy-MM-dd').format(createAt);
   return Padding(
     padding: const EdgeInsets.only(bottom: 24.0),

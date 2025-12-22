@@ -11,7 +11,7 @@
         android:maxSdkVersion="29" />
 
     <application
-        android:label="association_appli"
+        android:label="antMobile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

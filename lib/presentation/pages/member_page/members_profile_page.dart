@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
-
+import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/utils/number_formatter.dart';
+import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/build_profile_bottom_sheet.dart';
 import 'package:association_appli/presentation/widgets/build_label_between_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,42 +56,49 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
 
           if (provider.state == SingleMemberState.succes) {
             final member = provider.memberEntity!;
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildMemberHeaderSection(provider: provider),
-                  const SizedBox(height: 8.0),
-
-                  BuildLabelBetweenSection(
-                    leftLabel: 'Information',
-                    leftLabelColor: LightThemeColors.colorPrimary,
-                    rightLabel: '',
-                    rightLabelColor: LightThemeColors.textFieldBorderColors,
-                    onPressed: null,
-                  ),
-
-                  MemberInformationHorizontalList(member: member),
-                  const SizedBox(height: 8.0),
-                  BuildLabelBetweenSection(
-                    leftLabel: 'Activites',
-                    leftLabelColor: LightThemeColors.colorPrimary,
-                    rightLabel: 'Voir tout',
-                    rightLabelColor: LightThemeColors.textFieldBorderColors,
-                    onPressed: null,
-                  ),
-
-                  DisplayMemberProductActivity(),
-                  DisplayMemberProductActivity(),
-                  DisplayMemberProductActivity(),
-                ],
-              ),
-            );
+            return _buildBodyPersonalInfo(provider: provider, member: member);
           }
 
           return const SizedBox.shrink();
         },
+      ),
+    );
+  }
+
+  SingleChildScrollView _buildBodyPersonalInfo({
+    required SingleMemberProvider provider,
+    required MemberEntity member,
+  }) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildMemberHeaderSection(provider: provider),
+          const SizedBox(height: 8.0),
+
+          BuildLabelBetweenSection(
+            leftLabel: 'Information',
+            leftLabelColor: LightThemeColors.colorPrimary,
+            rightLabel: '',
+            rightLabelColor: LightThemeColors.textFieldBorderColors,
+            onPressed: null,
+          ),
+
+          MemberInformationHorizontalList(member: member),
+          const SizedBox(height: 8.0),
+          BuildLabelBetweenSection(
+            leftLabel: 'Activites',
+            leftLabelColor: LightThemeColors.colorPrimary,
+            rightLabel: 'Voir tout',
+            rightLabelColor: LightThemeColors.textFieldBorderColors,
+            onPressed: null,
+          ),
+
+          DisplayMemberProductActivity(),
+          DisplayMemberProductActivity(),
+          DisplayMemberProductActivity(),
+        ],
       ),
     );
   }
@@ -147,10 +155,21 @@ class _MembersProfilePageState extends State<MembersProfilePage> {
 
           child: Padding(
             padding: const EdgeInsets.all(4.0),
-            child: buildMemberProfileImage(
-              member: member,
-              size: 70.0,
-              folderPath: '/storage/emulated/0/Picture',
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BuildProfileBottomSheet(member: member),
+                  ),
+                );
+              },
+              child: buildMemberProfileImage(
+                member: member,
+                size: 70.0,
+                folderPath: '/storage/emulated/0/Picture',
+              ),
             ),
           ),
         ),

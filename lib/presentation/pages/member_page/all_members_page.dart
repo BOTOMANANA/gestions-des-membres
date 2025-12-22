@@ -93,7 +93,7 @@ class _AllMembersPageState extends State<AllMembersPage> {
           return const Center();
         },
       ),
-      floatingActionButton: customFloatingButton(
+      floatingActionButton: CustomFloatingButton(
         onPressed: () => Navigator.pushNamed(context, PageRoutes.createMember),
       ),
     );

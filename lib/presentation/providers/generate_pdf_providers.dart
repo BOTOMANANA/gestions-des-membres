@@ -22,9 +22,7 @@ class GeneratePdfProviders extends ChangeNotifier {
       },
       (pdfBytes) async {
         writePdfInFile(pdfBytes: pdfBytes, pdfName: 'members');
-        print(
-          '=============>>>>>>>>> pdf is generate <<<<<<<<<<=================',
-        );
+        // print('==========>>>>>>>>> pdf is generate <<<<<<<<<<============');
       },
     );
   }

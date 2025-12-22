@@ -1,17 +1,15 @@
 // ignore_for_file: deprecated_member_use, library_prefixes
-
-import 'dart:math' as Math;
-import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/routes/page_routes.dart';
+import 'package:association_appli/presentation/widgets/build_label_between_section.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_icon_button.dart';
 import 'package:association_appli/presentation/widgets/caroussel_widget.dart';
 import 'package:association_appli/presentation/widgets/create_category_navigation_row.dart';
-import 'package:association_appli/presentation/widgets/member_office_item_widget.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_error_state_placeholder.dart';
 import 'package:association_appli/presentation/widgets/members_widgets/build_loading_indicator.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/display_offices_members.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,22 +21,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final provider = Provider.of<MemberProviders>(context, listen: false);
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MemberProviders>(
-        context,
-        listen: false,
-      ).loadResponsibleMembers();
+      provider.loadResponsibleMembers();
     });
   }
 
   void _loadOfficeMembers() {
-    Provider.of<MemberProviders>(
-      context,
-      listen: false,
-    ).loadResponsibleMembers();
+    provider.loadResponsibleMembers();
   }
 
   // 2. Fonction pour la navigation avec attente de retour
@@ -60,15 +54,27 @@ class _HomePageState extends State<HomePage> {
           return Column(
             children: [
               // CarousselWidget(),
-              CarouselImageWidget(),
-              _buildLabelCategory(
-                context: context,
-                onPressedAdd: _navigateAndRefresh,
-              ),
-              createCategoryNavigationRow(context: context),
-              SizedBox(height: 4.0),
+              const SlideCarouselWidget(),
 
-              _buildLabelOfficeList(context: context),
+              BuildCategoriesLabelSection(
+                onPressed: () => _navigateAndRefresh(context),
+              ),
+              const CreateCategoryNavigationRow(),
+              const SizedBox(height: 4.0),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: BuildLabelBetweenSection(
+                  leftLabel: 'Listes burreaux',
+                  leftLabelColor: LightThemeColors.textBlack.withOpacity(0.8),
+                  rightLabel: 'Voir plus',
+                  rightLabelColor: LightThemeColors.textFieldBorderColors,
+                  onPressed: () {
+                    Navigator.pushNamed(context, PageRoutes.officeMembers);
+                  },
+                ),
+              ),
+
               if (provider.state == MemberState.loading &&
                   responsibleMembers.isEmpty)
                 Expanded(child: Center(child: buildLoadingIndicator()))
@@ -90,9 +96,7 @@ class _HomePageState extends State<HomePage> {
                 )
               else
                 Expanded(
-                  child: _getAndDisplayResponsibleMembers(
-                    responsibleList: responsibleMembers,
-                  ),
+                  child: DisplayOfficesMembers(memberList: responsibleMembers),
                 ),
             ],
           );
@@ -142,92 +146,4 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-}
-
-Widget _buildLabelCategory({
-  required BuildContext context,
-  required Function(BuildContext) onPressedAdd,
-}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _customTextTitle(title: 'Categories'),
-        IconButton(
-          onPressed: () => onPressedAdd(context),
-          icon: Container(
-            width: 30.0,
-            height: 30.0,
-            decoration: BoxDecoration(
-              color: LightThemeColors.colorPrimary.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Icon(Icons.add, color: LightThemeColors.colorPrimary),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildLabelOfficeList({required BuildContext context}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _customTextTitle(title: 'Listes burreaux'),
-        TextButton(
-          onPressed:
-              () => Navigator.pushNamed(context, PageRoutes.officeMembers),
-          child: Text(
-            'Voir plus',
-            style: AppFonts.robotoCondensedFont(
-              size: 14.0,
-              color: LightThemeColors.textSemiBlack.withOpacity(0.5),
-              weight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _customTextTitle({required String title}) {
-  return Text(
-    title,
-    style: AppFonts.robotoFont(
-      size: 16.0,
-      color: LightThemeColors.textBlack,
-      weight: FontWeight.w600,
-    ),
-  );
-}
-
-Widget _getAndDisplayResponsibleMembers({
-  required List<MemberEntity> responsibleList,
-}) {
-  const int maxItemsToShow = 4;
-  final int itemCount = Math.min(responsibleList.length, maxItemsToShow);
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: itemCount,
-            itemBuilder: (context, index) {
-              return MemberOfficeItemWidget(
-                memberEntity: responsibleList[index],
-              );
-            },
-          ),
-        ),
-      ),
-    ],
-  );
 }

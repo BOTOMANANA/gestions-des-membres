@@ -16,7 +16,7 @@ class GenerateMembersPdfUseCase {
 
   Future<Either<Failure, Uint8List>> call() async {
     final result = await repository.getMembersRepository();
-    print('===========>>>>>>>>> generateMembersPdfUsecas');
+    // print('===========>>>>>>>>> generateMembersPdfUsecas');
 
     return result.fold((failure) => Left(failure), (members) async {
       try {

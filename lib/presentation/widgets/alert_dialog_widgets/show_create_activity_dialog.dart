@@ -6,7 +6,7 @@ import 'package:association_appli/presentation/utils/date_formatter.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/date_range_dialog_helper.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_button_cancel.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
-import 'package:association_appli/presentation/widgets/customTextField.dart';
+import 'package:association_appli/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

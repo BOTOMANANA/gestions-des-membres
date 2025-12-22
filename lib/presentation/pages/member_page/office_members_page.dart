@@ -4,7 +4,7 @@ import 'package:association_appli/domain/entities/member_entity.dart';
 import 'package:association_appli/presentation/colors/Light_theme_colors.dart';
 import 'package:association_appli/presentation/fonts/app_fonts.dart';
 import 'package:association_appli/presentation/providers/member_providers.dart';
-import 'package:association_appli/presentation/widgets/member_office_item_widget.dart';
+import 'package:association_appli/presentation/widgets/members_widgets/member_office_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,28 +16,22 @@ class OfficeMembersPage extends StatefulWidget {
 }
 
 class _OfficeMembersPageState extends State<OfficeMembersPage> {
+  late final provider = Provider.of<MemberProviders>(context, listen: false);
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((duration) {
-      Provider.of<MemberProviders>(
-        context,
-        listen: false,
-      ).loadResponsibleMembers();
+      provider.loadResponsibleMembers();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final officeMembers = provider.responsibleMembersList;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _customAppBar(),
-      body: Consumer<MemberProviders>(
-        builder: (context, providers, _) {
-          final officeMembers = providers.responsibleMembersList;
-          return _buildOfficeMemberGrid(officeMembersList: officeMembers);
-        },
-      ),
+      body: _buildOfficeMemberGrid(officeMembersList: officeMembers),
     );
   }
 
@@ -51,21 +45,15 @@ class _OfficeMembersPageState extends State<OfficeMembersPage> {
       title: Text(
         'Membres des burreaux',
         style: AppFonts.robotoCondensedFont(
-          size: 20.0,
+          size: 16.0,
           color: LightThemeColors.textBlack,
         ),
       ),
       centerTitle: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(12.0),
-        side: BorderSide(
-          color: LightThemeColors.textFieldBorderColors.withOpacity(0.4),
-        ),
-      ),
     );
   }
 
-  Widget _buildOfficeMemberGrid({
+  GridView _buildOfficeMemberGrid({
     required List<MemberEntity> officeMembersList,
   }) {
     return GridView.builder(

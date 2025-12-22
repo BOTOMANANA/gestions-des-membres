@@ -6,7 +6,7 @@ import 'package:association_appli/presentation/providers/member_providers.dart';
 import 'package:association_appli/presentation/widgets/alert_dialog_widgets/show_responsible_dialog.dart';
 import 'package:association_appli/presentation/widgets/bottom_sheet_widgets/header_bar_sheet_widget.dart';
 import 'package:association_appli/presentation/widgets/button_widgets/custom_text_buttom.dart';
-import 'package:association_appli/presentation/widgets/customTextField.dart';
+import 'package:association_appli/presentation/widgets/custom_text_field.dart';
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +55,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
     if (selectedResponsible != null) {
       if (mounted) {
         _responsibleController.text = selectedResponsible;
-        print('================>>>>>>>> $selectedResponsible');
+        // print('================>>>>>>>> $selectedResponsible');
       }
     }
   }
@@ -71,7 +71,7 @@ class _CreateMemberBottomSheetState extends State<CreateMemberBottomSheet> {
     final studentCardNumber = _studentCardNumberController.text.toString();
     final responsible = _responsibleController.text.trim();
     final freeShip = _freeShipController.text.toInt();
-    print('=============== $responsible ================');
+    // print('=============== $responsible ================');
 
     final insertMember = MemberEntity(
       fullName: fullName,

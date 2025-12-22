@@ -32,7 +32,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
   ];
 
   final List labels = ['Accueil', 'Activités', 'Statis', 'Params', 'Profile'];
-  final List icons = [
+  final List iconsInactiveList = [
     'assets/icons/home.png',
     'assets/icons/task.png',
     'assets/icons/stats.png',
@@ -40,7 +40,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     'assets/icons/profile.png',
   ];
 
-  final List iconsFocus = [
+  final List iconsActiveList = [
     'assets/icons/focushome.png',
     'assets/icons/focustask.png',
     'assets/icons/focusstats.png',
@@ -73,11 +73,11 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
           color: LightThemeColors.colorPrimary,
           backgroundColor: Colors.white,
 
-          items: List.generate(icons.length, (index) {
+          items: List.generate(iconsInactiveList.length, (index) {
             return _buildBottomNavBarItem(
               label: labels[index],
-              icon: icons[index],
-              focusIcon: iconsFocus[index],
+              icon: iconsInactiveList[index],
+              focusIcon: iconsActiveList[index],
               isSelected: _currentIndex == index,
             );
           }),
